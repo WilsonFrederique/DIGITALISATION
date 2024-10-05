@@ -4,27 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateCalendriersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('calendriers', function (Blueprint $table) {
             $table->id();
-            $table->date('dateDebu');
-            $table->date('dateFin');
-            $table->time('timeDebu');
-            $table->time('timeFin');
-            $table->string('titre');
-            $table->text('description');
+            $table->string('Titre');
+            $table->string('Description');
+            $table->date('DateDebu');
+            $table->date('DateFin');
+            $table->time('TimeDebu');
+            $table->time('TimeFin');
             $table->timestamps();
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('calendriers');
     }
-};
+}

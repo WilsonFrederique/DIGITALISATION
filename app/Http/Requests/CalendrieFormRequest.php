@@ -15,24 +15,24 @@ class CalendrieFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dateDebu' => ['required'],
-            'dateFin' => ['required'],
-            'timeDebu' => ['required'],
-            'timeFin' => ['required'],
-            'titre' => ['required'],
-            'description' => ['required']
+            'Titre' => ['required'],
+            'Description' => ['required'],
+            'DateDebu' => ['required'],
+            'DateFin' => ['required'],
+            'TimeDebu' => ['required'],
+            'TimeFin' => ['required']
         ];
     }
 
-    public function message()
+    public function messages()
     {
         return [
-            'dateDebu.required' => 'Dade de levenement récquis.',
-            'dateFin.required' => 'Dade de fin récquis.',
-            'timeDebu.required' => 'Heure de début récquis.',
-            'timeFin.required' => 'Heure de fin récquis.',
-            'titre.required' => 'Titre récquis.',
-            'description.required' => 'Description récquis.'
+            'Titre.required' => 'Le titre est requis.',
+            'Description.required' => 'La description est requise.',
+            'DateDebu.required' => 'La date de début est requise.',
+            'DateFin.required' => 'La date de fin est requise.',
+            'TimeDebu.required' => 'L\'heure de début est requise.',
+            'TimeFin.required' => 'L\'heure de fin est requise.'
         ];
     }
 }

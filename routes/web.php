@@ -6,6 +6,7 @@ use App\Http\Controllers\CalendrierController;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\GenererQrController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\ExempleController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UsersController;
@@ -26,12 +27,17 @@ Route::prefix('auth')->name('auth.')->group(function() {
 
 });
 
+Route::post('/admin/calendrier/store', [CalendrierController::class, 'store'])->name('calendrier.store');
+Route::get('/admin/events', [CalendrierController::class, 'index'])->name('calendrier.index');
+
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('employes', EmployeController::class);
     Route::resource('genereqrs', GenererQrController::class);
     Route::resource('parametres', EntrepriseController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('calendrier', CalendrierController::class);
+
+
 
     Route::put('/parametres/{CodeEntreprise}', [EntrepriseController::class, 'update'])->name('admin.parametres.update');
 

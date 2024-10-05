@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Calendrier extends Model
 {
     protected $fillable = [
-        'dateDebu',
-        'dateFin',
-        'timeDebu',
-        'timeFin',
-        'titre',
-        'description'
+        'Titre',
+        'Description',
+        'DateDebu',
+        'DateFin',
+        'TimeDebu',
+        'TimeFin'
     ];
 
     use HasFactory;

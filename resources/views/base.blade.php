@@ -11,16 +11,21 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
         {{-- ========= Css swiper ========= --}}
-        <link rel="stylesheet" href="{{ asset('assets/swiper-bundle.min.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('assets/swiper-bundle.min.css') }}"> --}}
 
         <!-- ========== Boxicon =========== -->
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- ========= REMIX ICON (remixicon.com) ============ -->
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
 
         {{-- ======================== Mon dossier Css Personnel=========================== --}}
         <link rel="stylesheet" href="{{ asset('assets/style_Personnel.css') }}">
+
+        {{-- ======================== Mon dossier Css Calendrier=========================== --}}
+        <link rel="stylesheet" href="{{ asset('assets/style_Calendrier.css') }}">
     </head>
     <body class="antialiased">
 
@@ -32,6 +37,9 @@
 
         {{-- == Mon Dossier Script Personnel == --}}
         @include('script_Personnel')
+
+        {{-- == Mon Dossier Script Calendrier == --}}
+        @include('script_calendrier')
 
     </body>
 </html>

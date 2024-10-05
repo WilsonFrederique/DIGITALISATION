@@ -18,12 +18,6 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('app_accueil') }}">
-                <i class='bx bxs-dashboard'></i>
-                <span class="text txt-page">Home</span>
-            </a>
-        </li>
-        <li>
             <a href="{{ route('admin.employes.index') }}" class="employe">
                 <i class='bx bxs-group' ></i>
                 <span class="text">Employees</span>
