@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employe;
 use App\Models\Genererqr;
+use App\Models\Calendrier;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Integer;
@@ -22,6 +23,8 @@ class GenererQrController extends Controller
 
         $entreprises = Entreprise::all();
 
+        $events = Calendrier::all();
+
         // Pour les employes pas en code QR
         $numEmpAvecQR = Genererqr::pluck('numEmp');
         $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
@@ -39,7 +42,8 @@ class GenererQrController extends Controller
         return view('admin.genererqr.index', [
             'genererqrs' => $genererqrs->get(),
             'employes' => $employes,
-            'entreprises' => $entreprises
+            'entreprises' => $entreprises,
+            'events' => $events
         ]);
     }
 
@@ -50,13 +54,16 @@ class GenererQrController extends Controller
 
         $entreprises = Entreprise::all();
 
+        $events = Calendrier::all();
+
         // Récupérer les employés dont le numEmp n'est pas dans la liste
         $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
 
         // Retourner la vue avec la liste des employés
         return view('admin.genererqr.index', [
             'employes' => $employes,
-            'entreprises' => $entreprises
+            'entreprises' => $entreprises,
+            'events' => $events
         ]);
     }
 
@@ -81,12 +88,19 @@ class GenererQrController extends Controller
 
     public function show(string $id)
     {
-        // Utiliser le modèle Genererqr pour récupérer les données avec la relation
-        $genererqr = Genererqr::with('employes') // Charge la relation employes
-                            ->where('id', $id) // Utilisez 'id' si c'est la clé primaire
-                            ->firstOrFail();
+        // Récupérer tous les événements
+        $events = Calendrier::all();
 
-        return view('admin.badje.index', ['genererqr' => $genererqr]);
+        // Récupérer les données de 'genererqr' associées à l'employé avec l'id donné
+        $genererqr = Genererqr::with('employes')
+                                ->where('id', $id)
+                                ->firstOrFail();
+
+        // Passer à la vue à la fois $genererqr et $events
+        return view('admin.badje.index', [
+            'genererqr' => $genererqr,
+            'events' => $events 
+        ]);
     }
 
     public function edit(string $id)

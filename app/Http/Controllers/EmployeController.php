@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employe;
+use App\Models\Genererqr;
+use App\Models\Calendrier;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\EmployeFormRequest;
-use App\Models\Genererqr;
 
 class EmployeController extends Controller
 {
@@ -19,6 +20,8 @@ class EmployeController extends Controller
         $totalEmployes = DB::table('employes')->count();
 
         $employes = Employe::query();
+        
+        $events = Calendrier::all();
 
         $entreprises = Entreprise::all();
 
@@ -38,7 +41,8 @@ class EmployeController extends Controller
         return view('admin.employe.index', [
             'employes' => $employes->get(),
             'totalEmployes' => $totalEmployes,
-            'entreprises' => $entreprises
+            'entreprises' => $entreprises,
+            'events' => $events
         ]);
     }
 
@@ -50,10 +54,13 @@ class EmployeController extends Controller
 
         $entreprises = Entreprise::all();
 
+        $events = Calendrier::all();
+
         // Amn'io get io no maka anle requête
         return view('admin.employe.toutProfil', [
             'employes' => $employes,
-            'entreprises' => $entreprises
+            'entreprises' => $entreprises,
+            'events' => $events
         ]);
 
     }
@@ -69,10 +76,12 @@ class EmployeController extends Controller
     {
         $employe = new Employe();
 
+        $events = Calendrier::all();
+
         // Récupérer les entreprises
         $entreprises = Entreprise::all();
 
-        return view('admin.employe.form', compact('employe', 'entreprises'));
+        return view('admin.employe.form', compact('employe', 'entreprises', 'events'));
     }
 
     public function store(EmployeFormRequest $request)
@@ -108,7 +117,9 @@ class EmployeController extends Controller
         // Récupérer les entreprises
         $entreprises = Entreprise::all();
 
-        return view('admin.employe.form', compact('employe', 'entreprises'));
+        $events = Calendrier::all();
+
+        return view('admin.employe.form', compact('employe', 'entreprises', 'events'));
     }
 
     public function update(EmployeFormRequest $request, string $numEmp)

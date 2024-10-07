@@ -25,6 +25,7 @@ li{
     --color-bg-poste: #36495c;
     --color-txt-final-form-chemain: #3c91e6;
     --color-btn-recherche-navbar: #3c91e6;
+    --primary-clr: #50677c;
     --color-text-active: #3c91e6;
     --color-logo: #3c91e6;
     --color-icon-navbar: #181718;
@@ -111,10 +112,33 @@ li{
     --color-frm-parametre-bg-entreprise: #b8b8b8;
 
     --color-frm-permission-bg: #e6e5e5;
+
+    /* --bg-container-calendar: linear-gradient(90deg, #2c5364, #203a43, #0f2027); */
+    --bg-container-calendar: #50677c;
+    --color-date-even: #d8d5d5;
+    --bg-hover-event-list: linear-gradient(90deg, #36374d, transparent);
+    --color-add-even: #d8d5d5;
+    --color-bg-calendrier: #f3efef;
+    --color-border-calendrier: #5f5f5fab;
+    --color-txt-dans-calendrier: #424242;
+    --bg-color-input-calendrier-rech: #f3efef;
+    --color-clr-txt-input-rech: #181818;
+    --color-btn-goto-rech: #50677c;
+    --after: #d1d1d3;
 }
 
 .dark-theme-variables{
-
+    --after: #777777;
+    --color-btn-goto-rech: #b8b8b8;
+    --color-bg-logo-paramtr: #61616138;
+    --color-date-even: #878895;
+    --bg-hover-event-list: linear-gradient(90deg, var(--primary-clr), transparent);
+    --color-bg-calendrier: rgb(13, 16, 22);
+    --color-border-calendrier: #81818179;
+    --color-txt-dans-calendrier: #f3efef;
+    --bg-color-input-calendrier-rech: rgb(13, 16, 22);
+    --color-clr-txt-input-rech: #dbd9d9;
+    
     --color-frm-permission-bg: rgb(13, 16, 22);
 
     --color-frm-employe-bg: rgb(13, 16, 22);
@@ -134,6 +158,8 @@ li{
     --admin-nom: #bdb9b9;
     --admin-grad: #585858;
     --color-btn-recherche-navbar: #444e58;
+    --primary-clr: #313b44;
+    --bg-container-calendar: #2a2e33;
     --input-rech-date-point-employe: #2a2e33;
     --color-bg-input-rech-navbar: #2a2e33;
     --color-txt-recherche-navbar: #f9f9f9;
@@ -189,7 +215,6 @@ li{
     --color-border-card-image: #24395c;
     --color-btn-hover: #243a61;
 
-    --color-bg-logo-paramtr: #61616138;
 }
 
 html{

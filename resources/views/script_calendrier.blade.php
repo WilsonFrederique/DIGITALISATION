@@ -51,29 +51,120 @@
             "Décembre",
         ];
 
+        // function afficherEvenementsSurCalendrier() {
+        //     const joursCalendrier = document.querySelectorAll('.calendar .day');
+
+        //     // Parcourt chaque jour du calendrier
+        //     joursCalendrier.forEach(jour => {
+        //         const jourNumero = parseInt(jour.textContent);
+        //         const jourDate = new Date(year, month, jourNumero); // Crée une date pour chaque jour du calendrier
+
+        //         // Parcourt chaque événement
+        //         events.forEach(event => {
+        //             const dateEventDebut = new Date(event.DateDebu);
+        //             const dateEventFin = new Date(event.DateFin);
+
+        //             // Vérifie si le jour actuel est entre DateDebu et DateFin
+        //             if (event.Titre && jourDate >= dateEventDebut && jourDate <= dateEventFin) {
+        //                 console.log(`Marquage du jour ${jourNumero} en tant qu'événement`);
+        //                 jour.classList.add('event'); // Ajoute la classe "event" pour chaque jour dans la plage
+        //             }
+        //         });
+        //     });
+        // }
+
         function afficherEvenementsSurCalendrier() {
-        const joursCalendrier = document.querySelectorAll('.calendar .day');
+            const joursCalendrier = document.querySelectorAll('.calendar .day');
+
+            // Parcourt chaque jour du calendrier
             joursCalendrier.forEach(jour => {
                 const jourNumero = parseInt(jour.textContent);
+                const jourDate = new Date(year, month, jourNumero); // Crée une date pour chaque jour du calendrier
+
+                // Parcourt chaque événement
                 events.forEach(event => {
-                    const dateEvent = new Date(event.DateDebu);
-                    if (event.Titre && dateEvent.getDate() === jourNumero && dateEvent.getMonth() === month && dateEvent.getFullYear() === year) {
-                        jour.classList.add('event');
+                    const dateEventDebut = new Date(event.DateDebu);
+                    const dateEventFin = new Date(event.DateFin);
+
+                    // Récupère toutes les dates entre DateDebu et DateFin
+                    const allEventDates = getDatesBetween(dateEventDebut, dateEventFin);
+
+                    // Vérifie si le jour actuel est dans l'intervalle
+                    if (event.Titre && allEventDates.some(eventDate => eventDate.toDateString() === jourDate.toDateString())) {
+                        console.log(`Marquage du jour ${jourNumero} en tant qu'événement`);
+                        jour.classList.add('event'); // Ajoute la classe "event" pour chaque jour dans la plage
                     }
                 });
             });
         }
 
+        // Assurez-vous d'appeler la fonction après que le calendrier soit rendu
+        afficherEvenementsSurCalendrier();
+
+
+        function getDatesBetween(startDate, endDate) {
+            const dates = [];
+            const currentDate = new Date(startDate);
+            
+            while (currentDate <= endDate) {
+                dates.push(new Date(currentDate));
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return dates;
+        }
+
+        const csrfToken = "{{ csrf_token() }}";
+
         // Fonction pour afficher les détails de l'événement lorsqu'un jour est cliqué
+        // function afficherDetailsEvenement(date) {
+        //     eventContainer.innerHTML = '';
+        //     const eventsFound = events.filter(event => {
+        //         const eventDateDebut = new Date(event.DateDebu);
+        //         const eventDateFin = new Date(event.DateFin);
+        //         // Récupère toutes les dates entre DateDebu et DateFin
+        //         const allEventDates = getDatesBetween(eventDateDebut, eventDateFin);
+                
+        //         // Vérifie si la date est dans l'intervalle
+        //         return allEventDates.some(eventDate => eventDate.toDateString() === date.toDateString());
+        //     });
+
+        //     if (eventsFound.length > 0) {
+        //         eventsFound.forEach(event => {
+        //             console.log("Affichage de l'événement avec l'ID :", event.id); // Ajoutez ceci pour vérifier l'ID
+        //             const eventHtml = `
+        //                 <div class="event">
+        //                     <div class="title">
+        //                         <span class="event-title"> <i class='bx bxs-hand-right icon-list-even'></i> ${event.Titre}</span>
+        //                     </div>
+        //                     <div class="event-description">${event.Description}</div>
+        //                     <span class="event-time">
+        //                         du ${event.DateDebu} au ${event.DateFin} de ${event.TimeDebu} à ${event.TimeFin}
+        //                     </span>
+        //                 </div>
+        //             `;
+        //             eventContainer.insertAdjacentHTML('beforeend', eventHtml);
+        //         });
+        //     } else {
+        //         eventContainer.innerHTML = '<div class="no-event">Aucun événement ce jour-là</div>';
+        //     }
+        // }
+
         function afficherDetailsEvenement(date) {
             eventContainer.innerHTML = '';
             const eventsFound = events.filter(event => {
-                const eventDate = new Date(event.DateDebu);
-                return eventDate.toDateString() === date.toDateString();
+                const eventDateDebut = new Date(event.DateDebu);
+                const eventDateFin = new Date(event.DateFin);
+                // Récupère toutes les dates entre DateDebu et DateFin
+                const allEventDates = getDatesBetween(eventDateDebut, eventDateFin);
+                
+                // Vérifie si la date est dans l'intervalle
+                return allEventDates.some(eventDate => eventDate.toDateString() === date.toDateString());
             });
 
             if (eventsFound.length > 0) {
                 eventsFound.forEach(event => {
+                    console.log("Affichage de l'événement avec l'ID :", event.id); // Ajoutez ceci pour vérifier l'ID
                     const eventHtml = `
                         <div class="event">
                             <div class="title">
@@ -100,55 +191,12 @@
         jours.forEach(jour => {
             jour.addEventListener('click', () => {
                 const date = new Date();
-                date.setDate(parseInt(jour.textContent)); // Mettre la date sur la journée cliquée
-                afficherDetailsEvenement(date); // Afficher les détails des événements pour ce jour
+                date.setDate(parseInt(jour.textContent));
+                afficherDetailsEvenement(date);
             });
         });
 
         // Fonction pour initialiser le calendrier
-        // function initCalendar() {
-
-        //     moisAnnee = new Date();
-
-        //     const firstDay = new Date(year, month, 1);
-        //     const lastDay = new Date(year, month + 1, 0);
-        //     const prevLastDay = new Date(year, month, 0);
-        //     const prevDay = prevLastDay.getDate();
-        //     const lastDate = lastDay.getDate();
-        //     const day = firstDay.getDay();
-        //     const nextDays = 7 - lastDay.getDay() - 1;
-
-        //     // Changer 'moisAnnee' par 'months'
-        //     date.innerHTML = `${months[month]} ${year}`;
-        //     let days = "";
-
-        //     // Affichage des jours du mois précédent
-        //     for (let x = day; x > 0; x--) {
-        //         days += `<div class="day prev-date">${prevDay - x + 1}</div>`;
-        //     }
-
-        //     // Affichage des jours du mois actuel
-        //     for (let i = 1; i <= lastDate; i++) {
-        //         let event = events.some(event => {
-        //             const eventDate = new Date(event.DateDebu);
-        //             return eventDate.getDate() === i && eventDate.getMonth() === month && eventDate.getFullYear() === year;
-        //         });
-        //         if (i === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-        //             days += `<div class="day today active ${event ? 'event' : ''}">${i}</div>`;
-        //         } else {
-        //             days += `<div class="day ${event ? 'event' : ''}">${i}</div>`;
-        //         }
-        //     }
-
-        //     // Affichage des jours du mois suivant
-        //     for (let j = 1; j <= nextDays; j++) {
-        //         days += `<div class="day next-date">${j}</div>`;
-        //     }
-
-        //     daysContainer.innerHTML = days;
-        //     addDayClickListeners();
-        // }
-
         function initCalendar() {
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
@@ -196,7 +244,7 @@
         function getActiveDay() {
             if (!moisAnnee) {
                 console.error("moisAnnee n'est pas défini !");
-                return; // Évitez l'exécution si la variable n'est pas définie
+                return; 
             }
 
             const mois = moisAnnee.getMonth();
@@ -346,12 +394,12 @@
         // Fonction pour récupérer les événements
         function fetchEvents() {
             // Assurez-vous que le formulaire existe et est sélectionné correctement
-            const form = document.querySelector('#event-form'); // Remplacez '#form-id' par l'ID de votre formulaire
+            const form = document.querySelector('#event-form');
 
             if (form) {
                 form.addEventListener('submit', function (event) {
-                    event.preventDefault(); // Empêche la soumission par défaut
-                    fetchEvents(); // Appelez la fonction pour récupérer les événements
+                    event.preventDefault();
+                    fetchEvents();
                 });
             } else {
                 console.error("Le formulaire n'a pas été trouvé !");
@@ -359,12 +407,12 @@
 
             // Ajoutez l'événement de soumission ici
             form.addEventListener('submit', function (event) {
-                event.preventDefault(); // Empêche la soumission par défaut du formulaire
+                event.preventDefault();
                 
-                const formData = new FormData(form); // Créez une instance de FormData avec votre formulaire
+                const formData = new FormData(form);
 
                 // Faites une requête fetch
-                fetch('{{ route('admin.calendrier.store') }}', { // Utilisez l'URL de votre route
+                fetch('{{ route('admin.calendrier.store') }}', {
                     method: 'POST',
                     body: formData
                 })
@@ -373,7 +421,7 @@
                     if (!response.ok) {
                         throw new Error('Erreur dans la réponse du serveur');
                     }
-                    return response.json(); // Convertissez la réponse en JSON
+                    return response.json();
                 })
                 .then(data => {
                     // Traitez les données reçues ici
@@ -388,11 +436,10 @@
 
         // Écoutez l'événement de chargement du document
         document.addEventListener('DOMContentLoaded', function () {
-            fetchEvents(); // Appelez la fonction pour initialiser le formulaire
+            fetchEvents();
         });
 
         // const form = document.querySelector('form');
-
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(form);
@@ -443,7 +490,7 @@
             const day = new Date(year, month, date);
             const dayName = joursSemaine[day.getDay()];
             eventDay.innerHTML = dayName;
-            eventDate.innerHTML = `${date} ${months[month]} ${year}`; // Utilisez 'months' ici
+            eventDate.innerHTML = `${date} ${months[month]} ${year}`;
         }
 
         getActiveDay(activeDay);
@@ -500,7 +547,7 @@
 
         // Créons une fonction pour ajouter des événements
         addEventSubmit.addEventListener("click", (e) => {
-            e.preventDefault(); // Empêche le rechargement de la page
+            e.preventDefault();
 
             // Collecte des valeurs des champs
             const eventTitle = addEventTitle.value;
@@ -521,8 +568,8 @@
                 return;
             }
 
-            const moisAnnee = months; // Utiliser la liste déjà définie 'months'
-            const joursSemaine = jours; // Utiliser la liste déjà définie 'jours'
+            const moisAnnee = months;
+            const joursSemaine = jours;
 
             if (new Date(eventDateDebut) > new Date(eventDateFin)) {
                 alert("La date de fin ne peut pas être antérieure à la date de début.");
@@ -546,9 +593,9 @@
             formData.append('dateFin', newEvent.dateFin);
             formData.append('time', newEvent.time);
 
-            console.log(...formData.entries()); // Déplacez ceci ici
+            console.log(...formData.entries());
 
-            fetch('/admin/calendrier/store', { // Remplacez par votre route pour ajouter l'événement
+            fetch('/admin/calendrier/store', {
                 method: 'POST',
                 body: formData,
             })
@@ -639,7 +686,7 @@
             if (data.success) {
                 // Réinitialiser le formulaire
                 form.reset();
-                fetchEvents(); // Récupérer les événements mis à jour
+                fetchEvents();
             } else {
                 alert("Erreur lors de l'ajout de l'événement : " + data.message);
             }
@@ -661,8 +708,8 @@
             eventsArr.push(...JSON.parse(localStorage.getItem("events")));
         }
 
-        initCalendar(); // Assurez-vous d'initialiser la variable
-        getActiveDay(); // Appelez la fonction ici si nécessaire
+        initCalendar();
+        getActiveDay();
 
     });
 </script>

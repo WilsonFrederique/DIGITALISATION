@@ -26,6 +26,48 @@
 
 </script>
 
+{{-- =========================== Script Alert scan ===================== --}}
+<script>
+    // Assurez-vous d'avoir inclus et configuré la bibliothèque html5-qrcode dans votre projet
+
+    // Initialisation du scanner QR avec la bibliothèque html5-qrcode
+    const html5QrCode = new Html5Qrcode("reader"); // "reader" est l'ID de l'élément HTML où vous affichez le scanner
+
+    function onScanSuccess(decodedText, decodedResult) {
+        // Alerte lorsque le scan réussit
+        alert("Bravo ! Vous avez scanné le code QR : " + decodedText);
+        
+        // Arrêter le scanner après un scan réussi
+        html5QrCode.stop().then(() => {
+            console.log("Scanner arrêté après un scan réussi.");
+        }).catch(err => {
+            console.error("Erreur lors de l'arrêt du scanner : ", err);
+        });
+    }
+
+    // Démarrage du scanner
+    function startQrCodeScanner() {
+        html5QrCode.start(
+            { facingMode: "environment" }, // Utilisation de la caméra arrière du téléphone
+            {
+                fps: 10,    // Images par seconde (fréquence d'actualisation)
+                qrbox: 250  // Taille de la zone de scan
+            },
+            onScanSuccess,
+            (errorMessage) => {
+                // Gestion des erreurs de scan si nécessaire
+                console.warn("Erreur lors du scan : ", errorMessage);
+            }
+        ).catch(err => {
+            console.error("Erreur lors du démarrage du scanner : ", err);
+        });
+    }
+
+    // Appeler cette fonction pour lancer le scanner
+    startQrCodeScanner();
+
+</script>
+
 {{-- =============== Scrip pour validation des formlr ================ --}}
 <script>
 

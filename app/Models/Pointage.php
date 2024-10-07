@@ -15,9 +15,9 @@ class Pointage extends Model
     }
 
     protected $fillable = [
-        'numEmp',
-        'datePointage',
-        'pointage'
+        'numEmp'
+        // 'datePointage',
+        // 'pointage'
     ];
 
     use HasFactory;

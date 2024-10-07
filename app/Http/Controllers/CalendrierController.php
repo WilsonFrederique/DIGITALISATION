@@ -13,7 +13,7 @@ class CalendrierController extends Controller
     // Afficher tous les événements
     public function index()
     {
-        $events = Calendrier::all();
+        $events = Calendrier::all() ?? [];
         return view('admin.calendrier.pivotCal', compact('events'));
     }
 
@@ -36,9 +36,14 @@ class CalendrierController extends Controller
     }
 
     // Supprimer un événement
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        Calendrier::destroy($id);
-        return redirect()->back()->with('success', 'Événement supprimé avec succès !');
+        $employe = DB::table('calendriers')->where('id', $id)->first();
+
+        DB::table('calendriers')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->back();
     }
 }

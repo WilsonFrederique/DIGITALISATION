@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendrier;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,10 +16,13 @@ class EntrepriseController extends Controller
         $entreprises = Entreprise::query()->get();
 
         $entreprises = Entreprise::all();
+
+        $events = Calendrier::all();
         
         return view('admin.parametre.index', [
             'entreprises' => $entreprises,
-            'entreprises' => $entreprises
+            'entreprises' => $entreprises,
+            'events' => $events
         ]);
     }
 

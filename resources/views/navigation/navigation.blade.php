@@ -36,7 +36,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ route('admin.pointages.index') }}">
                 <i class='bx bx-street-view'></i>
                 <span class="text">Pointages</span>
             </a>

@@ -9,6 +9,7 @@ use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\ExempleController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PointageController;
 use App\Http\Controllers\UsersController;
 
 Route::get('/', [AccueilController::class, 'index'])->name('app_accueil');
@@ -29,6 +30,7 @@ Route::prefix('auth')->name('auth.')->group(function() {
 
 Route::post('/admin/calendrier/store', [CalendrierController::class, 'store'])->name('calendrier.store');
 Route::get('/admin/events', [CalendrierController::class, 'index'])->name('calendrier.index');
+Route::delete('/admin/calendrier/destroy/{id}', [CalendrierController::class, 'destroy'])->name('admin.calendrier.destroy');
 
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('employes', EmployeController::class);
@@ -36,6 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('parametres', EntrepriseController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('calendrier', CalendrierController::class);
+    Route::resource('pointages', PointageController::class);
 
 
 
@@ -51,62 +54,3 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('listes.mployeNonCodeQR', [EmployeController::class, 'listeEmployeNonCodeQR'])->name('listes_mployeNonCodeQR');
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Route::get('/conge', function () {
-//     return view('admin.conge.index');
-// })->name('app_conge');
-
-// Route::get('/employe', function () {
-//     return view('admin.employe.index');
-// })->name('app_employe');
-
-// Route::get('/formEmploye', function () {
-//     return view('admin.employe.form');
-// })->name('app_form_employe');
-
-// Route::get('/profils', function () {
-//     return view('admin.employe.toutProfil');
-// })->name('app_profil_employe');
-
-// Route::get('/genererqr', function () {
-//     return view('admin.genererqr.index');
-// })->name('app_genererqr');
-
-// Route::get('/formCodeQR', function () {
-//     return view('admin.genererqr.form');
-// })->name('app_form_CodeQR');
-
-// Route::get('/pointage', function () {
-//     return view('admin.pointage.index');
-// })->name('app_pointage');
-
-// Route::get('/permission', function () {
-//     return view('admin.permission.index');
-// })->name('app_permission');
-
-// Route::get('/badje', function () {
-//     return view('admin.badje.index');
-// })->name('app_badje');

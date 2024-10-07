@@ -75,6 +75,7 @@
                         <thead class="thead">
                             <tr>
                                 <th>Profil</th>
+                                <th>Date et Heur</th>
                                 <th>Poste</th>
                                 <th>Pointage</th>
                                 <th>Action</th>
@@ -86,11 +87,12 @@
                                     <img src="{{ asset('assets/images/home1.png') }}" alt="">
                                     <p>Walle Fred</p>
                                 </td>
+                                <td>10/10/2024 à 10 : 30</td>
                                 <td>SG</td>
                                 <td><span class="status process">Oui</span></td>
                                 <td>
                                     <div class="icon-container">
-                                        <a href="#"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
+                                        <a href="#"><i class='bx bx-id-card icon-mod-del-pointag' style='color:#3025d1'></i></a>
                                         <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
                                     </div>
                                 </td>
@@ -100,67 +102,12 @@
                                     <img src="{{ asset('assets/images/home1.png') }}" alt="">
                                     <p>Jean Claude</p>
                                 </td>
+                                <td>10/10/2024 à 10 : 40</td>
                                 <td>REC</td>
                                 <td><span class="status pending">Non</span></td>
                                 <td>
                                     <div class="icon-container">
-                                        <a href="#"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td><span class="status process">Oui</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Jean Claude</p>
-                                </td>
-                                <td>REC</td>
-                                <td><span class="status pending">Non</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td><span class="status process">Oui</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Jean Claude</p>
-                                </td>
-                                <td>REC</td>
-                                <td><span class="status pending">Non</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
+                                        <a href="#"><i class='bx bx-id-card icon-mod-del-pointag' style='color:#3025d1'></i></a>
                                         <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
                                     </div>
                                 </td>

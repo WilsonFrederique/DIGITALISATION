@@ -12,7 +12,7 @@
                 <div class="left">
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Calendrier</a>
+                            <a href="#">Employees</a>
                         </li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li>
@@ -20,9 +20,39 @@
                         </li>
                     </ul>
                 </div>
+                <div class="btn-imprimer-ajout">
+                    <a href="" class="btn-download">
+                        <i class='bx bx-time'></i>
+                        <span class="text" id="currentTime">
+                            00 : 00 : 00
+                        </span>
+                        <script>
+                            function updateTime() {
+                            const timeElement = document.getElementById('currentTime'); // Sélection de l'élément
+                            const now = new Date(); // Obtient l'heure actuelle
+
+                            let hours = now.getHours().toString().padStart(2, '0');  // Heures avec un format 2 chiffres
+                            let minutes = now.getMinutes().toString().padStart(2, '0');  // Minutes avec un format 2 chiffres
+                            let seconds = now.getSeconds().toString().padStart(2, '0');  // Secondes avec un format 2 chiffres
+
+                            // Format de l'heure
+                            const currentTime = `${hours} : ${minutes} : ${seconds}`;
+
+                            // Mise à jour de l'élément <li> avec l'heure actuelle
+                            timeElement.textContent = currentTime;
+                            }
+
+                            // Mettre à jour l'heure toutes les secondes
+                            setInterval(updateTime, 1000);
+
+                            // Appel initial pour afficher l'heure immédiatement
+                            updateTime();
+                        </script>
+                    </a>
+                </div>
             </div>
 
-            {{-- -------- Mon Calendrier --------- --}}
+            {{-- ---------- Mon Calendrier ----------- --}}
             <div class="table-date">
                 <div class="todo">
 
@@ -103,7 +133,7 @@
                             </div>
                 
                             <div class="events">
-                                {{-- @foreach($events as $event)
+                                @foreach($events as $event)
                                     <div class="event">
                                         <div class="title">
                                             <span class="event-title">{{ $event->Titre }}</span>
@@ -111,7 +141,8 @@
                                         <div class="event-description">{{ $event->Description }}</div>
                                         <span class="event-time">du {{ $event->DateDebu }} au {{ $event->DateFin }} à {{ $event->TimeDebu }} - {{ $event->TimeFin }}</span>
                                     </div>
-                                @endforeach --}}
+                                    <button class="btn-suppr-event">Supprimer</button>
+                                @endforeach
                             </div>                          
                 
                             <!-- <div class="add-event-wrapper active"> -->
@@ -149,36 +180,6 @@
                                         <button type="submit" class="add-event-btn">Ajouter</button>
                                     </div>
                                 </form>
-
-                                <!-- Formulaire pour ajouter un événement -->
-                                {{-- <form id="event-form" method="POST" action="{{ route('admin.calendrier.store') }}">
-
-                                    @csrf
-
-                                    <div class="add-event-body">
-                                        <div class="add-event-input">
-                                            <input name="Titre" type="text" placeholder="Titre" class="event-name">
-                                        </div>
-                                        <div class="add-event-input">
-                                            <input name="Description" type="text" placeholder="Description" class="event-description">
-                                        </div>
-                                        <div class="add-event-input">
-                                            <input name="DateDebu" type="date" class="event-date-debu">
-                                        </div>
-                                        <div class="add-event-input">
-                                            <input name="DateFin" type="date" class="event-date-fin">
-                                        </div>
-                                        <div class="add-event-input">
-                                            <input name="TimeDebu" type="time" class="event-time-from">
-                                        </div>
-                                        <div class="add-event-input">
-                                            <input name="TimeFin" type="time" class="event-time-to">
-                                        </div>
-                                    </div>
-                                    <div class="add-event-footer">
-                                        <button type="submit" class="add-event-btn">Ajouter</button>
-                                    </div>
-                                </form>                         --}}
                                 
                             </div>
                 
@@ -187,6 +188,43 @@
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
+
+                </div>
+            </div>
+
+            {{-- -------- Mon Tbl d'Affichage --------- --}}
+            <div class="table-date">
+                <div class="todo">
+
+                    <ul class="todo-list todo-color">
+                        @foreach($events as $event)
+                        <p>Horodatage : {{ $event->created_at }}</p>
+                            <li class="permission">
+                                <div class="todo-item">
+                                    <img src="{{ asset('assets/images/user_tbl_even.png') }}" alt="" class="imgTodo">
+                                    <div class="txt-left">
+                                        <p id="p">{{ $event->Titre }}</p>
+                                        <p>{{ $event->Description }}</p>
+                                        <p>le {{ $event->DateDebu }}</p>
+                                        <p>au {{ $event->DateFin }}</p>
+                                        <p>à {{ $event->TimeDebu }}</p>
+                                        <p>au {{ $event->TimeFin }}</p>
+                                    </div>
+                                </div>
+                                <div class="QR-icon">
+                                    <div class="icon-container icon-del-mod-qr">
+                                        <form action="{{ route('admin.calendrier.destroy', $event->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                <a href="#"><i class='bx bx-trash delt-qr' style='color:#d01616'  ></i></a>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
 
                 </div>
             </div>

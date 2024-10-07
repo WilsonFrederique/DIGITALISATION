@@ -10,6 +10,7 @@
             <div class="head-title">
                 <div class="left">
                     <h1>CODE QR</h1>
+                    <div id="reader" style="width:300px;"></div>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Code QR</a>

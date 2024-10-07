@@ -15,18 +15,18 @@ class PointageFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numEmp' => ['required'],
-            'datePointage' => ['required'],
-            'pointage' => ['required']
+            'numEmp' => ['required']
+            // 'datePointage' => ['required'],
+            // 'pointage' => ['required']
         ];
     }
 
     public function message()
     {
         return [
-            'numEmp.required' => 'CIN employe récquis.',
-            'datePointage.required' => 'Date Pointage récquis.',
-            'pointage.required' => 'Pointage employe récquis.'
+            'numEmp.required' => 'CIN employe récquis.'
+            // 'datePointage.required' => 'Date Pointage récquis.',
+            // 'pointage.required' => 'Pointage employe récquis.'
         ];
     }
 }

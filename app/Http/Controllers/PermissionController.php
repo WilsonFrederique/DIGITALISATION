@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employe;
+use App\Models\Calendrier;
 use App\Models\Entreprise;
 use App\Models\Permission;
 use Illuminate\Http\Request;
@@ -17,12 +18,15 @@ class PermissionController extends Controller
 
         $employes = Employe::all();
 
+        $events = Calendrier::all();
+
         // Récupérer les employés avec leurs permissions
         $employes = Employe::whereIn('numEmp', Permission::pluck('numEmp'))->with('permissions')->get();
 
         return view('admin.permission.index', [
             'entreprises' => $entreprises,
-            'employes' => $employes
+            'employes' => $employes,
+            'events' => $events
         ]);
     }
 
@@ -53,7 +57,8 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
         $permissions = Employe::all();
-        return view('admin.permission.form', compact('permission', 'permissions'));
+        $events = Calendrier::all();
+        return view('admin.permission.form', compact('permission', 'permissions', 'events'));
     }
 
     public function update(PermissionFormRequest $request, string $id)
