@@ -9,15 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Pointage extends Model
 {
     // ===== One to Many Inverse : (0,1) ou (1,1) ========
-    public function employes(): BelongsTo
+    public function employe(): BelongsTo
     {
-        return $this->belongsTo(Employe::class);
+        return $this->belongsTo(Employe::class, 'numEmp', 'numEmp');
     }
 
     protected $fillable = [
         'numEmp'
-        // 'datePointage',
-        // 'pointage'
     ];
 
     use HasFactory;

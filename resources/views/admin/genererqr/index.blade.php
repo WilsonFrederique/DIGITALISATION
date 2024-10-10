@@ -19,7 +19,7 @@
                         </li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li>
-                            <a class="active" href="">Page pour générer code QR</a>
+                            <a class="active" href="{{ route('admin.genereqrs.index') }}">Page pour générer ou scanner un code QR</a>
                         </li>
                     </ul>
                 </div>
@@ -28,8 +28,12 @@
                         <i class='bx bx-printer'></i>
                     </a>
                     <a href="" class="btn-download genererQR">
-                        <i class='bx bx-plus-medical'></i>
+                        <i class='bx bx-qr-scan' ></i>
                         <span class="text">Générer code QR</span>
+                    </a>
+                    <a href="{{ route('admin.page_scanner_QR') }}" class="scanerQR">
+                        <i class='bx bx-scan'></i>
+                        <span class="text">Scanner code QR</span>
                     </a>
                 </div>
             </div>
@@ -61,7 +65,7 @@
                                     <img src="{{ asset($genererqr->imageqr) }}" alt="" class="imgTodoQR">
                                     <div class="icon-container icon-del-mod-qr">
                                         <a href="{{ route('admin.genereqrs.show', $genererqr->id) }}"><i class='bx bxs-credit-card' style='color:#4954de'  ></i></a>
-                                        <i class='bx bx-printer' style='color:#228e8a'  ></i>
+                                        <a href="{{ route('badge_pdf', ['id' => $genererqr->id]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
                                         <form action="{{ route('admin.genereqrs.destroy', $genererqr->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
@@ -104,21 +108,7 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    {{-- <form method="POST" action="{{ route('admin.genereqrs.store') }}" enctype="multipart/form-data">
-                        <p class="p-x"><i class='bx bx-x icon-x'></i></p>
-                        @csrf
-                        <p>Entrer votre Nom</p>
-                        <input name="numEmp" type="text" placeholder="N° CIN" id="qrTextInput">
 
-                        <!-- Champ caché pour stocker le lien de l'image générée -->
-                        <input type="hidden" name="imageqr" id="qrImageInput">
-
-                        <div id="imgBoxAffiche">
-                            <img src="" id="qrImageSurLien">
-                        </div>
-
-                        <button type="submit" onclick="gnrQR()">Generer QR</button>
-                    </form> --}}
                     <form method="POST" action="{{ route('admin.genereqrs.store') }}" enctype="multipart/form-data" id="qrForm">
                         <p class="p-x"><i class='bx bx-x icon-x'></i></p>
                         @csrf
@@ -128,7 +118,7 @@
                             @foreach($employes as $employe)
                                 <option value="{{ $employe->numEmp }}"
                                     {{ (isset($genererqr) && $employe->numEmp == $genererqr->numEmp) ? 'selected' : '' }}>
-                                    {{ $employe->Nom }}
+                                    {{ $employe->Nom }} {{ $employe->Prenom }}
                                 </option>
                             @endforeach
                         </select>

@@ -51,35 +51,13 @@
             "Décembre",
         ];
 
-        // function afficherEvenementsSurCalendrier() {
-        //     const joursCalendrier = document.querySelectorAll('.calendar .day');
-
-        //     // Parcourt chaque jour du calendrier
-        //     joursCalendrier.forEach(jour => {
-        //         const jourNumero = parseInt(jour.textContent);
-        //         const jourDate = new Date(year, month, jourNumero); // Crée une date pour chaque jour du calendrier
-
-        //         // Parcourt chaque événement
-        //         events.forEach(event => {
-        //             const dateEventDebut = new Date(event.DateDebu);
-        //             const dateEventFin = new Date(event.DateFin);
-
-        //             // Vérifie si le jour actuel est entre DateDebu et DateFin
-        //             if (event.Titre && jourDate >= dateEventDebut && jourDate <= dateEventFin) {
-        //                 console.log(`Marquage du jour ${jourNumero} en tant qu'événement`);
-        //                 jour.classList.add('event'); // Ajoute la classe "event" pour chaque jour dans la plage
-        //             }
-        //         });
-        //     });
-        // }
-
         function afficherEvenementsSurCalendrier() {
             const joursCalendrier = document.querySelectorAll('.calendar .day');
 
             // Parcourt chaque jour du calendrier
             joursCalendrier.forEach(jour => {
                 const jourNumero = parseInt(jour.textContent);
-                const jourDate = new Date(year, month, jourNumero); // Crée une date pour chaque jour du calendrier
+                const jourDate = new Date(year, month, jourNumero);
 
                 // Parcourt chaque événement
                 events.forEach(event => {
@@ -92,7 +70,7 @@
                     // Vérifie si le jour actuel est dans l'intervalle
                     if (event.Titre && allEventDates.some(eventDate => eventDate.toDateString() === jourDate.toDateString())) {
                         console.log(`Marquage du jour ${jourNumero} en tant qu'événement`);
-                        jour.classList.add('event'); // Ajoute la classe "event" pour chaque jour dans la plage
+                        jour.classList.add('event');
                     }
                 });
             });
@@ -157,7 +135,7 @@
                 const eventDateFin = new Date(event.DateFin);
                 // Récupère toutes les dates entre DateDebu et DateFin
                 const allEventDates = getDatesBetween(eventDateDebut, eventDateFin);
-                
+
                 // Vérifie si la date est dans l'intervalle
                 return allEventDates.some(eventDate => eventDate.toDateString() === date.toDateString());
             });
@@ -165,6 +143,17 @@
             if (eventsFound.length > 0) {
                 eventsFound.forEach(event => {
                     console.log("Affichage de l'événement avec l'ID :", event.id); // Ajoutez ceci pour vérifier l'ID
+                    
+                    // Condition pour afficher le temps uniquement s'il est disponible
+                    let eventTime = '';
+                    if (event.TimeDebu && event.TimeFin) {
+                        eventTime = `de ${event.TimeDebu} à ${event.TimeFin}`;
+                    } else if (event.TimeDebu) {
+                        eventTime = `à partir de ${event.TimeDebu}`;
+                    } else if (event.TimeFin) {
+                        eventTime = `jusqu'à ${event.TimeFin}`;
+                    }
+
                     const eventHtml = `
                         <div class="event">
                             <div class="title">
@@ -172,7 +161,7 @@
                             </div>
                             <div class="event-description">${event.Description}</div>
                             <span class="event-time">
-                                du ${event.DateDebu} au ${event.DateFin} de ${event.TimeDebu} à ${event.TimeFin}
+                                du ${event.DateDebu} au ${event.DateFin} ${eventTime}
                             </span>
                         </div>
                     `;
@@ -218,9 +207,10 @@
             // Affichage des jours du mois actuel
             for (let i = 1; i <= lastDate; i++) {
                 let event = events.some(event => {
-                    const eventDate = new Date(event.DateDebu);
-                    return eventDate.getDate() === i && eventDate.getMonth() === month && eventDate.getFullYear() === year;
+                    const allEventDates = getDatesBetween(new Date(event.DateDebu), new Date(event.DateFin));
+                    return allEventDates.some(date => date.getDate() === i && date.getMonth() === month && date.getFullYear() === year);
                 });
+
                 if (i === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                     days += `<div class="day today active ${event ? 'event' : ''}">${i}</div>`;
                 } else {
@@ -269,8 +259,6 @@
             });
         }
 
-
-
         function prevMonth() {
             month--;
             if (month < 0) {
@@ -280,15 +268,6 @@
             initCalendar();
         }
 
-        prev.addEventListener("click", function() {
-            month--;
-            if (month < 0) {
-                month = 11;
-                year--;
-            }
-            initCalendar();
-        });
-
         function nextMonth() {
             month++;
             if (month > 11) {
@@ -297,15 +276,6 @@
             }
             initCalendar();
         }
-
-        next.addEventListener("click", function() {
-            month++;
-            if (month > 11) {
-                month = 0;
-                year++;
-            }
-            initCalendar();
-        });
 
         prev.addEventListener("click", prevMonth);
         next.addEventListener("click", nextMonth);
@@ -531,15 +501,27 @@
             // saveEvents();
         }
 
+        // document.querySelector('.add-event-btn').addEventListener('click', function(event) {
+        //     const title = document.querySelector('.event-name').value;
+        //     const description = document.querySelector('.event-description').value;
+        //     const startDate = document.querySelector('.event-date-debu').value;
+        //     const endDate = document.querySelector('.event-date-fin').value;
+        //     const startTime = document.querySelector('.event-time-from').value;
+        //     const endTime = document.querySelector('.event-time-to').value;
+
+        //     if (!title || !description || !startDate || !endDate || !startTime || !endTime) {
+        //         event.preventDefault();
+        //         alert('Veuillez remplir tous les champs obligatoires.');
+        //     }
+        // });
+
         document.querySelector('.add-event-btn').addEventListener('click', function(event) {
             const title = document.querySelector('.event-name').value;
             const description = document.querySelector('.event-description').value;
             const startDate = document.querySelector('.event-date-debu').value;
             const endDate = document.querySelector('.event-date-fin').value;
-            const startTime = document.querySelector('.event-time-from').value;
-            const endTime = document.querySelector('.event-time-to').value;
 
-            if (!title || !description || !startDate || !endDate || !startTime || !endTime) {
+            if (!title || !description || !startDate || !endDate) {
                 event.preventDefault();
                 alert('Veuillez remplir tous les champs obligatoires.');
             }

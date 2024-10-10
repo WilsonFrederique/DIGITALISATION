@@ -23,5 +23,8 @@ Page pour le formulaire des employés (mode clair)
 Page pour générer des codes QR (mode sombre)
 ![Chargement](./README_IMAGES/5.png)
 
+Page pour Scanner un codes QR 
+![Chargement](./README_IMAGES/scan.png)
+
 Page pour générer des codes QR (mode clair)
 ![Chargement](./README_IMAGES/6.png)

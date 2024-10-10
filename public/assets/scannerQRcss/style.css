@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.place{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+}
+
+@media screen and (max-width: 600px){
+    .place{
+        display: grid;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.place .img-place{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    /* background: red; */
+}
+
+.place .img-place img{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100% auto;
+    object-fit: cover;
+}
+
+.container-scan-qr{
+    width: 100%;
+    max-width: 410px;
+    background: var(--bg-color-scanner);
+    border-radius: 7px;
+    padding: 15px 25px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #fff;
+}
+
+button{
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* -------------- Nav ------------ */
+
+.div-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.div-nav button{
+    width: calc(100% / 2 - 5px);
+    font-size: 1.2rem;
+    text-align: center;
+    height: 45px;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #ccc;
+    color: var(--color-txt-no-active);
+    opacity: 0.5;
+}
+
+.div-nav button.active{
+    border-bottom: 2px solid #0283d8;
+    font-weight: 700;
+    color: #0283d8;
+    opacity: 1;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}

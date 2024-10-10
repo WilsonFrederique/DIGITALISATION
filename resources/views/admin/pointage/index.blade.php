@@ -37,14 +37,14 @@
                 <li>
                     <i class='bx bxs-notification'></i>
                     <span class="text">
-                        <h3 class="txt-box-top">2830</h3>
+                        <h3 class="txt-box-top">{{ $totalPointageAujourdhui }}</h3>
                         <p class="txt-box-bottom">Total Présent(e)s</p>
                     </span>
                 </li>
                 <li>
                     <i class='bx bxs-notification-off' ></i>
                     <span class="text">
-                        <h3 class="txt-box-top">543</h3>
+                        <h3 class="txt-box-top">{{ $countEmployesSansPointagesAujourdhuit }}</h3>
                         <p class="txt-box-bottom">Total Absent(e)s</p>
                     </span>
                 </li>
@@ -52,22 +52,14 @@
 
             <!-- *********************************************** -->
 
+            {{-- ---------- Liste des Present(e)s ----------- --}}
             <div class="table-date">
                 <div class="orber">
                     <div class="head">
-                        <h3>Liste des Pointages</h3>
+                        <h3>Liste des présents</h3>
                         <form class="tbl-tete-droit" action="#">
                             <div class="inputDate">
-                                <select class="form-control">
-                                    <option>Tout les emploees</option>
-                                    <option>Présent(e)s</option>
-                                    <option>Absent(e)s</option>
-                                </select>
                                 <input class="input-rech-date-point" type="date">
-                            </div>
-                            <div class="icon-rechDade">
-                                <i class='bx bx-search icon-tbl' ></i>
-                                <i class='bx bx-filter icon-tbl'></i>
                             </div>
                         </form>
                     </div>
@@ -82,41 +74,100 @@
                             </tr>
                         </thead>
                         <tbody class="tbody">
+                            @foreach ($pointages as $pointage)
                             <tr>
                                 <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
+                                    {{-- Vérifier si l'employé existe avant d'afficher les informations --}}
+                                    @if($pointage->employe)
+                                        <img src="{{ asset($pointage->employe->images) }}" alt="">
+                                        <p>{{ $pointage->employe->Nom }} {{ $pointage->employe->Prenom }}</p>
+                                    @else
+                                        <p>Employé non trouvé</p>
+                                    @endif
                                 </td>
-                                <td>10/10/2024 à 10 : 30</td>
-                                <td>SG</td>
+                                {{-- Format de la date --}}
+                                <td>{{ $pointage->created_at->format('d/m/Y H:i') }}</td>
+                                <td>{{ $pointage->employe->Poste ?? 'Poste inconnu' }}</td>
                                 <td><span class="status process">Oui</span></td>
                                 <td>
                                     <div class="icon-container">
                                         <a href="#"><i class='bx bx-id-card icon-mod-del-pointag' style='color:#3025d1'></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
+                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'></i></a>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Jean Claude</p>
-                                </td>
-                                <td>10/10/2024 à 10 : 40</td>
-                                <td>REC</td>
-                                <td><span class="status pending">Non</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-id-card icon-mod-del-pointag' style='color:#3025d1'></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                            @endforeach
+                        </tbody>                                               
                     </table>
+                </div>
+            </div>
+
+            {{-- ---------- Liste des absent(e)s ----------- --}}
+            <div class="table-date">
+                <div class="todo">
+                    <div class="head">
+                        <h3>Liste des absents</h3>
+                        <div class="inputDate">
+                            {{-- <select class="form-control">
+                                <option>absent(e)s</option>
+                            </select> --}}
+                            <input class="input-rech-date-point" type="date">
+                        </div>
+                    </div>
+                    <ul class="todo-list todo-color">
+                        @foreach ($employesSansPointages as $employesSansPointage)
+                            <li class="absent">
+                                <div class="todo-item">
+                                    <img src="{{ asset($employesSansPointage->images) }}" alt="" class="imgTodo">
+                                    <div class="txt-left">
+                                        <p>{{ $employesSansPointage->Nom }} {{ $employesSansPointage->Prenom }}</p>
+                                        <p>{{ $employesSansPointage->Poste  }}</p>
+                                    </div>
+                                </div>
+                                <div class="QR-icon">
+                                    <div class="icon-container icon-del-mod-qr ens">
+                                        <p>Pointage : <span>Non</span></p>
+                                        <form action="#" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                <i class='bx bx-trash delt-qr' style='color:#d01616'></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+
                 </div>
             </div>
         </main>
     </section>
 
 @endsection
+
+
+<style>
+    .QR-icon .ens{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .QR-icon .ens p{
+        font-weight: 500;
+        font-size: 1rem;
+    }
+    
+    .QR-icon .ens p span{
+        background: rgb(255, 59, 59);
+        color: #fff;
+        padding: 0.2rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        border-radius: 20%;
+        font-size: 1.1rem;
+    }
+</style>

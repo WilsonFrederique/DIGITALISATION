@@ -19,8 +19,8 @@ class CalendrieFormRequest extends FormRequest
             'Description' => ['required'],
             'DateDebu' => ['required'],
             'DateFin' => ['required'],
-            'TimeDebu' => ['required'],
-            'TimeFin' => ['required']
+            'TimeDebu' => ['nullable'], 
+            'TimeFin' => ['nullable']
         ];
     }
 
@@ -30,9 +30,7 @@ class CalendrieFormRequest extends FormRequest
             'Titre.required' => 'Le titre est requis.',
             'Description.required' => 'La description est requise.',
             'DateDebu.required' => 'La date de début est requise.',
-            'DateFin.required' => 'La date de fin est requise.',
-            'TimeDebu.required' => 'L\'heure de début est requise.',
-            'TimeFin.required' => 'L\'heure de fin est requise.'
+            'DateFin.required' => 'La date de fin est requise.'
         ];
     }
 }

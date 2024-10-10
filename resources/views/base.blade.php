@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title')</title>
 
@@ -26,6 +27,12 @@
 
         {{-- ======================== Mon dossier Css Calendrier=========================== --}}
         <link rel="stylesheet" href="{{ asset('assets/style_Calendrier.css') }}">
+
+        {{-- ================== Mon dossier Css Gen et Scanner code QR ==================== --}}
+        <link rel="stylesheet" href="{{ asset('assets/scannerQRcss/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/scannerQRcss/generetor.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/scannerQRcss/scanner.css') }}">
+
     </head>
     <body class="antialiased">
 
@@ -40,6 +47,10 @@
 
         {{-- == Mon Dossier Script Calendrier == --}}
         @include('script_calendrier')
+
+        {{-- == Mon Dossier Script Scanner == --}}
+        @include('script_GenScanQR')
+        @include('script_Instascan')
 
     </body>
 </html>

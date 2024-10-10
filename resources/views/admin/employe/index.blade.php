@@ -24,7 +24,7 @@
                     <a href="{{ route('admin.listes_profils') }}" class="imprimer-tout">
                         <i class='bx bx-id-card'></i>
                     </a>
-                    <a href="#" class="imprimer-tout">
+                    <a href="{{ route('admin.tout_pdf_employe') }}" class="imprimer-tout">
                         <i class='bx bx-printer'></i>
                     </a>
                     <a href="{{ route('admin.employes.create') }}" class="btn-download">
@@ -47,7 +47,7 @@
                 <li>
                     <i class='bx bxs-notification'></i>
                     <span class="text">
-                        <h3 class="txt-box-top">1943</h3>
+                        <h3 class="txt-box-top">103</h3>
                         <p class="txt-box-bottom">Total Present(e)s</p>
                     </span>
                 </li>
@@ -113,7 +113,7 @@
                         <li class="not-completed">
                             <p>{{ $employe->Nom }} {{ $employe->Prenom }}</p>
                             <div class="icon-container">
-                                <a href="#"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
+                                <a href="{{ route('page_pdf', ['id' => $employe->numEmp]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
                                 <a href="{{ route('admin.employes.edit', $employe->numEmp) }}"><i class='bx bx-edit btn-modif' style='color:#0a6202'  ></i></a>
                                 <form action="{{ route('admin.employes.destroy', $employe->numEmp) }}" method="POST">
                                     @csrf

@@ -18,7 +18,7 @@ class Employe extends Model
     // =========== One to Many : (0,n) ou (1,n) ==========
     public function pointages(): HasMany
     {
-        return $this->hasMany(Pointage::class);
+        return $this->hasMany(Pointage::class, 'numEmp', 'numEmp');
     }
 
     // =========== One to Many : (0,n) ou (1,n) ==========

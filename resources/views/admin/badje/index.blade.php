@@ -21,11 +21,11 @@
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="">Code QR de {{ $genererqr->numEmp }}</a>
+                            <a class="active" href="">Code QR de {{ $genererqr->Nom }}</a>
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="btn-download">
+                <a href="{{ route('badge_pdf', ['id' => $genererqr->id]) }}" class="btn-download">
                     <i class='bx bxs-cloud-download'></i>
                     <span class="text">IMPRIMER</span>
                 </a>

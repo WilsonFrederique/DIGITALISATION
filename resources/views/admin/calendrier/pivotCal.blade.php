@@ -133,7 +133,7 @@
                             </div>
                 
                             <div class="events">
-                                @foreach($events as $event)
+                                {{-- @foreach($events as $event)
                                     <div class="event">
                                         <div class="title">
                                             <span class="event-title">{{ $event->Titre }}</span>
@@ -142,7 +142,7 @@
                                         <span class="event-time">du {{ $event->DateDebu }} au {{ $event->DateFin }} à {{ $event->TimeDebu }} - {{ $event->TimeFin }}</span>
                                     </div>
                                     <button class="btn-suppr-event">Supprimer</button>
-                                @endforeach
+                                @endforeach --}}
                             </div>                          
                 
                             <!-- <div class="add-event-wrapper active"> -->
@@ -158,10 +158,10 @@
                                 
                                     <div class="add-event-body">
                                         <div class="add-event-input">
-                                            <input name="Titre" type="text" placeholder="Titre" class="event-name">
+                                            <input name="Titre" type="text" placeholder="Titre" class="event-name" required>
                                         </div>
                                         <div class="add-event-input">
-                                            <input name="Description" type="text" placeholder="Description" class="event-description">
+                                            <input name="Description" type="text" placeholder="Description" class="event-description" required>
                                         </div>
                                         <div class="add-event-input">
                                             <input name="DateDebu" type="date" class="event-date-debu">
@@ -195,6 +195,13 @@
             {{-- -------- Mon Tbl d'Affichage --------- --}}
             <div class="table-date">
                 <div class="todo">
+
+                    <div class="head">
+                        <h3>Rappels pour l'événement</h3>
+                        <div class="inputDate">
+                            <input class="input-rech-date-point" type="date">
+                        </div>
+                    </div>
 
                     <ul class="todo-list todo-color">
                         @foreach($events as $event)

@@ -8,6 +8,7 @@ use App\Models\Calendrier;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\EmployeFormRequest;
 
@@ -46,7 +47,6 @@ class EmployeController extends Controller
         ]);
     }
 
-
     public function indexProfil(Request $request)
     {
         // Hanao requête amn employe
@@ -70,6 +70,22 @@ class EmployeController extends Controller
         $count = DB::table('employes')->count();
 
         return $count;
+    }
+
+    // Méthode pour générer le PDF
+    public function telechargerPDF($numEmp)
+    {
+        $employe = Employe::findOrFail($numEmp); // Récupère l'employé ou affiche une erreur 404
+
+        $pdf = PDF::loadView('admin.employe.pdfChaqueEmploye', compact('employe'));
+        return $pdf->download('profil_employe_' . $employe->numEmp . '.pdf');
+    }
+
+    public function genereteAllPdf(){
+        $employes = Employe::all();
+
+        $pdf = PDF::loadView('admin.employe.pdf_tout', compact('employes'));
+        return $pdf->download('pdf_tout.pdf');
     }
 
     public function create()

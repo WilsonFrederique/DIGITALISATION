@@ -14,8 +14,8 @@ class CreateCalendriersTable extends Migration
             $table->string('Description');
             $table->date('DateDebu');
             $table->date('DateFin');
-            $table->time('TimeDebu');
-            $table->time('TimeFin');
+            $table->time('TimeDebu')->nullable();
+            $table->time('TimeFin')->nullable();
             $table->timestamps();
         });
     }

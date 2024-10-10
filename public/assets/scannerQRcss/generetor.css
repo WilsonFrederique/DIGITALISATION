@@ -1,0 +1,79 @@
+.generetor{
+    overflow: hidden;
+    height: 240px;
+    transition: height 0.2s;
+}
+
+.generetor.active{
+    height: 550px;
+}
+
+.generetor h1{
+    font-size: 21px;
+    color: var(--color-h1-scanner);
+}
+
+.generetor p{
+    color: var(--color-txt-scanner);
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.generetor-form{
+    margin: 20px 0;
+}
+
+.generetor-form select{
+    width: 100%;
+    height: 55px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid var(--color-border-input-scanner);
+    font-size: 18px;
+    padding: 0 15px;
+}
+
+.generetor-form button{
+    width: 100%;
+    height: 55px;
+    background: #0283d8;
+    color: #fff;
+    font-size: 17px;
+    margin-top: 20px;
+}
+
+.generetor-img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    border: 2px dashed #555;
+    pointer-events: none;
+}
+
+.generetor-img img{
+    width: 200px;
+    height: 200px;
+}
+
+.generetor-btn{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.generetor-btn .btn-link{
+    background: transparent;
+    color: #111;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 10px 10px 10px 0;
+    transition: 0.4s;
+}
+
+.generetor-btn .btn-link:hover{
+    padding: 10px;
+    background: rgba(36, 113, 255, 0.1);
+}

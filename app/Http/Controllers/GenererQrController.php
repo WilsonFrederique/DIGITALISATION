@@ -9,24 +9,56 @@ use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Integer;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\GenererQrFormRequest;
 
 class GenererQrController extends Controller
 {
 
+    // public function index(Request $request)
+    // {
+    //     // Requête pour les QR codes générés
+    //     $genererqrs = Genererqr::query()
+    //     ->with('employes'); // Charger la relation employes
+
+    //     $entreprises = Entreprise::all();
+
+    //     $events = Calendrier::all();
+
+    //     // Pour les employes pas en code QR
+    //     $numEmpAvecQR = Genererqr::pluck('numEmp');
+    //     $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
+
+    //     // Si une recherche est effectuée
+    //     if ($recherche = $request->input('Rechercher')) {
+    //         $genererqrs->whereHas('employes', function ($query) use ($recherche) {
+    //             $query->where('Nom', 'LIKE', '%' . $recherche . '%')
+    //                 ->orWhere('Prenom', 'LIKE', '%' . $recherche . '%')
+    //                 ->orWhere('Poste', 'LIKE', '%' . $recherche . '%');
+    //         });
+    //     }
+
+    //     // Récupérer les résultats
+    //     return view('admin.genererqr.index', [
+    //         'genererqrs' => $genererqrs->get(),
+    //         'employes' => $employes,
+    //         'entreprises' => $entreprises,
+    //         'events' => $events
+    //     ]);
+    // }
+
     public function index(Request $request)
     {
-        // Requête pour les QR codes générés
-        $genererqrs = Genererqr::query()
-        ->with('employes'); // Charger la relation employes
+        $genererqrs = Genererqr::query()->with('employes');
 
         $entreprises = Entreprise::all();
-
         $events = Calendrier::all();
 
-        // Pour les employes pas en code QR
+        // Obtenir les numEmp présents dans la table genererqrs
         $numEmpAvecQR = Genererqr::pluck('numEmp');
+
+        // Récupérer les employés dont le numEmp n'est pas dans la liste
         $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
 
         // Si une recherche est effectuée
@@ -41,9 +73,26 @@ class GenererQrController extends Controller
         // Récupérer les résultats
         return view('admin.genererqr.index', [
             'genererqrs' => $genererqrs->get(),
-            'employes' => $employes,
+            'employes' => $employes, // Assurez-vous que cette ligne est présente
             'entreprises' => $entreprises,
-            'events' => $events
+            'events' => $events,
+        ]);
+    }
+
+    public function scanner(Request $request)
+    {
+        // Obtenir les numEmp présents dans la table genererqrs
+        $numEmpAvecQR = Genererqr::pluck('numEmp');
+
+        // Récupérer les employés dont le numEmp n'est pas dans la liste
+        $employespasQRs = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
+
+        // Debug : afficher les employés (facultatif, à retirer une fois testé)
+        dd($employespasQRs);
+
+        // Retourner la vue avec la liste des employés
+        return view('admin.genererqr.scanner', [
+            'employespasQRs' => $employespasQRs,
         ]);
     }
 
@@ -63,6 +112,25 @@ class GenererQrController extends Controller
         return view('admin.genererqr.index', [
             'employes' => $employes,
             'entreprises' => $entreprises,
+            'events' => $events
+        ]);
+    }
+
+    public function telechargerBadge($id)
+    {
+        $badge = Genererqr::findOrFail($id);
+
+        $events = Calendrier::all();
+
+        $pdf = PDF::loadView('admin.badje.pdfBadge', compact('badge', 'events'));
+        return $pdf->download('Badge_pour_' . $badge->id . '.pdf');
+    }
+
+    public function pageScannerQR()
+    {        
+        $events = Calendrier::all();
+
+        return view('admin.genererqr.scanner', [
             'events' => $events
         ]);
     }

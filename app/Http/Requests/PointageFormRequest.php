@@ -16,8 +16,6 @@ class PointageFormRequest extends FormRequest
     {
         return [
             'numEmp' => ['required']
-            // 'datePointage' => ['required'],
-            // 'pointage' => ['required']
         ];
     }
 
@@ -25,8 +23,6 @@ class PointageFormRequest extends FormRequest
     {
         return [
             'numEmp.required' => 'CIN employe récquis.'
-            // 'datePointage.required' => 'Date Pointage récquis.',
-            // 'pointage.required' => 'Pointage employe récquis.'
         ];
     }
 }

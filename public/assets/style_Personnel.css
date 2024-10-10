@@ -58,6 +58,7 @@ li{
     --color-bg-box3: rgb(230, 175, 112);
     --color-thead-tbl: #1d1e1f;
     --color-border-left-permission: #50677c;
+    --color-border-left-absent: #db504a;
 
     --color-bg-conge-reste: #c74b47;
     --color-bg-conge-total: #3e5469;
@@ -125,11 +126,26 @@ li{
     --color-clr-txt-input-rech: #181818;
     --color-btn-goto-rech: #50677c;
     --after: #d1d1d3;
+
+    --bg-color-scanner: #fff;
+    --box-s-scanner: #5f5f5fab;
+    --color-txt-no-active: #424242;
+    --color-txt-scanner: #181818;
+    --color-border-input-scanner: #999;
+    --color-textarea-scanner: #333;
+    --color-h1-scanner: #383838;
 }
 
 .dark-theme-variables{
+    --color-h1-scanner: #b8b8b8;
+    --color-textarea-scanner: #fff;
+    --color-border-input-scanner: #3a3d9c;
+    --color-txt-scanner: #b8b8b8;
+    --bg-color-scanner: #424242;
+    --color-txt-no-active: #d1d1d3;
+
     --after: #777777;
-    --color-btn-goto-rech: #b8b8b8;
+    --color-btn-goto-rech: #d1d1d3;
     --color-bg-logo-paramtr: #61616138;
     --color-date-even: #878895;
     --bg-hover-event-list: linear-gradient(90deg, var(--primary-clr), transparent);
@@ -575,6 +591,7 @@ body{
 #content nav{
     height: 56px;
     background: var(--light);
+    /* background: red; */
     padding: 0 24px;
     display: flex;
     align-items: center;
@@ -747,6 +764,19 @@ body{
 }
 
 #content main .head-title .btn-download{
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 36px;
+    background: var(--color-btn-recherche-navbar);
+    color: var(--color-txt-download);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 10px;
+    font-weight: 500;
+}
+
+#content main .head-title .scanerQR{
     height: 36px;
     padding: 0 16px;
     border-radius: 36px;
@@ -984,6 +1014,10 @@ body{
 
 #content main .table-date .todo .todo-list li.permission{
     border-left: 10px solid var(--color-border-left-permission);
+}
+
+#content main .table-date .todo .todo-list li.absent{
+    border-left: 10px solid var(--color-border-left-absent);
 }
 
 #content main .table-date .todo .todo-list li:last-child{
