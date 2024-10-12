@@ -16,15 +16,16 @@ class GenererQrFormRequest extends FormRequest
     {
         return [
             'numEmp' => ['required'],
-            'imageqr' => ['required']
+            'imageqr' => ['required'],
         ];
     }
 
-    public function message()
+    public function messages()
     {
         return [
-            'numEmp.required' => 'CIN employe récquis.',
-            'imageqr.required' => 'Code QR récquis.'
+            'numEmp.required' => 'Le CIN de l\'employé est requis.',
+            'imageqr.required' => 'Le code QR est requis.',
         ];
     }
+
 }

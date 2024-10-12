@@ -89,6 +89,10 @@
             </div>
         </form>
 
+        <a href="{{ route('admin.page_scanner_QR') }}">
+            <i class='bx bx-scan'></i>
+        </a>
+
         <div class="theme-toggler">
             <a href="#">
                 <i class='bx bxs-brightness-half them' ></i>

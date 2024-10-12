@@ -47,14 +47,14 @@
                 <li>
                     <i class='bx bxs-notification'></i>
                     <span class="text">
-                        <h3 class="txt-box-top">103</h3>
+                        <h3 class="txt-box-top">{{ $countPresent }}</h3>
                         <p class="txt-box-bottom">Total Present(e)s</p>
                     </span>
                 </li>
                 <li>
                     <i class='bx bxs-notification-off' ></i>
                     <span class="text">
-                        <h3 class="txt-box-top">543</h3>
+                        <h3 class="txt-box-top">{{ $countAbsent }}</h3>   
                         <p class="txt-box-bottom">Total Absent(e)s</p>
                     </span>
                 </li>

@@ -126,30 +126,6 @@
             fetchRequest(file);
         })
 
-        // function fetchRequest(file){
-        //     let formData = new FormData();
-        //     formData.append("file", file);
-
-        //     p.innerText = "Scanning QR Code...";
-
-        //     // Io http://api.qrserver.com/v1/read-qr-code dia le action eny amn form
-        //     fetch(`http://api.qrserver.com/v1/read-qr-code/`, {
-        //         method: "POST", body: formData
-        //     }).then(res => res.json()).then(result => {
-        //         let text = result[0].symbol[0].data;
-
-        //         if(!text)
-        //             return p.innerText = "Counldn't Scan QR Code";
-        //         // console.log(text)
-
-        //         scannerDiv.classList.add("active");
-        //         form.classList.add("active-img");
-
-        //         img.src = URL.createObjectURL(file);
-        //         textarea.innerText = text;
-        //     })
-        // }
-
         function fetchRequest(file) {
             let formData = new FormData();
             formData.append("file", file);
@@ -211,35 +187,6 @@
         // Scanner Code QR par Camera
         let scanner;
 
-        // camera.addEventListener("click", () => {
-        //     camera.style.display = "none";
-        //     form.classList.add("pointerEvent");
-        //     p.innerText = "Scanning QR Code...";
-
-        //     scanner = new Instascan.Scanner({video: video});
-
-        //     Instascan.Camera.getCameras()
-        //         .then(cameras => {
-        //             if(cameras.length > 0){
-        //                 scanner.start(cameras[0]).then(() => {
-        //                     form.classList.add("active-video");
-        //                     stopCam.style.display = "inline-block";
-        //                 })
-        //             }else{
-        //                 console.log("Aucune caméra trouvée");
-        //             }
-        //         })
-        //         .catch(err => console.error(err))
-
-        //         // addListener pas addEventListener
-        //         scanner.addListener("scan", c => {
-        //             scannerDiv.classList.add("active");
-        //             textarea.innerText = c;
-        //         })
-
-        //     console.log("Camera")
-        // })
-
         camera.addEventListener("click", () => {
             camera.style.display = "none";
             form.classList.add("pointerEvent");
@@ -259,12 +206,53 @@
                     }
                 }).catch(err => console.error(err));
 
+            // scanner.addListener("scan", content => {
+            //     scannerDiv.classList.add("active");
+
+            //     // Affiche la message avec le contenu scanné
+            //     textarea.innerText = content;
+
+            //     // Afficher une alerte avec le contenu scanné
+            //     // alert(`Scan employe réussi : ${content}`);
+            //     alert(`Scan employe réussi`);
+
+            //     // Envoi des données scannées au serveur
+            //     sendDataToServer(content);
+            // });
             scanner.addListener("scan", content => {
                 scannerDiv.classList.add("active");
-                textarea.innerText = content; // Affiche les données scannées dans le champ textarea
 
-                // Envoi des données scannées au serveur
-                sendDataToServer(content); // Envoie les données scannées
+                // Affiche le message avec le contenu scanné
+                textarea.innerText = content;
+
+                // Vérifier si le numEmp existe dans la base de données
+                fetch("{{ route('check_numEmp') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        numEmp: content // ici 'content' contient la valeur du QR Code scanné
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        // Si le numEmp existe, afficher l'alerte de succès
+                        // textarea.innerText = content;
+                        // alert(`Scan employe réussi : ${content}`);
+                        alert(`Scan employe réussi`);
+                        sendDataToServer(content);  // Envoi des données scannées au serveur
+                    } else {
+                        // Si le numEmp n'existe pas, afficher une alerte d'échec
+                        alert("Pas employé ici");
+                    }
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la vérification de numEmp :", error);
+                    alert("Erreur lors de la vérification de l'employé");
+                });
             });
         });
 

@@ -67,7 +67,8 @@
                         <thead class="thead">
                             <tr>
                                 <th>Profil</th>
-                                <th>Date et Heur</th>
+                                <th>Date</th>
+                                <th>Heur</th>
                                 <th>Poste</th>
                                 <th>Pointage</th>
                                 <th>Action</th>
@@ -86,13 +87,24 @@
                                     @endif
                                 </td>
                                 {{-- Format de la date --}}
-                                <td>{{ $pointage->created_at->format('d/m/Y H:i') }}</td>
+                                {{-- <td>{{ $pointage->created_at->format('d/m/Y H:i') }}</td> --}}
+                                @php
+                                    setlocale(LC_TIME, 'fr_FR.UTF-8');  // Définit la locale en français
+                                    @endphp
+                                <td>{{ $pointage->created_at->formatLocalized('%d %B %Y') }}</td>
+                                <td>{{ $pointage->created_at->format('H:i') }}</td>
                                 <td>{{ $pointage->employe->Poste ?? 'Poste inconnu' }}</td>
                                 <td><span class="status process">Oui</span></td>
                                 <td>
                                     <div class="icon-container">
                                         <a href="#"><i class='bx bx-id-card icon-mod-del-pointag' style='color:#3025d1'></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'></i></a>
+                                        <form action="{{ route('admin.pointages.destroy', $pointage->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                <i class='bx bx-trash delt-qr' style='color:#d01616'></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -127,13 +139,6 @@
                                 <div class="QR-icon">
                                     <div class="icon-container icon-del-mod-qr ens">
                                         <p>Pointage : <span>Non</span></p>
-                                        <form action="#" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
-                                                <i class='bx bx-trash delt-qr' style='color:#d01616'></i>
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </li>

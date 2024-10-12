@@ -12,7 +12,7 @@
 
             <div class="head-title">
                 <div class="left">
-                    <h1>CODE QR</h1>
+                    {{-- <h1>CODE QR</h1> --}}
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Code QR</a>
@@ -27,13 +27,17 @@
                     <a href="#" class="imprimer-tout">
                         <i class='bx bx-printer'></i>
                     </a>
-                    <a href="" class="btn-download genererQR">
+                    {{-- <a href="" class="btn-download genererQR">
                         <i class='bx bx-qr-scan' ></i>
                         <span class="text">Générer code QR</span>
+                    </a> --}}
+                    <a href="{{ route('admin.genereqrs.create') }}" class="btn-download">
+                        <i class='bx bx-qr-scan' ></i>
+                        {{-- <span class="text">Générer code QR</span> --}}
                     </a>
                     <a href="{{ route('admin.page_scanner_QR') }}" class="scanerQR">
                         <i class='bx bx-scan'></i>
-                        <span class="text">Scanner code QR</span>
+                        {{-- <span class="text">Scanner code QR</span> --}}
                     </a>
                 </div>
             </div>

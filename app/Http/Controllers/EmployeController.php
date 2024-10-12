@@ -38,11 +38,25 @@ class EmployeController extends Controller
             });
         }
 
+        $countPresent = Employe::whereIn('numEmp', function($query) {
+            $query->select('numEmp')
+                  ->from('pointages')
+                  ->whereDate('created_at', now()->toDateString());
+        })->count();
+
+        $countAbsent = Employe::whereNotIn('numEmp', function($query) {
+            $query->select('numEmp')
+                  ->from('pointages')
+                  ->whereDate('created_at', now()->toDateString());
+        })->count();
+
         // Passer les données à la vue
         return view('admin.employe.index', [
             'employes' => $employes->get(),
             'totalEmployes' => $totalEmployes,
             'entreprises' => $entreprises,
+            'countPresent' => $countPresent,
+            'countAbsent' => $countAbsent,
             'events' => $events
         ]);
     }

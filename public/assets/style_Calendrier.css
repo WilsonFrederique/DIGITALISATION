@@ -161,13 +161,18 @@
     content: "";
     position: absolute;
     bottom: 6%;
-    left: 50%;
-    width: 50%;
     height: 6px;
     border-radius: 30px;
-    transform: translateX(-50%);
-    /* background-color: var(--primary-clr); */
     background-color: red;
+    transition: all 0.3s ease;
+    left: 0; /* Position de départ */
+    width: 100%;
+}
+
+/* Classe pour plusieurs événements */
+.calendar .days .event.multiple::after {
+    width: calc((100% - (var(--event-count) - 1) * 5px) / var(--event-count)); /* Diviser en fonction du nombre d'événements */
+    left: calc((var(--event-index) - 1) * (calc((100% - (var(--event-count) - 1) * 5px) / var(--event-count))) + 5px); /* la position pour chaque événement */
 }
 
 .calendar .event:hover::after {

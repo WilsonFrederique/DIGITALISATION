@@ -134,9 +134,15 @@ li{
     --color-border-input-scanner: #999;
     --color-textarea-scanner: #333;
     --color-h1-scanner: #383838;
+    --color-btn-active-scan: #0283d8;
+    --bg-left-img-scan: #f7f6f6de;
+    --bx-s-lelf: #ccc;
 }
 
 .dark-theme-variables{
+    --bx-s-lelf: #fdfbfb;
+    --bg-left-img-scan: #cccccc7a;
+    --color-btn-active-scan: #b8b8b8;
     --color-h1-scanner: #b8b8b8;
     --color-textarea-scanner: #fff;
     --color-border-input-scanner: #3a3d9c;

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employe;
 use App\Models\Pointage;
 use App\Models\Calendrier;
-use App\Models\Employe;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PointageController extends Controller
 {
@@ -41,10 +42,12 @@ class PointageController extends Controller
             'events' => $events
         ]);
     }
+
+    // ========== Verification du Code QR Si employe ici ou pas =========
+    public function checkNumEmp(Request $request) {
+        $exists = Employe::where('numEmp', $request->input('numEmp'))->exists();
     
-    public function create()
-    {
-        //
+        return response()->json(['exists' => $exists]);
     }
 
     public function store(Request $request)
@@ -64,16 +67,19 @@ class PointageController extends Controller
     {
         //
     }
-    public function edit(string $id)
-    {
-        //
-    }
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+
     public function destroy(string $id)
     {
-        //
+        $deleted = DB::table('pointages')
+                ->where('id', $id)
+                ->delete();
+
+        if ($deleted) {
+            // Si la suppression a réussi
+            return redirect()->back()->with('success', 'Pointages supprimé avec succès.');
+        } else {
+            // Si la suppression a échoué
+            return redirect()->back()->with('error', 'Erreur lors de la suppression de l\'employé.');
+        }
     }
 }

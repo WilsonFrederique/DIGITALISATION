@@ -51,6 +51,44 @@
             "Décembre",
         ];
 
+        // function afficherEvenementsSurCalendrier() {
+        //     const joursCalendrier = document.querySelectorAll('.calendar .day');
+
+        //     joursCalendrier.forEach(jour => {
+        //         const jourNumero = parseInt(jour.textContent);
+        //         const jourDate = new Date(year, month, jourNumero);
+
+        //         // Trouver les événements qui correspondent à ce jour
+        //         const eventsForDay = events.filter(event => {
+        //             const dateEventDebut = new Date(event.DateDebu);
+        //             const dateEventFin = new Date(event.DateFin);
+        //             const allEventDates = getDatesBetween(dateEventDebut, dateEventFin);
+
+        //             return allEventDates.some(eventDate => eventDate.toDateString() === jourDate.toDateString());
+        //         });
+
+        //         if (eventsForDay.length > 0) {
+        //             console.log(`Marquage du jour ${jourNumero} avec ${eventsForDay.length} événements`);
+
+        //             // Appliquer la classe "event" et ajuster le nombre d'événements
+        //             jour.classList.add('event');
+        //             jour.style.setProperty('--event-count', eventsForDay.length);
+
+        //             // Si plusieurs événements, appliquer la classe "multiple"
+        //             if (eventsForDay.length > 1) {
+        //                 jour.classList.add('multiple');
+        //             }
+
+        //             // Pour chaque événement, diviser l'espace proportionnellement
+        //             eventsForDay.forEach((event, index) => {
+        //                 // Assurez-vous que les événements sont différents en utilisant un identifiant ou un titre unique
+        //                 // Si vous avez un moyen de déterminer si les événements sont différents, utilisez-le ici
+        //                 jour.style.setProperty('--event-index', index + 1); // Index de l'événement
+        //             });
+        //         }
+        //     });
+        // }
+
         function afficherEvenementsSurCalendrier() {
             const joursCalendrier = document.querySelectorAll('.calendar .day');
 
@@ -95,39 +133,6 @@
         const csrfToken = "{{ csrf_token() }}";
 
         // Fonction pour afficher les détails de l'événement lorsqu'un jour est cliqué
-        // function afficherDetailsEvenement(date) {
-        //     eventContainer.innerHTML = '';
-        //     const eventsFound = events.filter(event => {
-        //         const eventDateDebut = new Date(event.DateDebu);
-        //         const eventDateFin = new Date(event.DateFin);
-        //         // Récupère toutes les dates entre DateDebu et DateFin
-        //         const allEventDates = getDatesBetween(eventDateDebut, eventDateFin);
-                
-        //         // Vérifie si la date est dans l'intervalle
-        //         return allEventDates.some(eventDate => eventDate.toDateString() === date.toDateString());
-        //     });
-
-        //     if (eventsFound.length > 0) {
-        //         eventsFound.forEach(event => {
-        //             console.log("Affichage de l'événement avec l'ID :", event.id); // Ajoutez ceci pour vérifier l'ID
-        //             const eventHtml = `
-        //                 <div class="event">
-        //                     <div class="title">
-        //                         <span class="event-title"> <i class='bx bxs-hand-right icon-list-even'></i> ${event.Titre}</span>
-        //                     </div>
-        //                     <div class="event-description">${event.Description}</div>
-        //                     <span class="event-time">
-        //                         du ${event.DateDebu} au ${event.DateFin} de ${event.TimeDebu} à ${event.TimeFin}
-        //                     </span>
-        //                 </div>
-        //             `;
-        //             eventContainer.insertAdjacentHTML('beforeend', eventHtml);
-        //         });
-        //     } else {
-        //         eventContainer.innerHTML = '<div class="no-event">Aucun événement ce jour-là</div>';
-        //     }
-        // }
-
         function afficherDetailsEvenement(date) {
             eventContainer.innerHTML = '';
             const eventsFound = events.filter(event => {

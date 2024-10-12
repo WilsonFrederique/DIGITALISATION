@@ -27,25 +27,24 @@
                     </ul>
                 </div>
                 <div class="btn-imprimer-ajout">
-                    <a href="" class="btn-download genererQR">
+                    <a href="{{ route('admin.genereqrs.index') }}" class="btn-download genererQR">
                         <i class='bx bx-qr-scan' ></i>
                     </a>
                 </div>
             </div>
 
             <!-- ********************* TBL AFFICHAGE *********************** -->
-
             <div class="table-date">
                 <div class="todo">
                     <div class="place">
-                        <div class="img-place">
+                        <div class="camera">
                             <img src="{{ asset('assets/images/ImgCodeQR.png') }}" alt="">
                         </div>
                         <div class="container-scan-qr">
                             <!-- ====================== Nav ====================== -->
                             <div class="div-nav">
                                 <button class="nav-scan active">Scanner</button>
-                                <button class="nav-gene">Générer</button>
+                                {{-- <button class="nav-gene">Générer</button> --}}
                             </div>
                                 
                             <!-- =================== Generator =================== -->
@@ -95,8 +94,6 @@
                                     <i class="fa-solid fa-camera"></i>
                                     <i class="fa-sharp fa-solid fa-circle-stop"></i>
                                 </h1>
-
-                                {{-- <canvas id="canvas" width="400" height="400"></canvas> --}}
                         
                                 <form class="scanner-form">
                                     <input type="file" accept="images/*" hidden>
@@ -116,8 +113,8 @@
                                     </form>
                     
                                     <div class="btn">
-                                        <button class="close"> Fermer</button>
-                                        <button class="copy"> Copier</button>
+                                        <button class="close" style="width: 100%;"> Fermer</button>
+                                        <button class="copy" style="display: none"> Copier</button>
                                     </div>
                                 </div>
                             </div>
@@ -130,3 +127,4 @@
     </section>
 
 @endsection
+

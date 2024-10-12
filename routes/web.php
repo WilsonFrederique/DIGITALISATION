@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PointageController;
 use App\Http\Controllers\UsersController;
+use App\Models\Employe;
 
 Route::get('/', [AccueilController::class, 'index'])->name('app_accueil');
 
@@ -45,6 +46,8 @@ Route::get('badge/{id}/pdf', [GenererQrController::class, 'telechargerBadge'])->
 // ====== Ajout Automatique Pointage =====
 Route::post('store-pointage', [PointageController::class, 'store'])->name('store_pointage');
 
+Route::post('/check-numEmp', [PointageController::class, 'checkNumEmp'])->name('check_numEmp');
+
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('employes', EmployeController::class);
     Route::resource('genereqrs', GenererQrController::class);
@@ -52,7 +55,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('permissions', PermissionController::class);
     Route::resource('calendrier', CalendrierController::class);
     Route::resource('pointages', PointageController::class);
-    // Route::get('absents', [PointageController::class, 'indexPasPointer'])->name('page_absents');
 
     Route::get('scanner.code.QR', [GenererQrController::class, 'pageScannerQR'])->name('page_scanner_QR');
     Route::get('scanner.generer', [GenererQrController::class, 'indexScan'])->name('admin.indexScan');
@@ -65,9 +67,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
     // Ajout de la route pour la méthode listeProfils
     Route::get('listes.profils', [EmployeController::class, 'indexProfil'])->name('listes_profils');
     
-    // Ajout de la route pour la méthode indexCalendrier
-    // Route::get('listes.Calendrier', [EmployeController::class, 'indexCalendrier'])->name('listes_calendrier');
-
     // Ajout de la route pour la méthode listeEmployeNonCodeQR
     Route::get('listes.mployeNonCodeQR', [EmployeController::class, 'listeEmployeNonCodeQR'])->name('listes_mployeNonCodeQR');
 
