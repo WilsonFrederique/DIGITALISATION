@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\EmployeFormRequest;
 use App\Http\Requests\UserPersonnelFormRequest;
 use App\Http\Requests\ImageProfilUserFormRequest;
+use App\Http\Requests\PermissionFormRequest;
 use App\Http\Requests\PublicationUserFormRequest;
+use App\Models\Permission;
 
 class UserPersonnelController extends Controller
 {
@@ -179,6 +181,47 @@ class UserPersonnelController extends Controller
         if($user && $user->employe) {
             $employe = $user->employe;
 
+            // Récupérer le dernier profil d'image pour cet employé (par numEmp)
+            $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $numEmp = auth()->user()->numEmp;
+            // Exécuter la requête pour récupérer l'email de cet utilisateur
+            $email = DB::table('users')
+                ->where('numEmp', $numEmp)
+                ->value('email');
+
+            // Récupérer les permissions pour cet employé
+            $permissions = DB::table('permissions')
+                ->where('numEmp', $employe->numEmp)
+                ->get();
+
+            // Retourner la vue avec les données de l'employé
+            return view('users.permission.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'permissions'));
+        }
+    }
+
+    // ---------------- Index Conges ----------------
+    public function indexConges(){
+        $user = Auth::user();
+
+        $events = Calendrier::all();
+
+        $postEmployes = Employe::all();
+
+        // Récupérer tous les employés
+        $ToutEmployes = DB::table('employes as e')
+            ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
+            ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->orderBy('e.numEmp')
+            ->get();
+        
+        // Charger les informations de l'employé associées
+        if($user && $user->employe) {
+            $employe = $user->employe;
+
         // Récupérer le dernier profil d'image pour cet employé (par numEmp)
         $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
                 ->orderBy('id', 'desc')
@@ -191,7 +234,43 @@ class UserPersonnelController extends Controller
                     ->value('email');
 
             // Retourner la vue avec les données de l'employé
-            return view('users.permission.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email'));
+            return view('users.conges.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email'));
+        }
+    }
+
+    // ---------------- Index Missions ----------------
+    public function indexMissions(){
+        $user = Auth::user();
+
+        $events = Calendrier::all();
+
+        $postEmployes = Employe::all();
+
+        // Récupérer tous les employés
+        $ToutEmployes = DB::table('employes as e')
+            ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
+            ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->orderBy('e.numEmp')
+            ->get();
+        
+        // Charger les informations de l'employé associées
+        if($user && $user->employe) {
+            $employe = $user->employe;
+
+        // Récupérer le dernier profil d'image pour cet employé (par numEmp)
+        $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
+                ->orderBy('id', 'desc')
+                ->first();
+
+        $numEmp = auth()->user()->numEmp;
+        // Exécuter la requête pour récupérer l'email de cet utilisateur
+        $email = DB::table('users')
+                    ->where('numEmp', $numEmp)
+                    ->value('email');
+
+            // Retourner la vue avec les données de l'employé
+            return view('users.missions.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email'));
         }
     }
 
@@ -317,6 +396,25 @@ class UserPersonnelController extends Controller
         }
     }
 
+    // ------------ Store Permissions ---------------
+    public function storePermission(PermissionFormRequest $request)
+    {
+        try {
+            $permissionData = $request->validated();
+
+            // Ajouter created_at et updated_at
+            $permissionData['created_at'] = now();
+            $permissionData['updated_at'] = now();
+
+            DB::table('permissions')->insert($permissionData);
+
+            return to_route('users.indexPermissions');
+
+        } catch(\Throwable $th) {
+            return redirect()->back();
+        }
+    }
+
     public function show(string $id)
     {
         //
@@ -352,9 +450,16 @@ class UserPersonnelController extends Controller
         }
     }
 
-
     public function destroy(string $id)
     {
-        //
+        $deleted = DB::table('permissions')
+                ->where('id', $id)
+                ->delete();
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Employé supprimé avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'Erreur lors de la suppression de l\'employé.');
+        }
     }
 }

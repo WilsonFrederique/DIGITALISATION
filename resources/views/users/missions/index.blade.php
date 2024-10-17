@@ -1,6 +1,6 @@
 @extends('baseUser')
 
-@section('title', "PERMISSION")
+@section('title', "MISSIONS")
 
 @section('containerUser')
 
@@ -26,7 +26,6 @@
             <!-- ============= Main content ============ -->
             <div class="main-content">
 
-                {{-- ------------- Affichage Permission --------------- --}}
                 <div style="margin-bottom: 0.4rem;" class="white-post-container">
                     <div class="user-profil title-permission">
                         <div class="txt-titre-img">
@@ -42,44 +41,50 @@
                             <main>
                                 <div class="table-date">
                                     <div class="todo">
-                                        @foreach ($permissions as $permission)
-                                            <ul style="margin-bottom: 2.5rem;" class="todo-list todo-color">
-                                                <div class="header-time-date-validation">
-                                                    <p style="color: #888">Raison: {{ $permission->Raison }}</p>
-                                                    <div style="color: #444" class="validation"><span>Validation</span> <span class="oui-nom">Oui</span></div>
-                                                </div>
-                                                <li class="permission">
-                                                    <div class="todo-item">
-                                                        <div class="txt-left">
-                                                            <p>{{ $employe->Nom }} {{ $employe->Prenom }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <p>{{ $employe->Poste }}</p> 
-                                                </li>
-                                                <div class="footer-permission">
-                                                    <div style="color: #555" class="date-tim">
-                                                        <span>{{ \Carbon\Carbon::parse($permission->created_at)->format('d M Y') }}</span> à 
-                                                        <span>{{ \Carbon\Carbon::parse($permission->created_at)->format('H:i') }}</span>
-                                                    </div>
-                                                    <div class="QR-icon">
-                                                        <div class="icon-container icon">
-                                                            <a href="#frmPermission"><i class='bx bx-edit' style='color:#0a6202'></i></a>
-                                                            <form action="{{ route('users.permissions.destroy', $permission->id) }}" method="POST">
-                                                                @csrf
-                                                                @method('delete')
-                                                                <button type="submit" style="border: none; background: none; cursor: pointer;">
-                                                                    <a href="#"><i class='bx bx-trash delt-qr' style='color:#d01616; font-size: 1.1rem;' ></i></a>
-                                                                </button>
-                                                            </form>
-                                                        </div>
+                                        <ul style="margin-bottom: 2.5rem;" class="todo-list todo-color">
+                                            <div class="header-time-date-validation">
+                                                <div style="color: #555" class="date-tim"><span>07 Octobre 2024</span> à <span>08:30</span></div>
+                                                <div style="color: #444" class="validation"><span>Validation</span> <span class="oui-nom">Oui</span></div>
+                                            </div>
+                                            <li class="permission">
+                                                <div class="todo-item">
+                                                    <div class="txt-left">
+                                                        <p>Nom et Prenom</p>        
+                                                        <p>Validation</p>        
                                                     </div>
                                                 </div>
-                                            </ul>
-                                        @endforeach
+                                                <div class="QR-icon">
+                                                    <div class="icon-container icon">
+                                                        <a href=""><i class='bx bx-edit' style='color:#0a6202'  ></i></a>
+                                                        <form action="" method="POST">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                                <a href="#"><i class='bx bx-trash suppr' style='color:#d01616'  ></i></a>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </main>
                         </div>
+
+                        {{-- <div class="en-tete-vos-permission">
+                            <h4>Non et Prenom</h4>
+                            <h4>Validation</h4>
+                            <h4>Action</h4>
+                        </div>
+                        <div class="content-vos-permission">
+                            <p>Walle Fred</p>
+                            <p>......</p>
+                            <p>
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-trash"></i>
+                            </p>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -94,14 +99,11 @@
                         <span style="border-bottom: 1px solid #888; width: 100%;"></span>
                     </div>
 
-                    <div id="frmPermission" class="post-input-container">
+                    <div class="post-input-container">
                         {{-- ================ Formulaire Permission =================== --}}
                         <div class="container-frm">
                     
-                            <form method="POST" action="{{ route('users.ajoutPermission') }}">
-
-                                @csrf
-
+                            <form action="#">
                                 <div class="form first">
                                     <div class="details personal">
                                         <span class="title">EXPÉDITEUR</span>
@@ -109,19 +111,19 @@
                                         <div class="fields">
                                             <div class="input-field">
                                                 <label>CIN de l'expéditeur</label>
-                                                <input name="numEmp" type="text" placeholder="CIN de l'expéditeur">
+                                                <input type="text" placeholder="CIN de l'expéditeur">
                                             </div>
                                             <div class="input-field">
                                                 <label>Fait le</label>
-                                                <input name="FaiLe" type="date" placeholder="Fait le">
+                                                <input type="date" placeholder="Fait le">
                                             </div>
                                             <div class="input-field">
                                                 <label>Date de début</label>
-                                                <input name="DateDebut" type="date" placeholder="Fait le">
+                                                <input type="date" placeholder="Fait le">
                                             </div>
                                             <div class="input-field">
                                                 <label>Date de fin</label>
-                                                <input name="DateFin" type="date" placeholder="Fait le">
+                                                <input type="date" placeholder="Fait le">
                                             </div>
                                         </div>
                                     </div>
@@ -132,11 +134,11 @@
                                         <div class="fields">
                                             <div class="input-field">
                                                 <label>Nom du Destinateur</label>
-                                                <input name="NomPrenomDestinateur" type="text" placeholder="Nom du Destinateur">
+                                                <input type="text" placeholder="Nom du Destinateur">
                                             </div>
                                             <div class="input-field">
                                                 <label>Poste du Destinateur</label>
-                                                <input name="PosteDestinateur" type="text" placeholder="Poste du Destinateur">
+                                                <input type="text" placeholder="Poste du Destinateur">
                                             </div>
                                         </div>
                                     </div>
@@ -147,11 +149,11 @@
                                         <div class="fields">
                                             <div class="input-field">
                                                 <label>Raison</label>
-                                                <input name="Raison" type="text" placeholder="Ex : Un voyage personnel, etc...">
+                                                <input type="text" placeholder="Ex : Un voyage personnel, etc...">
                                             </div>
                                             <div class="input-field">
                                                 <label>Nom de l'Organisation</label>
-                                                <input name="NomOrganisation" type="text" placeholder="Nom de l'Organisation">
+                                                <input type="date" placeholder="Nom de l'Organisation">
                                             </div>
                                             <div class="input-field">
                                                 <label>Engagement</label>
@@ -165,7 +167,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="nextBtn">
+                                    <button class="nextBtn">
                                         <span class="btnText">ENVOYER</span>
                                         <i class='bx bx-send'></i>
                                     </button>
@@ -176,8 +178,8 @@
                     </div>
                 </div>
 
-                <!-- ------- Permission ------- -->
-                {{-- --- Image Fin Permission --- --}}
+                <!-- ------- Publication ------- -->
+                {{-- --- Image Fin Publication --- --}}
                 <div class="post-container">
                     <img style="width: 100%;" src="{{ asset('assets/imagesPersonnel/chatPermission.png') }}" alt="">
                 </div>

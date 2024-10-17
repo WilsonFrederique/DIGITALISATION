@@ -7,13 +7,6 @@
     text-decoration: none;
 }
 
-.footer-permission{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.7rem;
-}
-
 .container-frm{
     position: relative;
     max-width: 900px;
@@ -217,7 +210,7 @@ form .buttons button, .backBtn{
     font-weight: 400;
 }
 
-.QR-icon .icon, .suppr{
+.permission .QR-icon .icon, .suppr{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -254,9 +247,9 @@ form .buttons button, .backBtn{
 
 #content main .table-date .todo .todo-list li{
     width: 100%;
-    margin-bottom: 3px;
+    margin-bottom: 16px;
     background: var(--body-color);
-    border-radius: 7px;
+    border-radius: 10px;
     padding: 0.5rem;
     display: flex;
     align-items: center;

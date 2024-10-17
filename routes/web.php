@@ -29,19 +29,32 @@ Route::prefix('users')->name('users.')->middleware('auth')->group(function() {
     Route::resource('public', UsersController::class);
     Route::resource('personnel', UserPersonnelController::class);
     Route::resource('parametres', UserPersonnelController::class);
+    Route::resource('permissions', UserPersonnelController::class);
 
+    // ============================== User Affichage =================================
     // -------- Publication ---------
     Route::get('publication', [UserPersonnelController::class, 'indexPublication'])->name('indexPub');
-    // -------- Publication ---------
-    Route::post('ajout_publication', [UserPersonnelController::class, 'storePublicationUseer'])->name('ajoutPublication');
     // -------- Les employes --------
     Route::get('employes', [UserPersonnelController::class, 'indexLesEmployes'])->name('indexLesEmployes');
     // -------- Les Permission ------
     Route::get('permissions', [UserPersonnelController::class, 'indexPermissions'])->name('indexPermissions');
+    // -------- Les Conges ------
+    Route::get('conges', [UserPersonnelController::class, 'indexConges'])->name('indexConges');
+    // -------- Les Missions ------
+    Route::get('missions', [UserPersonnelController::class, 'indexMissions'])->name('indexMissions');
     // --------- Paramètres ---------
     Route::get('parametres', [UserPersonnelController::class, 'indexParametres'])->name('indexParm');
+
+    // =============================== User Frm =======================================
+    // -------- Publication ---------
+    Route::post('ajout_publication', [UserPersonnelController::class, 'storePublicationUseer'])->name('ajoutPublication');
+    // -------- Permission ---------
+    Route::post('ajout_permission', [UserPersonnelController::class, 'storePermission'])->name('ajoutPermission');
     // --------- Paramètres ---------
     Route::post('profilUser', [UserPersonnelController::class, 'storeImgProfils'])->name('users.storeAjoutProfil');
+
+    // =============================== User Suppr =====================================
+    
 
 });
 

@@ -11,17 +11,23 @@
 
 :root{
     --body-color: #efefef;
+    --color-oui-non: #efefef;
     --nav-color: #1876f2;
+    --bg-oui-non: #1876f2;
     --bg-color: #fff;
     --color-p-event-detail: #111;
+    --color-txt-textarea: #111;
     --color-bx-s-permission: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .dark-theme{
     --body-color: #0a0a0a;
+    --color-oui-non: #fff;
     --nav-color: #000;
+    --bg-oui-non: #283e5c;
     --bg-color: #000;
     --color-p-event-detail: #efefef;
+    --color-txt-textarea: #efefef;
     --color-bx-s-permission: 0 5px 10px rgba(255, 255, 255, 0.1);
 }
 
@@ -907,6 +913,10 @@ input[type="file"] {
 /* =================== Responsive ======================= */
 
 @media screen and (max-width: 600px){
+    form .fields .input-field{
+        width: 100% ;
+    }
+
     nav{
         display: flex;
         align-items: center;

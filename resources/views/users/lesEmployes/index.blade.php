@@ -11,8 +11,8 @@
                 <a href="{{ route('users.indexPub') }}"><i class='bx bx-news img'></i><span>Dernières nouvelles</span></a>
                 <a href="{{ route('users.indexLesEmployes') }}"><i class='bx bx-group img'></i><span>Employés</span></a>
                 <a href="{{ route('users.indexPermissions') }}"><i class='bx bxs-hand img'></i><span>Permission</span></a>
-                <a href="#"><i class='bx bxs-briefcase-alt-2 img'></i><span>Mission</span></a>
-                <a href="#"><i class='bx bx-pause-circle img'></i><span>Congé</span></a>
+                <a href="{{ route('users.indexMissions') }}"><i class='bx bxs-briefcase-alt-2 img'></i><span>Mission</span></a>
+                <a href="{{ route('users.indexConges') }}"><i class='bx bx-pause-circle img'></i><span>Congé</span></a>
                 <a href="#"><span>Voir plus</span></a>
             </div>
             <div class="shortcut-links">
