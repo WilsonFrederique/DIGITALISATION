@@ -101,7 +101,7 @@
 
         <a href="#" class="notification">
             <i class='bx bxs-bell' ></i>
-            <span class="num">8</span>
+            <span class="num">0</span>
         </a>
 
         <!-- /////////////////////// PROFILE ////////////////////////// -->
@@ -122,3 +122,27 @@
     </nav>
 
 </section>
+
+<script>
+    // Fonction pour mettre à jour le nombre de notifications (permissions)
+    function updateNotificationCount() {
+        fetch('/notifications/permissions')
+            .then(response => response.json())
+            .then(data => {
+                const notificationNumber = document.querySelector('.notification .num');
+                notificationNumber.textContent = data.count;
+            })
+            .catch(error => console.error('Erreur lors de la récupération des notifications:', error));
+    }
+
+    // Appeler la fonction toutes les 5 secondes pour mettre à jour le compteur
+    setInterval(updateNotificationCount, 5000); // 5000 ms = 5 secondes
+
+    // Gestion du clic sur la notification pour rediriger vers la page des permissions
+    document.querySelector('.notification').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Rediriger vers la page des permissions
+        window.location.href = 'admin.permissions.index';
+    });
+</script>

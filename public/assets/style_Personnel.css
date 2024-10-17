@@ -51,7 +51,7 @@ li{
     --light-yellow: rgb(189, 173, 108);
     --color-bg-box2: rgb(189, 173, 108);
     --yellow: rgb(204, 201, 38);
-    --color-bg-pointage-oui: rgb(223, 219, 24);
+    --color-bg-pointage-oui: rgb(11, 16, 65);
     --color-icon-box2: rgb(68, 67, 46);
     --light-orange: rgb(230, 175, 112);
     --orange: rgb(190, 120, 39);
@@ -202,7 +202,7 @@ li{
     --color-thead-tbl: #c2c8ce;
     --color-tbody-tbl: #dbdbec;
     --color-todo-color: rgb(170, 167, 170);
-    --color-bg-pointage-oui: rgb(223, 219, 24);
+    --color-bg-pointage-oui: rgb(16, 49, 110);
     --color-bg-pointage-non: #db504a;
     --color-bg-poste: #619cd6;
     --color-border-left-permission: rgb(68, 67, 46);

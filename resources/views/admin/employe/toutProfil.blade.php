@@ -225,7 +225,17 @@
                                                     <span class="overlay"></span>
 
                                                     <div class="card-image">
-                                                        <img src="{{ asset($employe->images) }}" class="card-img" alt="">
+                                                        {{-- <img src="{{ asset($employe->images) }}" class="card-img" alt=""> --}}
+                                                        @php
+                                                            // Trouver l'image associée à l'employé
+                                                            $image = $latestImages->firstWhere('numEmp', $employe->numEmp);
+                                                        @endphp
+                                                        @if($image && $image)
+                                                            <img class="card-img" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
+                                                        @else
+                                                            {{-- <i class='bx bxs-user-circle card-img' style="font-size: 45px;"></i> --}}
+                                                            <img class="card-img" src="{{ asset('assets/images/UserParDef.png') }}" alt="" style="background-position: center; background-size: cover; object-fit: cover;">
+                                                        @endif
                                                     </div>
                                                 </div>
 

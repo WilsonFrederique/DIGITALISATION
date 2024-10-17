@@ -39,7 +39,11 @@
                         <div class="container container-badje">
                             <div class="en-tete-badje">
                                 <div class="profil-badje">
-                                    <img class="img-tete-badje" src="{{ $genererqr->imageqr }}" alt="">
+                                    {{-- <img class="img-tete-badje" src="{{ $genererqr->imageqr }}" alt=""> --}}
+                                    @if($genererqr->employes)
+                                    <img src="{{ asset('images/' . $genererqr->imageqr) }}" alt="" class="img-tete-badje">
+                                    @else
+                                    @endif
                                 </div>
                                 <div class="txt-profil-badje">
                                     <h5 class="number">{{ $genererqr->numEmp }}</h5>
@@ -67,7 +71,15 @@
                                     <h5 class="h5">REGION ANOSY</h5>
                                 </span>
                                 {{-- ---------- IMG Profil ---------- --}}
-                                <img class="img-qr-badje" src="{{ asset($genererqr->employes->images) }}" alt="" class="chip">
+                                {{-- <img class="img-qr-badje" src="{{ asset($genererqr->employes->images) }}" alt="" class="chip"> --}}
+                                    @php
+                                        $image = $latestImages->firstWhere('numEmp', $genererqr->numEmp);
+                                    @endphp
+                                    @if($image)
+                                        <img class="img-qr-badje" src="{{ asset($image->imgProfil) }}" alt="Image de profil">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    @endif
                             </header>
 
                             <div class="card-details">

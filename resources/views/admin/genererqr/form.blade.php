@@ -17,23 +17,38 @@
                                                     
                                 <div class="options">
                                     <button class="btn-generer-qr" onclick="showGenerator()">Générer un Code QR</button>
-                                    <button class="btn-generer-qr" onclick="showScanner()">Scanner le Code QR</button>
+                                    <a href="{{ route('admin.page_scanner_QR') }}">
+                                        {{-- <button class="btn-generer-qr" onclick="showScanner()">Scanner le Code QR</button> --}}
+                                        <button class="btn-generer-qr">Scanner le Code QR</button>
+                                    </a>                                    
                                 </div>
                     
+                                {{-- =========== Form generer code QR ============ --}}
                                 <div class="generator-container" style="display: none;">
-                                    {{-- <form method="POST" action="{{ route('admin.genereqrs.store') }}" enctype="multipart/form-data"> --}}
-                                        <input name="numEmp" type="text" id="qr-input" placeholder="Entrez le texte pour générer un code QR" required />
-                                        
-                                        <button type="button" class="gen-scan-apres gen" onclick="generateQRCode()">Générer un Code QR</button>
-                                        <canvas id="qrcode"></canvas>
+                                    <form method="POST" action="{{ route('admin.genereqrs.store') }}" enctype="multipart/form-data">
+                                        @csrf
+                                        {{-- <input name="numEmp" type="text" id="qr-input" placeholder="Entrez le texte pour générer un code QR" required /> --}}
+                                        <select class="select" id="qr-input" name="numEmp" placeholder="N° CIN">
+                                            @foreach($employes as $employe)
+                                                <option value="{{ $employe->numEmp }}"
+                                                    {{ (isset($genererqr) && $employe->numEmp == $genererqr->numEmp) ? 'selected' : '' }}>
+                                                    {{ $employe->Nom }} {{ $employe->Prenom }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <canvas id="qrcode" style="display:none;"></canvas>
                                         
                                         <div class="btn-enr-ret">
                                             <a class="a-generer" onclick="back()"><i class='bx bx-left-arrow-alt'></i> Retour</a>
-                                            <button type="submit" class="a-generer">Enregistrer</button>
+                                            
+                                            <button type="button" class="gen-scan-apres gen a-generer" onclick="generateQRCode()">Générer QR</button>
+                                            <input type="hidden" name="imageqr" id="imageqr" />
+                                            <button type="submit" class="a-generer">Enregistrer <i class='bx bx-save'></i></button>
                                         </div>
-                                    {{-- </form> --}}
+                                    </form>
                                 </div>
                     
+                                {{-- ---------------- Scan ----------------- --}}
                                 <div class="scanner-container" style="display: none;">
                                     <button class="gen-scan-apres" onclick="startScanner()">Démarrer le Scanner de Code QR</button>
                                     <div id="scanner-container" style="display: none;">
@@ -154,32 +169,21 @@
         margin-top: 20px;
     }
 
-    /* .generator-container > form input {
+    .generator-container > form select {
         font-size: 20px;
         text-align: center;
         width: 100%;
         border: none;
         border-bottom: 1px solid;
         padding: 5px;
-        width: 300px;
-        background-color: transparent;
-        outline: none;
-    } */
-
-    .generator-container > input {
-        font-size: 20px;
-        text-align: center;
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid;
-        padding: 5px;
-        width: 300px;
+        width: 370px;
         background-color: transparent;
         outline: none;
     }
 
     #qrcode {
         margin-top: 20px;
+        margin-left: 7rem;
     }
 
     .a-generer {
@@ -239,14 +243,31 @@
     function generateQRCode() {
         const input = document.getElementById('qr-input').value;
         if (!input) {
-            alert("Please enter text to generate QR code.");
+            alert("Veuillez entrer du texte pour générer un code QR.");
             return;
         }
+
         const canvas = document.getElementById('qrcode');
         QRCode.toCanvas(canvas, input, function (error) {
-            if (error) console.error(error);
+            if (error) {
+                console.error(error);
+                return;
+            }
+            // Convertir le canvas en image base64
+            const dataUrl = canvas.toDataURL("image/png");
+            document.getElementById('imageqr').value = dataUrl;
+            canvas.style.display = 'block';
         });
     }
+
+    function handleFormSubmit(event) {
+        const imageQr = document.getElementById('imageqr').value;
+        if (!imageQr) {
+            event.preventDefault();
+            alert("Veuillez générer un Code QR avant d'enregistrer.");
+        }
+    }
+
 
     function back() {
         document.querySelector('.options').style.display = 'flex';
@@ -274,15 +295,31 @@
         scanner = new Instascan.Scanner({ video: video });
         scanner.addListener('scan', function (content) {
             qrResult.textContent = 'QR Code detected: ' + content;
-            
+
             // Capture the current video frame
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             canvas.style.display = 'block';
             document.querySelector('#scanner-container').style.display = 'none';
             document.querySelector('.scanner-container button').textContent = 'Scan Again';
             
+            // Stop the scanner
             scanner.stop();
+
+            // Envoi de la donnée via AJAX après la détection du code QR
+            sendQRCodeData(content);
         });
+
+        // Instascan.Camera.getCameras().then(function (cameras) {
+        //     if (cameras.length > 0) {
+        //         scanner.start(cameras[0]);
+        //     } else {
+        //         console.error('No cameras found.');
+        //         alert('No cameras found.');
+        //     }
+        // }).catch(function (e) {
+        //     console.error(e);
+        //     alert(e);
+        // });
 
         Instascan.Camera.getCameras().then(function (cameras) {
             if (cameras.length > 0) {
@@ -296,4 +333,5 @@
             alert(e);
         });
     }
+
 </script>

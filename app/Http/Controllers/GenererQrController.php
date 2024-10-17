@@ -18,38 +18,6 @@ use App\Http\Requests\GenererQrFormRequest;
 class GenererQrController extends Controller
 {
 
-    // public function index(Request $request)
-    // {
-    //     // Requête pour les QR codes générés
-    //     $genererqrs = Genererqr::query()
-    //     ->with('employes'); // Charger la relation employes
-
-    //     $entreprises = Entreprise::all();
-
-    //     $events = Calendrier::all();
-
-    //     // Pour les employes pas en code QR
-    //     $numEmpAvecQR = Genererqr::pluck('numEmp');
-    //     $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
-
-    //     // Si une recherche est effectuée
-    //     if ($recherche = $request->input('Rechercher')) {
-    //         $genererqrs->whereHas('employes', function ($query) use ($recherche) {
-    //             $query->where('Nom', 'LIKE', '%' . $recherche . '%')
-    //                 ->orWhere('Prenom', 'LIKE', '%' . $recherche . '%')
-    //                 ->orWhere('Poste', 'LIKE', '%' . $recherche . '%');
-    //         });
-    //     }
-
-    //     // Récupérer les résultats
-    //     return view('admin.genererqr.index', [
-    //         'genererqrs' => $genererqrs->get(),
-    //         'employes' => $employes,
-    //         'entreprises' => $entreprises,
-    //         'events' => $events
-    //     ]);
-    // }
-
     public function index(Request $request)
     {
         // Charger les relations avec 'employes' dans genererqrs
@@ -75,23 +43,35 @@ class GenererQrController extends Controller
             });
         }
 
+        // Récupérer les dernières images des employés qui ont un QR
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->whereIn('ipu.numEmp', function($query) {
+                $query->select('numEmp')->from('genererqrs');
+            })
+            ->select('ipu.*')
+            ->get();
+
         // Récupérer les résultats
         return view('admin.genererqr.index', [
             'genererqrs' => $genererqrs->get(),
             'employes' => $employes,
-            'employes_dans_scans' => $employes_dans_scans,  // Toujours renvoyer la variable à la vue
+            'employes_dans_scans' => $employes_dans_scans,
             'entreprises' => $entreprises,
+            'latestImages' => $latestImages,
             'events' => $events,
         ]);
     }
 
     public function indexScanGen() {
-        $numEmpAvecQR = Genererqr::pluck('numEmp');  // Liste des employés ayant déjà un QR généré
+        $numEmpAvecQR = Genererqr::pluck('numEmp');
         $emps = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
     
         // Récupérer les résultats
         return view('admin.genererqr.scanner', [
-            'emps' => $emps,  // Passer la liste des employés à la vue
+            'emps' => $emps,
             'events' => Calendrier::all(),
         ]);
     }
@@ -129,7 +109,19 @@ class GenererQrController extends Controller
 
         $events = Calendrier::all();
 
-        $pdf = PDF::loadView('admin.badje.pdfBadge', compact('badge', 'events'));
+        // Récupérer les dernières images des employés qui ont un QR
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->whereIn('ipu.numEmp', function($query) {
+                $query->select('numEmp')->from('genererqrs');
+            })
+            ->select('ipu.*')
+            ->get();
+
+            $pdf = PDF::loadView('admin.badje.pdfBadge', compact('badge', 'events', 'latestImages'));
+
         return $pdf->download('Badge_pour_' . $badge->id . '.pdf');
     }
 
@@ -145,21 +137,35 @@ class GenererQrController extends Controller
     public function create()
     {
         $events = Calendrier::all();
-        return view('admin.genererqr.form', compact('events'));
+        // Obtenir les numEmp présents dans la table genererqrs
+        $numEmpAvecQR = Genererqr::pluck('numEmp');
+        $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
+        return view('admin.genererqr.form', compact('events', 'employes'));
     }
 
     public function store(GenererQrFormRequest $request)
     {
-        try {
-            $qrData = $request->validated();
-
-            DB::table('genererqrs')->insert($qrData);
-
-            return to_route('admin.genereqrs.index')->with('success', 'QR Code généré et enregistré avec succès.');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return redirect()->back()->with('error', 'Erreur: ' . $th->getMessage());
-        }
+        $request->validate([
+            'numEmp' => 'required|string',
+            'imageqr' => 'required', // Validation pour vérifier que l'image est présente
+        ]);
+    
+        $numEmp = $request->input('numEmp');
+        $imageqr = $request->input('imageqr'); // Image QR en base64
+    
+        // Décoder l'image base64 et enregistrer dans le dossier public/images/qrcodes
+        $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageqr));
+        $imageName = 'qr_' . $numEmp . '_' . time() . '.png';
+        $path = public_path('images/' . $imageName);
+        file_put_contents($path, $imageData);
+    
+        // Enregistrer dans la base de données
+        Genererqr::create([
+            'numEmp' => $numEmp,
+            'imageqr' => $imageName, // Sauvegarde du nom de l'image
+        ]);
+    
+        return redirect()->back()->with('success', 'QR Code généré et sauvegardé avec succès.');
     }   
 
     public function show(string $id)
@@ -172,9 +178,21 @@ class GenererQrController extends Controller
                                 ->where('id', $id)
                                 ->firstOrFail();
 
+        // Récupérer les dernières images des employés qui ont un QR
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->whereIn('ipu.numEmp', function($query) {
+                $query->select('numEmp')->from('genererqrs');
+            })
+            ->select('ipu.*')
+            ->get();
+
         // Passer à la vue à la fois $genererqr et $events
         return view('admin.badje.index', [
             'genererqr' => $genererqr,
+            'latestImages' => $latestImages,
             'events' => $events 
         ]);
     }

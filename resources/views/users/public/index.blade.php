@@ -1443,14 +1443,14 @@
                 <li><a href="#services" class="color-nav">Services</a></li>
                 <li><a href="#specialists" class="color-nav">Employées</a></li>
                 <li><a href="#testimonials" class="color-nav">Randez-vous</a></li>
-                <li><a href="#appointement" class="color-nav">Pointages</a></li>
+                <li><a href="#appointement" class="color-nav">Conseil</a></li>
                 <li><a href="#contact" class="color-nav">Contact</a></li>
                 <!-- <li><a href="#appointement" class="btn">Appointement</a></li> -->
                 <li>
                     <a href="" class="btn-top">Connexion</a>
                     <div class="dropdown-content">
-                        <a href="{{ route('auth.page_users') }}">Utilisateur</a>
-                        <a href="{{ route('auth.page_admin') }}">Administrateur</a>
+                        <a href="{{ route('auth.login') }}">Utilisateur</a>
+                        <a href="#">Administrateur</a>
                     </div>
                 </li>
             </ul>
@@ -1472,8 +1472,8 @@
                 <div class="groop-btn">
                     <a href="#appointement" class="btn">Connexion</a>
                     <div class="dropdown-content2">
-                        <a href="{{ route('auth.page_users') }}">Utilisateur</a>
-                        <a href="{{ route('auth.page_admin') }}">Administrateur</a>
+                        <a href="{{ route('auth.login') }}">Utilisateur</a>
+                        <a href="#">Administrateur</a>
                     </div>
                 </div>
             </div>
@@ -1540,64 +1540,6 @@
                     Nihil cupiditate vitae molestias in possimus tempora porro quam blanditiis.</small>
                 </div>
             </article>
-        </div>
-    </section>
-
-
-    <!-- ========================= Gouverneur ========================= -->
-    <section id="specialists1">
-        <div class="en-tete-services">
-            <h2>MADAME LA GOUVERNEUR DE LA REGION ANOSY</h2>
-            <!-- <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis nisi ab porro explicabo.</p> -->
-        </div>
-        <div class="container">
-
-            <article>
-                <div class="specialist__image">
-                    <img class="ig" src="{{ asset('assets/images/Mm.jpg') }}" alt="Specialist4">
-                </div>
-                <div class="specialist__details">
-                    <h4>MADAME LA GOUVERNEUR DE LA REGION ANOSY</h4>
-                    <small>  </small>
-                </div>
-                <div class="specialist__socials">
-                    <a href="https://linkedin.com" target="_blank"><i class='bx bxl-linkedin' ></i></a>
-                    <a href="https://twitter.com" target="_blank"><i class='bx bxl-twitter' ></i></a>
-                    <a href="https://facebook.com" target="_blank"><i class='bx bxl-facebook' ></i></a>
-                    <a href="https://instagram.com" target="_blank"><i class='bx bxl-instagram' ></i></a>
-                </div>
-                <div class="specialist__photos">
-                    <h3>MOTS DU GOUVERNEUR</h3>
-                    <p class="mot-du-gvrnr">
-                        Dotée d’opportunités économiques considérables et présentant de multiples atouts,
-                        la région Anôsy se profile comme une destination de choix pour les investisseurs
-                        souhaitant catalyser le développement économique du Sud de Madagascar. Dans cette
-                        perspective, nous encourageons la promotion de l’économie verte et bleue, mettant
-                        l’accent sur le développement des filières d’exportation et la création d’unités
-                        industrielles spécialisées dans la transformation, en exploitant les atouts naturels
-                        distinctifs de la région. À cet effet, nous nous engageons à faciliter les opérations
-                        des investisseurs et des porteurs de projets dans la région Anôsy, en assurant un
-                        environnement propice aux affaires, notamment en créant des conditions favorables au
-                        lancement et à la dynamisation de leurs initiatives. En plus de la richesse de nos
-                        ressources en matières premières issues de notre terroir, la présence d’un port en eau
-                        profonde aux normes internationales et de la zone d’investissement industriel d’Ehoala
-                        Park constituent un avantage indéniable, facilitant le processus, depuis le stockage jusqu’à
-                        l’exportation des produits transformés. La proximité d’un aéroport international et les
-                        améliorations en cours des axes routiers majeurs (RN13 et RN12A) sont également des éléments
-                        favorables à tout investissement, favorisant par ailleurs le développement du secteur
-                        touristique dans la région. Engagée dans sa mission de devenir le fer de lance de l’émergence
-                        économique du Sud de Madagascar, la région Anôsy s’engage à concrétiser les défis énoncés
-                        dans le Plan Régional de Développement (PRD) et à suivre la politique émergente de décentralisation,
-                        tout en promouvant les 12 pôles de croissance. Ainsi, nous lançons un appel à l’échelle mondiale,
-                        invitant tous les acteurs à se joindre à nous pour découvrir la richesse culturelle, la gastronomie,
-                        la biodiversité et toutes les merveilles offertes par la Région. Cet appel reflète notre vision de développement,
-                        visant à une croissance économique et un progrès social, dans le but ultime d’offrir à la prochaine génération
-                        l’héritage d’une région prospère. Nous vous souhaitons une exploration enrichissante de notre région à travers ce site.
-                    </p>
-                </div>
-                <a href="https://api.whatsapp.com/send?phone=261344596117" class="specialist__whatsapp" target="_blank"><i class='bx bxl-whatsapp'></i></a>
-            </article>
-
         </div>
     </section>
 

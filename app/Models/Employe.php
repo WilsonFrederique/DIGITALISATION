@@ -33,6 +33,18 @@ class Employe extends Model
         return $this->hasMany(Permission::class, 'numEmp', 'numEmp');
     }
 
+    // =========== One to Many : (0,n) ou (1,n) ==========
+    public function image_profil_users(): HasMany
+    {
+        return $this->hasMany(ImageProfilUser::class, 'numEmp', 'numEmp');
+    }
+
+    // =========== One to Many : (0,n) ou (1,n) ==========
+    public function publicatins(): HasMany
+    {
+        return $this->hasMany(PublicationlUser::class, 'numEmp', 'numEmp');
+    }
+
     // ===== One to Many Inverse : (0,1) ou (1,1) ========
     public function genererqrs(): BelongsTo
     {

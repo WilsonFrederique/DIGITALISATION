@@ -12,6 +12,6 @@ class AccueilController extends Controller
     {
         $entreprises = Entreprise::all();
         $events = Calendrier::all();
-        return view('admin.accueil.index', compact('entreprises', 'events'));
+        return view('admin.accueil.index', compact('events'));
     }
 }

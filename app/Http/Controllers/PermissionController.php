@@ -12,6 +12,34 @@ use App\Http\Requests\PermissionFormRequest;
 
 class PermissionController extends Controller
 {
+
+     // Récupérer le nombre total de permissions ajoutées depuis la dernière consultation
+     public function getNewPermissionsCount(Request $request)
+     {
+         // Récupérer le dernier nombre de permissions vues depuis la session
+         $lastCount = session('last_permissions_count', 0);
+ 
+         // Compter le nombre total de permissions
+         $totalPermissions = Permission::count();
+ 
+         // Calculer les nouvelles permissions
+         $newPermissionsCount = $totalPermissions - $lastCount;
+ 
+         return response()->json(['count' => $newPermissionsCount]);
+     }
+ 
+     // Afficher la liste des permissions et réinitialiser le compteur
+     public function showPermissions(Request $request)
+     {
+         // Récupérer toutes les permissions
+         $permissions = Permission::orderBy('created_at', 'desc')->get();
+ 
+         // Mettre à jour le dernier nombre de permissions dans la session
+         session(['last_permissions_count' => Permission::count()]);
+ 
+         return view('navigation.navigation', compact('permissions'));
+     }
+
     public function index()
     {
         $entreprises = Entreprise::all();

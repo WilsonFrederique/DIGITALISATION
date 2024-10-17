@@ -25,7 +25,6 @@ class EmployeFormRequest extends FormRequest
             'Email' => ['required'],
             'Poste' => ['required'],
             'DatEntre' => ['required'],
-            // 'CodeEntreprise' => ['required'],
             'Postal' => ['required'],
             'Ville' => ['required']
         ];

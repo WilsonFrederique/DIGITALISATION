@@ -27,7 +27,7 @@
                     </ul>
                 </div>
                 <div class="btn-imprimer-ajout">
-                    <a href="{{ route('admin.genereqrs.index') }}" class="btn-download genererQR">
+                    <a href="{{ route('admin.genereqrs.create') }}" class="btn-download genererQR">
                         <i class='bx bx-qr-scan' ></i>
                     </a>
                 </div>

@@ -78,13 +78,17 @@
                             @foreach ($pointages as $pointage)
                             <tr>
                                 <td>
-                                    {{-- Vérifier si l'employé existe avant d'afficher les informations --}}
-                                    @if($pointage->employe)
-                                        <img src="{{ asset($pointage->employe->images) }}" alt="">
-                                        <p>{{ $pointage->employe->Nom }} {{ $pointage->employe->Prenom }}</p>
+                                    {{-- <img src="{{ asset($pointage->employe->images) }}" alt=""> --}}
+                                    @php
+                                        // Récupère l'image de profil de l'employé correspondant au pointage
+                                        $image = $employesAvecImages->firstWhere('numEmp', $pointage->employe->numEmp);
+                                    @endphp
+                                    @if($image)
+                                        <img src="{{ asset($image->imgProfil) }}" alt="Image de profil" class="imgTodo">
                                     @else
-                                        <p>Employé non trouvé</p>
+                                        <i class='bx bx-user' style="font-size: 2.4rem;"></i>
                                     @endif
+                                    <p>{{ $pointage->employe->Nom }} {{ $pointage->employe->Prenom }}</p>
                                 </td>
                                 {{-- Format de la date --}}
                                 {{-- <td>{{ $pointage->created_at->format('d/m/Y H:i') }}</td> --}}
@@ -130,7 +134,16 @@
                         @foreach ($employesSansPointages as $employesSansPointage)
                             <li class="absent">
                                 <div class="todo-item">
-                                    <img src="{{ asset($employesSansPointage->images) }}" alt="" class="imgTodo">
+                                    {{-- <img src="{{ asset($employesSansPointage->images) }}" alt="" class="imgTodo"> --}}
+                                    @php
+                                        // Vérifiez si l'employé a une image de profil
+                                        $image = $employesSansPointagesAvecImages->firstWhere('numEmp', $employesSansPointage->numEmp);
+                                    @endphp
+                                    @if($image)
+                                        <img src="{{ asset($image->imgProfil) }}" alt="Image de profil" class="imgTodo">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    @endif
                                     <div class="txt-left">
                                         <p>{{ $employesSansPointage->Nom }} {{ $employesSansPointage->Prenom }}</p>
                                         <p>{{ $employesSansPointage->Poste  }}</p>

@@ -43,7 +43,6 @@
             </div>
 
             <!-- ********************* TBL AFFICHAGE *********************** -->
-
             <div class="table-date">
                 <div class="todo">
                     <div class="head">
@@ -59,14 +58,26 @@
                         @foreach ($genererqrs as $genererqr)
                             <li class="not-completed">
                                 <div class="todo-item">
-                                    <img class="imgTodo" src="{{ asset($genererqr->employes->images) }}" alt="">
+                                    {{-- <img class="imgTodo" src="{{ asset($genererqr->employes->images) }}" alt=""> --}}
+                                    @php
+                                        // Vérifiez si l'employé a une image
+                                        $image = $latestImages->firstWhere('numEmp', $genererqr->numEmp);
+                                    @endphp
+                                    @if($image)
+                                        <img class="imgTodo" src="{{ asset($image->imgProfil) }}" alt="Image de profil">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    @endif
                                     <div class="txt-left">
                                         <p id="p">{{ $genererqr->numEmp }}</p>
                                         <p>{{ $genererqr->employes->Nom }} {{ $genererqr->employes->Prenom }}</p>
                                     </div>
                                 </div>
                                 <div class="QR-icon">
-                                    <img src="{{ asset($genererqr->imageqr) }}" alt="" class="imgTodoQR">
+                                    @if($genererqr->employes)
+                                    <img src="{{ asset('images/' . $genererqr->imageqr) }}" alt="" class="imgTodoQR">
+                                    @else
+                                    @endif
                                     <div class="icon-container icon-del-mod-qr">
                                         <a href="{{ route('admin.genereqrs.show', $genererqr->id) }}"><i class='bx bxs-credit-card' style='color:#4954de'  ></i></a>
                                         <a href="{{ route('badge_pdf', ['id' => $genererqr->id]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
@@ -86,7 +97,6 @@
             </div>
 
             <!-- *********************** FORMULAIRE ************************ -->
-
             <!-- Overlay et Formulaire QR -->
             <div class="overlay hidden"></div>
             <div class="container-conge hidden">
@@ -128,7 +138,7 @@
                         </select>
 
                         <!-- Champ caché pour stocker le lien de l'image générée -->
-                        <input type="hidden" name="imageqr" id="qrImageInput">
+                        {{-- <input type="hidden" name="imageqr" id="qrImageInput"> --}}
 
                         <div id="imgBoxAffiche">
                             <img src="" id="qrImageSurLien">

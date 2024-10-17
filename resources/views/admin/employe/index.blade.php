@@ -92,7 +92,15 @@
                             @foreach ($employes as $employe)
                             <tr>
                                 <td>
-                                    <img src="{{ asset($employe->images) }}" alt="">
+                                    @php
+                                        // Trouver l'image associée à l'employé
+                                        $image = $latestImages->firstWhere('numEmp', $employe->numEmp);
+                                    @endphp
+                                    @if($image && $image)
+                                        <img class="img-form" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    @endif
                                     <p>{{ $employe->Nom }} {{ $employe->Prenom }}</p>
                                 </td>
                                 <td>{{ $employe->DatEntre }}</td>

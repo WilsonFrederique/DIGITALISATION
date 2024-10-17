@@ -105,20 +105,11 @@
                                                 <input class="input" type="text" placeholder="Code Postal" id="vid12" value="{{ $employe->Postal }}" name="Postal">
                                             </div>
                                             <div class="input1">
-                                                <p>Photo</p>
-                                                <input class="inputImg form-control" type="file" placeholder="Photo" id="vid14" value="{{ $employe->images }}" name="images">
+                                                <p style="display: none">Photo</p>
+                                                <input type="hidden" class="inputImg form-control" type="file" placeholder="Photo" id="vid14" value="{{ $employe->images }}" name="images">
                                             </div>
                                         </div>
                                         <div class="div-droid-region">
-                                            {{-- <p>Entreprise</p>
-                                            <select class="form-control" id="vid11" name="CodeEntreprise">
-                                                @foreach($entreprises as $entreprise)
-                                                    <option value="{{ $entreprise->CodeEntreprise }}"
-                                                        {{ (isset($employe) && $entreprise->CodeEntreprise == $employe->CodeEntreprise) ? 'selected' : '' }}>
-                                                        {{ $entreprise->NomEntreprise }}
-                                                    </option>
-                                                @endforeach
-                                            </select> --}}
                                         </div>
                                     </div>
 
@@ -129,8 +120,6 @@
                                             <i class="ri-add-line"></i> ENREGISTRER
                                         @endif
                                     </button>
-
-                                    {{-- <button type="submit" onclick="genererQR()">ENREGISTRER</button> --}}
                                 </form>
                             </div>
                         </li>

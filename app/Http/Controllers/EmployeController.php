@@ -50,6 +50,13 @@ class EmployeController extends Controller
                   ->whereDate('created_at', now()->toDateString());
         })->count();
 
+        // Récupérer l'image la plus récente pour chaque employé
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->get();
+
         // Passer les données à la vue
         return view('admin.employe.index', [
             'employes' => $employes->get(),
@@ -57,7 +64,8 @@ class EmployeController extends Controller
             'entreprises' => $entreprises,
             'countPresent' => $countPresent,
             'countAbsent' => $countAbsent,
-            'events' => $events
+            'events' => $events,
+            'latestImages' => $latestImages
         ]);
     }
 
@@ -70,10 +78,18 @@ class EmployeController extends Controller
 
         $events = Calendrier::all();
 
+        // Récupérer l'image la plus récente pour chaque employé
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->get();
+
         // Amn'io get io no maka anle requête
         return view('admin.employe.toutProfil', [
             'employes' => $employes,
             'entreprises' => $entreprises,
+            'latestImages' => $latestImages,
             'events' => $events
         ]);
 
@@ -114,6 +130,30 @@ class EmployeController extends Controller
         return view('admin.employe.form', compact('employe', 'entreprises', 'events'));
     }
 
+    // public function store(EmployeFormRequest $request)
+    // {
+    //     try {
+    //         $employeData = $request->validated();
+
+    //         // Gestion du fichier image
+    //         if ($request->hasFile('images')) {
+    //             $file = $request->file('images');
+    //             $filename = time() . '_' . $file->getClientOriginalName(); // Crée un nom unique pour le fichier
+    //             $file->move(public_path('images'), $filename); // Déplace le fichier dans le dossier public/images
+    //             $employeData['images'] = 'images/' . $filename; // Enregistre le chemin de l'image dans la base de données
+    //         }
+
+    //         // Insertion des données dans la table employes
+    //         DB::table('employes')->insert($employeData);
+
+    //         return to_route('admin.employes.index')->with('success', 'Employé ajouté avec succès!');
+
+    //     } catch (\Throwable $th) {
+    //         Log::error('Erreur lors de l\'ajout ou la modification de l\'employé: ' . $th->getMessage());
+    //         return redirect()->back()->with('error', 'Une erreur s\'est produite. Veuillez réessayer.');
+    //     }
+    // }
+
     public function store(EmployeFormRequest $request)
     {
         try {
@@ -125,6 +165,9 @@ class EmployeController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName(); // Crée un nom unique pour le fichier
                 $file->move(public_path('images'), $filename); // Déplace le fichier dans le dossier public/images
                 $employeData['images'] = 'images/' . $filename; // Enregistre le chemin de l'image dans la base de données
+            } else {
+                // Attribuer une image par défaut si aucune image n'est téléchargée
+                $employeData['images'] = 'assets/images/userDefaut.png';
             }
 
             // Insertion des données dans la table employes
@@ -133,6 +176,7 @@ class EmployeController extends Controller
             return to_route('admin.employes.index')->with('success', 'Employé ajouté avec succès!');
 
         } catch (\Throwable $th) {
+            Log::error('Erreur lors de l\'ajout ou la modification de l\'employé: ' . $th->getMessage());
             return redirect()->back()->with('error', 'Une erreur s\'est produite. Veuillez réessayer.');
         }
     }

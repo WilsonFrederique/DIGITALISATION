@@ -32,6 +32,26 @@ class PointageController extends Controller
         $events = Calendrier::all();
         $entreprises = Entreprise::all();
 
+        // Récupérer les dernières images de profil pour les employés qui n'ont pas pointé
+        $employesSansPointagesAvecImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users WHERE numEmp NOT IN (SELECT numEmp FROM pointages) GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->whereIn('ipu.numEmp', $employesSansPointages->pluck('numEmp'))
+            ->select('ipu.*')
+            ->get();
+
+        // Récupérer les images de profil des employés qui ont pointé aujourd'hui
+        $employesAvecImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) AS latest_id 
+                            FROM image_profil_users 
+                            WHERE numEmp IN (SELECT numEmp FROM pointages) 
+                            GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->select('ipu.*')
+            ->get();
+
         // Passer les données à la vue
         return view('admin.pointage.index', [
             'totalPointageAujourdhui' => $totalPointageAujourdhui,
@@ -39,6 +59,8 @@ class PointageController extends Controller
             'pointages' => $pointages,
             'entreprises' => $entreprises,
             'employesSansPointages' => $employesSansPointages,
+            'employesSansPointagesAvecImages' => $employesSansPointagesAvecImages,
+            'employesAvecImages' => $employesAvecImages,
             'events' => $events
         ]);
     }
@@ -48,6 +70,19 @@ class PointageController extends Controller
         $exists = Employe::where('numEmp', $request->input('numEmp'))->exists();
     
         return response()->json(['exists' => $exists]);
+    }
+
+
+    public function create()
+    {
+        $employe = new Employe();
+
+        $events = Calendrier::all();
+
+        // Récupérer les entreprises
+        $entreprises = Entreprise::all();
+
+        return view('admin.genererqr.form', compact('employe', 'entreprises', 'events'));
     }
 
     public function store(Request $request)
