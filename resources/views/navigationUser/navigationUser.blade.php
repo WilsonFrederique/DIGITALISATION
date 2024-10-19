@@ -30,7 +30,7 @@
                     @if(isset($imgProfil) && !empty($imgProfil->imgProfil))
                         <img src="{{ asset($imgProfil->imgProfil) }}" alt="Image de {{ $employe->Nom }}" style="max-width: 200px; max-height: 200px;">
                     @else
-                        <i class='bx bx-user' style="font-size: 2.4rem;"></i>
+                        <i class='bx bx-user' style="font-size: 2.4rem; cursor: pointer;"></i>
                     @endif             
                 </div>
             @endif

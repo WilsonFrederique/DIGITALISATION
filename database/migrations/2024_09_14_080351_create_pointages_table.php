@@ -12,8 +12,6 @@ return new class extends Migration
         Schema::create('pointages', function (Blueprint $table) {
             $table->id();
             $table->string('numEmp');
-            // $table->date('datePointage');
-            // $table->string('pointage');
 
             // ---------------- Foreigne key ----------------
             $table->foreign('numEmp')->references('numEmp')->on('Employes')->cascadeOnUpdate()->cascadeOnDelete();

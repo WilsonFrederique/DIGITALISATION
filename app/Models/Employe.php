@@ -61,17 +61,23 @@ class Employe extends Model
         'numEmp',
         'Nom',
         'Prenom',
-        'Sexe',
         'Naissance',
-        'Adresse',
-        'Numero',
+        'LieuDeNaissance',
+        'Sexe',
+        'Grade',
+        'Fonctions',
+        'Personnel',
+        'Service',
+        'Direction',
+        'DateDeDelivrance',
+        'LieuDeDelivrance',
+        'Commune',
+        'Quartier',
+        'Secteur',
+        'Lot',
         'Email',
-        'Poste',
-        'DatEntre',
-        // 'CodeEntreprise',
-        'Postal',
-        'Ville',
-        'images'
+        'Situation',
+        'Telephone'
     ];
 
     use HasFactory;

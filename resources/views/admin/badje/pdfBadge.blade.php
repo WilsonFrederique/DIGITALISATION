@@ -6,16 +6,15 @@
     <title>Carte de Badge</title>
 
     <style>
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
         .container {
-        background-image: url("assets/images/bg.png");
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+            background-image: url("assets/images/bg.png");
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-
-
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
         * {
             margin: 0;
@@ -218,16 +217,31 @@
             <header class="header-badge">
                 <span class="logo logo-badje">
                     <img class="img-badje" src="assets/images/logo1.png" alt="">
-                    <h5 class="h5">REGION ANOSY</h5>
+                    {{-- <h5 class="h5">REGION ANOSY</h5> --}}
                 </span>
                 <span class="img1">
-                    <img class="img11" src="{{ $badge->employes->images }}" alt=""> 
+                    @php
+                        $image = $latestImages->firstWhere('numEmp', $badge->numEmp);
+                    @endphp
+
+                    @if($image)
+                        <img class="" class="" src="{{ $image->imgProfil }}" alt="Image de profil" 
+                        style="width: 90px; height: 90px; border-radius: 50%; position: absolute; 
+                        right: 1.5rem; top: 1rem; object-fit: cover; box-shadow: 0 0 5px #fff; 
+                        border: 1px solid #fff;">
+                    @else
+                        <div class="place-img-vide" style="width: 90px; height: 90px; border-radius: 50%; position: absolute; 
+                        right: 1.5rem; top: 1rem; object-fit: cover; box-shadow: 0 0 5px #fff; 
+                        border: 1px solid #fff; background: #8888889f;">
+
+                        </div>
+                    @endif
                 </span>
             </header>
 
             <div class="card-details1">
                     <div class="name-number">
-                        <strong class="name">{{ $badge->employes->Nom }} {{ $badge->employes->Prenom }}</strong><br>
+                        <strong class="name">{{ $badge->employes->Prenom }}</strong><br>
                         <strong class="number">CIN: {{ $badge->numEmp }}</strong>
                     </div>
 
@@ -255,14 +269,14 @@
                     <strong>{{ $badge->numEmp }}</strong> <br>
                     <strong>{{ $badge->employes->Nom }}</strong><br>
                     <strong>{{ $badge->employes->Prenom }}</strong><br>
-                    <strong>{{ $badge->employes->Poste }}</strong>
+                    <strong>{{ $badge->employes->Grade }}</strong>
                 </div>
                 </span>
             </header>
 
             <div class="card-details">
                 <div class="place">
-                    <div class="tel">Téléphone :{{ $badge->employes->Numero }}</div>
+                    <div class="tel">Téléphone :{{ $badge->employes->Telephone }}</div>
                 </div>
             </div>
         </div>

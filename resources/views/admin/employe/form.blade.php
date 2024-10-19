@@ -1,5 +1,6 @@
 @extends('base')
 
+{{-- @section('title', $employe->exists ? "MODIFICATION EMPLOYE" : "AJOUT EMPLOYE") --}}
 @section('title', $employe->exists ? "MODIFICATION EMPLOYE" : "AJOUT EMPLOYE")
 
 @section('container')
@@ -7,6 +8,57 @@
     <!-- --------------------- Main --------------------- -->
     <section id="content">
         <main>
+
+            {{-- --------- Plus d'info ------------ --}}
+            <div class="place-plus-info">
+                <div class="plc">
+                    {{-- icon --}}
+                    <a href="">
+                        <div class="i-icon">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                    </a>
+                    {{-- btns --}}
+                    <div class="a-txt">
+                        {{-- Permission --}}
+                        <a href="#">
+                            <div>
+                                <p>Permission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Congé --}}
+                        <a href="#">
+                            <div>
+                                <p>Congé</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Mission --}}
+                        <a href="#">
+                            <div>
+                                <p>Mission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Messages --}}
+                        <a href="#">
+                            <div>
+                                <p>Messages</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
             <div class="head-title">
                 <div class="left">
@@ -29,100 +81,171 @@
             <div class="table-date">
                 <div class="todo">
                     <ul class="todo-list todo-color">
-                        <li>
-                            <div class="container-QR">
-                                <form method="POST" action="{{ $employe->exists ? route('admin.employes.update', $employe->numEmp) : route('admin.employes.store') }}" class="login__form" enctype="multipart/form-data">
-                                    <div class="div-img-frm">
-                                        @if($employe->exists && $employe->images)
-                                            <div class="current-image">
-                                                <img class="img-form" src="{{ asset($employe->images) }}" alt="Image actuelle" width="100">
+                        <div class="container-frm-empl">
+                            {{-- <header>INSCRIPTION</header> --}}
+
+                            @if ($employe->exists)
+                                <header>MODIFICATION</header>
+                            @else
+                                <header>INSCRIPTION</header>
+                            @endif
+                    
+                            <form method="POST" action="{{ $employe->exists ? route('admin.employes.update', $employe->numEmp) : route('admin.employes.store') }}" class="login__form" enctype="multipart/form-data">
+                                
+                                @csrf
+
+                                @if ($employe->exists)
+                                    @method('PUT')
+                                @endif
+                                
+                                <div class="form first">
+                                    <div class="details personal">
+                                        <span class="title">Détails de l'identité</span>
+                    
+                                        <div class="fields">
+                                            <div class="input-field-div">
+                                                <label>Numéro CIN</label>
+                                                <input name="numEmp" value="{{ $employe->numEmp }}" type="text" placeholder="Numéro CIN">
                                             </div>
-                                        @else
-                                            <img class="img-form" src="{{ asset('assets/images/logo1.png') }}" alt="Image actuelle" width="100">
-                                        @endif
-                                    </div>
-
-                                    @csrf
-
-                                    @if ($employe->exists)
-                                        @method('PUT')
-                                    @endif
-
-                                    <div class="input1">
-                                        <p>Numéro CIN</p>
-                                        <input type="text" placeholder="Numéro CIN" id="vid1" value="{{ $employe->numEmp }}" name="numEmp">
-                                    </div>
-                                    <div class="frm1">
-                                        <div class="input1">
-                                            <p>Nom</p>
-                                            <input type="text" placeholder="Nom" id="vid2" value="{{ $employe->Nom }}" name="Nom">
-                                        </div>
-                                        <div class="input1">
-                                            <p>Prenom</p>
-                                            <input type="text" placeholder="Prenom" id="vid3" value="{{ $employe->Prenom }}" name="Prenom">
-                                        </div>
-                                        <div class="input1">
-                                            <p>Sexe</p>
-                                            <input type="text" placeholder="Sexe" id="vid4" value="{{ $employe->Sexe }}" name="Sexe">
-                                        </div>
-                                        <div class="input1">
-                                            <p>Naissance</p>
-                                            <input type="date" placeholder="Naissance" id="vid5" value="{{ $employe->Naissance }}" name="Naissance">
-                                        </div>
-                                        <div class="input1">
-                                            <p>Adresse</p>
-                                            <input type="text" placeholder="Adresse" id="vid6" value="{{ $employe->Adresse }}" name="Adresse">
-                                        </div>
-                                    </div>
-                                    <div class="frm1">
-                                        <div class="input1">
-                                            <p>N° Téléphone</p>
-                                            <input type="text" placeholder="N° Téléphone" id="vid7" value="{{ $employe->Numero }}" name="Numero">
-                                        </div>
-                                        <div class="input1">
-                                            <p>Email</p>
-                                            <input type="email" placeholder="Email" id="vid8" value="{{ $employe->Email }}" name="Email">
-                                        </div>
-                                        <div class="input1">
-                                            <p>Poste</p>
-                                            <input type="text" placeholder="Poste" id="vid9" value="{{ $employe->Poste }}" name="Poste">
-                                        </div>
-                                        <div class="input1">
-                                            <p>Date d'entrée</p>
-                                            <input type="date" placeholder="Date d'entrée" id="vid10" value="{{ $employe->DatEntre }}" name="DatEntre">
-                                        </div>
-                                        <div class="input1">
-                                            <div class="input1">
-                                                <p>Ville</p>
-                                                <input type="text" placeholder="Ville" id="vid13" value="{{ $employe->Ville }}" name="Ville">
+                                            <div class="input-field-div">
+                                                <label>Nom</label>
+                                                <input name="Nom" value="{{ $employe->Nom }}" type="text" placeholder="Nom">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Prenom</label>
+                                                <input name="Prenom" value="{{ $employe->Prenom }}" type="text" placeholder="Prenom">
+                                            </div>
+                    
+                                            <div class="input-field-div">
+                                                <label>Date de naissance</label>
+                                                <input name="Naissance" value="{{ $employe->Naissance }}" type="date" placeholder="Date de naissance">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Lieu de naissance</label>
+                                                <input name="LieuDeNaissance" value="{{ $employe->LieuDeNaissance }}" type="text" placeholder="Lieu de naissance">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Sexe</label>
+                                                <select name="Sexe" id="Personnel" class="form-control" required>
+                                                    <option value="">Sélectionner le sexe</option>
+                                                    <option value="Masculin" {{ $employe->Sexe == 'Masculin' ? 'selected' : '' }}>Masculin</option>
+                                                    <option value="Féminin" {{ $employe->Sexe == 'Féminin' ? 'selected' : '' }}>Féminin</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Situation matrimonial</label>
+                                                <select name="Situation" id="Personnel" class="form-control">
+                                                    <option value="Célibataire" {{ $employe->Situation == 'Célibataire' ? 'selected' : '' }}>Célibataire</option>
+                                                    <option value="Marie" {{ $employe->Situation == 'Marie' ? 'selected' : '' }}>Marié</option>
+                                                    <option value="Divorce" {{ $employe->Situation == 'Divorce' ? 'selected' : '' }}>Divorce</option>
+                                                    <option value="Concubinage" {{ $employe->Situation == 'Concubinage' ? 'selected' : '' }}>Concubinage</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Adresse e-mail</label>
+                                                <input name="Email" value="{{ $employe->Email }}" type="email" placeholder="Adresse e-mail">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="frmBottom">
-                                        <div class="div-gauche-input">
-                                            <div class="input1">
-                                                <p>Code Postal</p>
-                                                <input class="input" type="text" placeholder="Code Postal" id="vid12" value="{{ $employe->Postal }}" name="Postal">
+                    
+                                    <div class="details ID">                    
+                                        <div class="fields">
+                                            <div  class="input-field-div">
+                                                <label>Numéro de téléphone</label>
+                                                <input name="Telephone" value="{{ $employe->Telephone }}" type="text" placeholder="Numéro de téléphone">
                                             </div>
-                                            <div class="input1">
-                                                <p style="display: none">Photo</p>
-                                                <input type="hidden" class="inputImg form-control" type="file" placeholder="Photo" id="vid14" value="{{ $employe->images }}" name="images">
+                                            <div class="input-field-div">
+                                                <label>Grade</label>
+                                                <input name="Grade" value="{{ $employe->Grade }}" type="text" placeholder="Grade">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Fonctions</label>
+                                                <input name="Fonctions" value="{{ $employe->Fonctions }}" type="text" placeholder="Fonctions">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Service</label>
+                                                <input name="Service" value="{{ $employe->Service }}" type="text" placeholder="Service">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Direction</label>
+                                                <input name="Direction" value="{{ $employe->Direction }}" type="text" placeholder="Direction">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Date de délivrance</label>
+                                                <input name="DateDeDelivrance" value="{{ $employe->DateDeDelivrance }}" type="date" placeholder="Date de délivrance">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Lieu de délivrance</label>
+                                                <input name="LieuDeDelivrance" value="{{ $employe->LieuDeDelivrance }}" type="text" placeholder="Lieu de délivrance">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Personnel</label>
+                                                <select name="Personnel" id="Personnel" class="form-control">
+                                                    <option value="Employé" {{ $employe->Personnel == 'Employé' ? 'selected' : '' }}>Employé</option>
+                                                    <option value="Superviseur" {{ $employe->Personnel == 'Superviseur' ? 'selected' : '' }}>Superviseur</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Commune</label>
+                                                <select name="Commune" id="Personnel" class="form-control">
+                                                    <option value="Fort-Dauphin" {{ $employe->Commune == 'Fort-Dauphin' ? 'selected' : '' }}>Fort-Dauphin</option>
+                                                    <option value="Mandromondromotra" {{ $employe->Commune == 'Mandromondromotra' ? 'selected' : '' }}>Mandromondromotra</option>
+                                                    <option value="Manantenina" {{ $employe->Commune == 'Manantenina' ? 'selected' : '' }}>Manantenina</option>
+                                                    <option value="Mahatalaky" {{ $employe->Commune == 'Mahatalaky' ? 'selected' : '' }}>Mahatalaky</option>
+                                                    <option value="Soanierana" {{ $employe->Commune == 'Soanierana' ? 'selected' : '' }}>Soanierana</option>
+                                                    <option value="Ampasy Nahampoana" {{ $employe->Commune == 'Ampasy Nahampoana' ? 'selected' : '' }}>Ampasy Nahampoana</option>
+                                                    <option value="Manambaro" {{ $employe->Commune == 'Manambaro' ? 'selected' : '' }}>Manambaro</option>
+                                                    <option value="Ifarantsa" {{ $employe->Commune == 'Ifarantsa' ? 'selected' : '' }}>Ifarantsa</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Quartier</label>
+                                                <select name="Quartier" id="Personnel" class="form-control">
+                                                    <option value="AMBINANIKELY" {{ $employe->Quartier == 'AMBINANIKELY' ? 'selected' : '' }}>AMBINANIKELY</option>
+                                                    <option value="AMBINANIBE" {{ $employe->Quartier == 'AMBINANIBE' ? 'selected' : '' }}>AMBINANIBE</option>
+                                                    <option value="AMPASIKABO" {{ $employe->Quartier == 'AMPASIKABO' ? 'selected' : '' }}>AMPASIKABO</option>
+                                                    <option value="AMPOTATRA" {{ $employe->Quartier == 'AMPOTATRA' ? 'selected' : '' }}>AMPOTATRA</option>
+                                                    <option value="AMPARIHY" {{ $employe->Quartier == 'AMPARIHY' ? 'selected' : '' }}>AMPARIHY</option>
+                                                    <option value="AMBOVOMAIKY" {{ $employe->Quartier == 'AMBOVOMAIKY' ? 'selected' : '' }}>AMBOVOMAIKY</option>
+                                                    <option value="AMPASAMASAY" {{ $employe->Quartier == 'AMPASAMASAY' ? 'selected' : '' }}>AMPASAMASAY</option>
+                                                    <option value="AMPAMAKIAMBATO" {{ $employe->Quartier == 'AMPAMAKIAMBATO' ? 'selected' : '' }}>AMPAMAKIAMBATO</option>
+                                                    <option value="ANDRAKARAKA" {{ $employe->Quartier == 'ANDRAKARAKA' ? 'selected' : '' }}>ANDRAKARAKA</option>
+                                                    <option value="BAZARIKELY" {{ $employe->Quartier == 'BAZARIKELY' ? 'selected' : '' }}>BAZARIKELY</option>
+                                                    <option value="BAZARIBE" {{ $employe->Quartier == 'BAZARIBE' ? 'selected' : '' }}>BAZARIBE</option>
+                                                    <option value="BEZAVONA" {{ $employe->Quartier == 'BEZAVONA' ? 'selected' : '' }}>BEZAVONA</option>
+                                                    <option value="BESONJO" {{ $employe->Quartier == 'BESONJO' ? 'selected' : '' }}>BESONJO</option>
+                                                    <option value="LANIRANO" {{ $employe->Quartier == 'LANIRANO' ? 'selected' : '' }}>LANIRANO</option>
+                                                    <option value="LIBANONA" {{ $employe->Quartier == 'LIBANONA' ? 'selected' : '' }}>LIBANONA</option>
+                                                    <option value="TANAMBAO" {{ $employe->Quartier == 'TANAMBAO' ? 'selected' : '' }}>TANAMBAO</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Secteur</label>
+                                                <select name="Secteur" id="Personnel" class="form-control">
+                                                    @foreach (range('A', 'Z') as $letter)
+                                                        <option value="{{ $letter }}" {{ $employe->Secteur == $letter ? 'selected' : '' }}>{{ $letter }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Lot</label>
+                                                <input name="Lot" value="{{ $employe->Lot }}" type="text" placeholder="Lot">
                                             </div>
                                         </div>
-                                        <div class="div-droid-region">
-                                        </div>
+                    
+                                        <button type="submit" class="nextBtn">
+                                            @if ($employe->exists)
+                                                <span class="btnText">MODIFIER</span>
+                                                <i class='bx bx-edit' ></i>
+                                            @else
+                                                <span class="btnText">ENREGISTRER</span>
+                                                <i class='bx bx-save' ></i>
+                                            @endif
+                                        </button>
                                     </div>
-
-                                    <button type="submit" onclick="genererQR()">
-                                        @if ($employe->exists)
-                                            <i class='bx bx-edit-alt'></i> MODIFIER
-                                        @else
-                                            <i class="ri-add-line"></i> ENREGISTRER
-                                        @endif
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
+                                </div>
+                            </form>
+                        </div>
                     </ul>
                 </div>
             </div>

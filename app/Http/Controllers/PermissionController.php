@@ -14,31 +14,31 @@ class PermissionController extends Controller
 {
 
      // Récupérer le nombre total de permissions ajoutées depuis la dernière consultation
-     public function getNewPermissionsCount(Request $request)
-     {
-         // Récupérer le dernier nombre de permissions vues depuis la session
-         $lastCount = session('last_permissions_count', 0);
+    //  public function getNewPermissionsCount(Request $request)
+    //  {
+    //      // Récupérer le dernier nombre de permissions vues depuis la session
+    //      $lastCount = session('last_permissions_count', 0);
  
-         // Compter le nombre total de permissions
-         $totalPermissions = Permission::count();
+    //      // Compter le nombre total de permissions
+    //      $totalPermissions = Permission::count();
  
-         // Calculer les nouvelles permissions
-         $newPermissionsCount = $totalPermissions - $lastCount;
+    //      // Calculer les nouvelles permissions
+    //      $newPermissionsCount = $totalPermissions - $lastCount;
  
-         return response()->json(['count' => $newPermissionsCount]);
-     }
+    //      return response()->json(['count' => $newPermissionsCount]);
+    //  }
  
      // Afficher la liste des permissions et réinitialiser le compteur
-     public function showPermissions(Request $request)
-     {
-         // Récupérer toutes les permissions
-         $permissions = Permission::orderBy('created_at', 'desc')->get();
+    //  public function showPermissions(Request $request)
+    //  {
+    //      // Récupérer toutes les permissions
+    //      $permissions = Permission::orderBy('created_at', 'desc')->get();
  
-         // Mettre à jour le dernier nombre de permissions dans la session
-         session(['last_permissions_count' => Permission::count()]);
+    //      // Mettre à jour le dernier nombre de permissions dans la session
+    //      session(['last_permissions_count' => Permission::count()]);
  
-         return view('navigation.navigation', compact('permissions'));
-     }
+    //      return view('navigation.navigation', compact('permissions'));
+    //  }
 
     public function index()
     {
@@ -48,12 +48,20 @@ class PermissionController extends Controller
 
         $events = Calendrier::all();
 
+        // Récupérer l'image la plus récente pour chaque employé
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->get();
+
         // Récupérer les employés avec leurs permissions
         $employes = Employe::whereIn('numEmp', Permission::pluck('numEmp'))->with('permissions')->get();
 
         return view('admin.permission.index', [
             'entreprises' => $entreprises,
             'employes' => $employes,
+            'latestImages' => $latestImages,
             'events' => $events
         ]);
     }

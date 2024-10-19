@@ -17,10 +17,7 @@
             </div>
             <div class="shortcut-links">
                 <p>Vos raccourcis</p>
-                <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub1.png') }}" alt=""><span>Web Developers</span></a>
-                <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub2.png') }}" alt=""><span>Web Design course</span></a>
-                <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub3.png') }}" alt=""><span>Full Stack Development</span></a>
-                <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub4.png') }}" alt=""><span>Website Experts</span></a>
+                <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub1.png') }}" alt=""></a>
             </div>
         </div>
 
@@ -56,7 +53,9 @@
                     <h2>FARITRA ANOSY MIASA HO ANAO</h2>
                 </div>
 
-                <button type="button" class="load-more-btn">Charger plus</button>
+                <a href="{{ route('users.indexPub') }}">
+                    <button type="button" class="load-more-btn">Dernières nouvelles</button>
+                </a>
             </div>
 
             <!-- ============= Right sidbar ============= -->
@@ -121,11 +120,6 @@
 
             </div>
         </div>
-    </div>
-
-    <!-- ********* Footer ******** -->
-    <div class="footer">
-        <p>Droit d'auteur 2024 - GitHub : WILSONFREDERIQUE</p>
     </div>
 
 @endsection

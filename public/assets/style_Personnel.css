@@ -7,6 +7,82 @@
     text-decoration: none;
 }
 
+#content main .plc{
+    display: flex;
+    justify-content: space-between;
+    gap: 0.7rem;
+    padding: 0.6rem;
+}
+
+#content main .place-plus-info{
+    position: absolute;
+    gap: 1.5rem;
+    padding-left: 0.5rem;
+    margin-right: 2rem;
+    width: 100%;
+    max-width: 98.5%;
+    background: var(--dark-cont-notif);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    top: 0.5rem;
+    left: 0.5rem;
+    max-height: 0px;
+    transition: max-height 0.4s;
+}
+
+#content main .place-plus-info-height{
+    max-height: 450px;
+}
+
+#content main .plc{
+    display: flex;
+    align-items: center;
+}
+
+#content main .plc i{
+    font-size: 1.2rem;
+    color: #888;
+}
+
+#content main .plc .a-txt{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    font-size: 1.1rem;
+    padding-right: 1.5rem;
+}
+
+#content main .plc .a-txt a{
+    color: var(--color-txt-cont-notf);
+    transition: 0.3s;
+}
+
+#content main .plc .a-txt a:hover{
+    color: #113372;
+}
+
+#content main .plc .a-txt div{
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+#content main .plc .a-txt div div{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #444;
+    background: var(--red);
+    color: var(--light-message-navbar);
+    font-weight: 400;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 li{
     list-style: none;
 }
@@ -16,7 +92,9 @@ li{
     --lato: 'Lato', sans-serif;
 
     --light: #f9f9f9;
+    --dark-cont-notif: #f9f9f9;
     --color-txt-box-bottom: #1a191a;
+    --color-txt-cont-notf: #1d1d1d;
     --color-tbody-tbl: #1a191a;
     --color-txt-download: #f9f9f9;
     --color-txt-recherche-navbar: #f9f9f9;
@@ -143,6 +221,7 @@ li{
     --bx-s-lelf: #fdfbfb;
     --bg-left-img-scan: #cccccc7a;
     --color-btn-active-scan: #b8b8b8;
+    --color-txt-cont-notf: #b8b8b8;
     --color-h1-scanner: #b8b8b8;
     --color-textarea-scanner: #fff;
     --color-border-input-scanner: #3a3d9c;
@@ -153,6 +232,7 @@ li{
     --after: #777777;
     --color-btn-goto-rech: #d1d1d3;
     --color-bg-logo-paramtr: #61616138;
+    --dark-cont-notif: #61616138;
     --color-date-even: #878895;
     --bg-hover-event-list: linear-gradient(90deg, var(--primary-clr), transparent);
     --color-bg-calendrier: rgb(13, 16, 22);
@@ -685,12 +765,12 @@ body{
     cursor: pointer;
 }
 
-#content nav .notification{
+#content nav .notificationChiffre{
     font-size: 20px;
     position: relative;
 }
 
-#content nav .notification .num{
+#content nav .notificationChiffre .num{
     position: absolute;
     top: -6px;
     right: -6px;
@@ -1046,6 +1126,23 @@ body{
 
 
 @media screen and (max-width: 768px){
+    #content main .plc .a-txt{
+        display: grid;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    #content main .plc .i-icon{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    #content main .place-plus-info{
+        max-width: 95%;
+    }
+
     #sidebar{
         width: 200px;
     }
@@ -1064,6 +1161,23 @@ body{
 }
 
 @media screen and (max-width: 576px){
+    #content main .plc .a-txt{
+        display: grid;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    #content main .plc .i-icon{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    #content main .place-plus-info{
+        max-width: 95%;
+    }
+
     #content nav form .form-input input{
         display: none;
     }

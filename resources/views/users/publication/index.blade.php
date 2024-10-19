@@ -127,7 +127,7 @@
                                 @if($publication->imgProfil)
                                     <img src="{{ asset($publication->imgProfil) }}" alt="Image de profil">
                                 @else
-                                    <img src="{{ asset('assets/images/userDefaut.png') }}" alt="Profil par défaut">
+                                <i class='bx bx-user' style="font-size: 2.4rem;"></i>
                                 @endif
                                 <div>
                                     <p>{{ $publication->Prenom }} {{ $publication->Nom }}</p>

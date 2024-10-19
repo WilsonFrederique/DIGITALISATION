@@ -7,6 +7,59 @@
     <!-- --------------------- Main --------------------- -->
     <section id="content">
         <main>
+
+            {{-- --------- Plus d'info ------------ --}}
+            <div class="place-plus-info">
+                <div class="plc">
+                    {{-- icon --}}
+                    <a href="">
+                        <div class="i-icon">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                    </a>
+                    {{-- btns --}}
+                    <div class="a-txt">
+                        {{-- Permission --}}
+                        <a href="#">
+                            <div>
+                                <p>Permission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Congé --}}
+                        <a href="#">
+                            <div>
+                                <p>Congé</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Mission --}}
+                        <a href="#">
+                            <div>
+                                <p>Mission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Messages --}}
+                        <a href="#">
+                            <div>
+                                <p>Messages</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ******************** Heeder ********************* -->
             <div class="head-title">
                 <div class="left">
                     <h1>POINTAGES</h1>
@@ -31,8 +84,7 @@
                 </div>
             </div>
 
-            <!-- ************************************************ -->
-
+            <!-- ******************** Box Info ********************* -->
             <ul class="box-info">
                 <li>
                     <i class='bx bxs-notification'></i>
@@ -97,7 +149,7 @@
                                     @endphp
                                 <td>{{ $pointage->created_at->formatLocalized('%d %B %Y') }}</td>
                                 <td>{{ $pointage->created_at->format('H:i') }}</td>
-                                <td>{{ $pointage->employe->Poste ?? 'Poste inconnu' }}</td>
+                                <td>{{ $pointage->employe->Grade ?? 'Grade inconnu' }}</td>
                                 <td><span class="status process">Oui</span></td>
                                 <td>
                                     <div class="icon-container">
@@ -146,7 +198,7 @@
                                     @endif
                                     <div class="txt-left">
                                         <p>{{ $employesSansPointage->Nom }} {{ $employesSansPointage->Prenom }}</p>
-                                        <p>{{ $employesSansPointage->Poste  }}</p>
+                                        <p>{{ $employesSansPointage->Grade  }}</p>
                                     </div>
                                 </div>
                                 <div class="QR-icon">

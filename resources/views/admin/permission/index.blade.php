@@ -7,6 +7,58 @@
     <!-- --------------------- Main --------------------- -->
     <section id="content">
         <main>
+
+            {{-- --------- Plus d'info ------------ --}}
+            <div class="place-plus-info">
+                <div class="plc">
+                    {{-- icon --}}
+                    <a href="">
+                        <div class="i-icon">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                    </a>
+                    {{-- btns --}}
+                    <div class="a-txt">
+                        {{-- Permission --}}
+                        <a href="#">
+                            <div>
+                                <p>Permission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Congé --}}
+                        <a href="#">
+                            <div>
+                                <p>Congé</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Mission --}}
+                        <a href="#">
+                            <div>
+                                <p>Mission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Messages --}}
+                        <a href="#">
+                            <div>
+                                <p>Messages</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div class="head-title">
                 <div class="left">
                     <h1>PERMISSION</h1>
@@ -32,7 +84,6 @@
             </div>
 
             <!-- ********************* Table ************************* -->
-
             <div class="table-date">
                 <div class="todo">
                     <div class="head">
@@ -44,7 +95,16 @@
                         @foreach ($employes as $employe)
                             <li class="permission">
                                 <div class="todo-item">
-                                    <img class="imgTodo" src="{{ asset($employe->images) }}" alt="">
+                                    {{-- <img class="imgTodo" src="{{ asset($employe->images) }}" alt=""> --}}
+                                    @php
+                                        // Trouver l'image associée à l'employé
+                                        $image = $latestImages->firstWhere('numEmp', $employe->numEmp);
+                                    @endphp
+                                    @if($image && $image)
+                                        <img class="imgTodo" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    @endif
                                     <div class="txt-left">
                                         <p id="p">{{ $employe->numEmp }}</p>
                                         <p>{{ $employe->Nom }} {{ $employe->Prenom }}</p>
@@ -75,7 +135,6 @@
                     </ul>
                 </div>
             </div>
-
 
             <!-- *********************** FORMULAIRE ************************ -->
 

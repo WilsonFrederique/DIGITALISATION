@@ -7,6 +7,58 @@
     <!-- --------------------- Main --------------------- -->
     <section id="content">
         <main>
+
+            {{-- --------- Plus d'info ------------ --}}
+            <div class="place-plus-info">
+                <div class="plc">
+                    {{-- icon --}}
+                    <a href="">
+                        <div class="i-icon">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                    </a>
+                    {{-- btns --}}
+                    <div class="a-txt">
+                        {{-- Permission --}}
+                        <a href="#">
+                            <div>
+                                <p>Permission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Congé --}}
+                        <a href="#">
+                            <div>
+                                <p>Congé</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Mission --}}
+                        <a href="#">
+                            <div>
+                                <p>Mission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Messages --}}
+                        <a href="#">
+                            <div>
+                                <p>Messages</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div class="head-title">
                 <div class="left">
                     <ul class="breadcrumb">
@@ -25,71 +77,120 @@
                 </div>
             </div>
 
-            <!-- ********************* Table ************************* -->
-
+            <!-- ********************* Formulaire ************************* -->
             <div class="table-date">
                 <div class="todo">
-                    <div class="head">
-                    </div>
                     <ul class="todo-list todo-color">
-                        <li>
-                            <div class="container-QR">
-                                <form method="POST" action="{{ route('admin.permissions.update', $permission->id) }}">
-
-                                    @csrf
-
-                                    @method('PUT')
-
-                                    <div class="input1">
-                                        <p>CIN de l'expéditeur</p>
-                                        <input value="{{ $permission->numEmp }}" name="numEmp" type="text" placeholder="CIN de l'expéditeur" id="vid1">
-                                    </div>
-                                    <div class="tex-long">
-                                        <div class="input1 dd2">
-                                            <p>Nom du Destinateur</p>
-                                            <input value="{{ $permission->NomPrenomDestinateur }}" name="NomPrenomDestinateur" type="text" placeholder="Nom du Destinateur" id="vid1">
-                                        </div>
-                                        <div class="input1 dd2">
-                                            <p>Poste du Destinateur</p>
-                                            <input value="{{ $permission->PosteDestinateur }}" name="PosteDestinateur" type="text" placeholder="Poste du Destinateur" id="vid1">
-                                        </div>
-                                    </div>
-                                    <div class="input1">
-                                        <p>Raison</p>
-                                        <input value="{{ $permission->Raison }}" name="Raison" type="text" placeholder="Ex : Un voyage personnel, etc..." id="vid1">
-                                    </div>
-                                    <div class="input1 d2">
-                                        <p>Nom de l'Organisation</p>
-                                        <input value="{{ $permission->NomOrganisation }}" name="NomOrganisation" type="text" placeholder="Nom de l'Organisation" id="vid1">
-                                    </div>
-                                    <div class="date-lettre">
-                                        <div class="input1 da2">
-                                            <p>Fait le</p>
-                                            <input value="{{ $permission->FaiLe }}" name="FaiLe" type="date" placeholder="Fait le" id="vid1">
-                                        </div>
-                                        <div class="input1 da2">
-                                            <p>Date de début</p>
-                                            <input value="{{ $permission->DateDebut }}" name="DateDebut" type="date" placeholder="Date de début" id="vid1">
-                                        </div>
-                                        <div class="input1 da2">
-                                            <p>Date de fin</p>
-                                            <input value="{{ $permission->DateFin }}" name="DateFin" type="date" placeholder="Date de fin" id="vid1">
-                                        </div>
-                                    </div>
-                                    <div class="tex-long">
-                                        <div class="input1 dd2">
-                                            <p>Engagement</p>
-                                            <textarea name="Engagement" placeholder="Mentionner ce que vous ferez pour compenser votre absence, si applicable" id="" cols="30" rows="10">{{ $permission->Engagement }}</textarea>
-                                        </div>
-                                        <div class="input1 dd2">
-                                            <p>Dispositions</p>
-                                            <textarea name="Dispositions" placeholder="Dispositions, ajouter des détails ( Exemple: J'ai informé mes collègues et préparé le travail en avance. )" id="" cols="30" rows="10">{{ $permission->Dispositions }}</textarea>
+                        <div class="container-frm-empl">
+                            <header>INSCRIPTION</header>
+                    
+                            <form>
+                                
+                                @csrf
+                                
+                                <div class="form first">
+                                    <div class="details personal">
+                                        <span class="title">Détails de l'identité</span>
+                    
+                                        <div class="fields">
+                                            <div class="input-field-div">
+                                                <label>CIN de l'expéditeur</label>
+                                                <input name="" value="" type="text" placeholder="CIN de l'expéditeur">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>CIN du Destinateur</label>
+                                                <input name="" value="" type="text" placeholder="CIN du Destinateur">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Année</label>
+                                                <input name="" value="" type="text" placeholder="Année">
+                                            </div>
+                    
+                                            <div class="input-field-div">
+                                                <label>Mois</label>
+                                                <input name="" value="" type="date" placeholder="Mois">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Cumul annuel</label>
+                                                <input name="" value="" type="text" placeholder="Cumul annuel">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Date de début</label>
+                                                <input name="" value="" type="date" placeholder="Date de début">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Date de fin</label>
+                                                <input name="" value="" type="date" placeholder="Date de fin">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Regroupement requestes</label>
+                                                <input name="" value="" type="text" placeholder="Regroupement requestes (Perm/Conge)">
+                                            </div>
                                         </div>
                                     </div>
-                                    <button type="submit" onclick="genererQR()">ENREGISTRER</button>
-                                </form>
-                            </div>
-                        </li>
+                    
+                                    <div class="details ID">                    
+                                        <div class="fields">
+                                            <div class="input-field-div">
+                                                <label>Date de départ</label>
+                                                <input name="" value="" type="date" placeholder="Date de départ">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Date de retour</label>
+                                                <input name="" value="" type="date" placeholder="Date de retour">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Fonctions</label>
+                                                <input name="" value="" type="text" placeholder="Fonctions">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Service</label>
+                                                <input name="" value="" type="text" placeholder="Service">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Direction</label>
+                                                <input name="" value="" type="text" placeholder="Direction">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Date de délivrance</label>
+                                                <input name="" value="" type="date" placeholder="Date de délivrance">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Lieu de délivrance</label>
+                                                <input name="" value="" type="text" placeholder="Lieu de délivrance">
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Personnel</label>
+                                                <select name="" id="Personnel" class="form-control">
+                                                    <option value="">Sélectionner le sexe</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Commune</label>
+                                                <select name="" id="Personnel" class="form-control">
+                                                    <option value="">Sélectionner le sexe</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label for="Personnel">Quartier</label>
+                                                <select name="" id="Personnel" class="form-control">
+                                                    <option value="">Sélectionner le sexe</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field-div">
+                                                <label>Lot</label>
+                                                <input name="" value="" type="text" placeholder="Lot">
+                                            </div>
+                                        </div>
+                    
+                                        <button type="submit" class="nextBtn">
+                                            <span class="btnText">ENREGISTRER</span>
+                                            <i class='bx bx-save' ></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </ul>
                 </div>
             </div>

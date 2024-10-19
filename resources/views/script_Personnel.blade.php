@@ -5,6 +5,16 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
+{{-- ============ Scrip Pour Affiche btn Nouveau Employes ============= --}}
+<script>
+    var nouveauEmpl = document.querySelector(".place-plus-info");
+
+    function voirPlusCont(){
+        console.log("Ok");
+        nouveauEmpl.classList.toggle("place-plus-info-height");
+    }
+</script>
+
 {{-- =============== Scrip pour générer im QR des frm ================ --}}
 <script>
 

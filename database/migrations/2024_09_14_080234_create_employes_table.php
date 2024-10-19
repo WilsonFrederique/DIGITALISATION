@@ -13,22 +13,24 @@ return new class extends Migration
             $table->string('numEmp')->primary();
             $table->string('Nom');
             $table->string('Prenom');
-            $table->string('Sexe');
             $table->date('Naissance');
-            $table->string('Adresse');
-            $table->string('Numero');
+            $table->string('LieuDeNaissance');
+            $table->string('Sexe');
+            $table->string('Grade');
+            $table->string('Fonctions');
+            $table->string('Personnel');
+            $table->string('Service');
+            $table->string('Direction');
+            $table->date('DateDeDelivrance');
+            $table->string('LieuDeDelivrance');
+            $table->string('Commune');
+            $table->string('Quartier');
+            $table->string('Secteur');
+            $table->string('Lot');
             $table->string('Email');
-            $table->string('Poste');
-            $table->date('DatEntre');
-            // $table->string('CodeEntreprise');
-            $table->string('Postal');
-            $table->string('Ville');
-            $table->string('images');
-
-            // ---------------- Foreigne key ----------------
-            // $table->foreign('CodeEntreprise')->references('CodeEntreprise')->on('entreprises')->cascadeOnUpdate()->cascadeOnDelete();
-
+            $table->string('Telephone');
             $table->timestamps();
+            $table->string('Situation');
 
             // Définir le moteur de stockage
             $table->engine = 'InnoDB';

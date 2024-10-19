@@ -36,7 +36,7 @@
                                     <img id="preview-image" src="{{ asset($imgProfil->imgProfil) }}" alt="Image de profil" style="width: 50px; height: 50px; border-radius: 50%;">
                                     @else
                                     <div id="preview-image">
-                                        <i style="font-size: 2.8rem;" class='bx bx-user-circle'></i>
+                                        <i class='bx bx-user' style="font-size: 2.4rem;"></i>
                                     </div>
                                 @endif
                                 <div>

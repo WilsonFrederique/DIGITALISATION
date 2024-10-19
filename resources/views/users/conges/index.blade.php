@@ -26,16 +26,80 @@
             <!-- ============= Main content ============ -->
             <div class="main-content">
 
+                <!-- ----- Conge FRM ----- -->
+                <div style="margin-bottom: 1rem;" class="white-post-container">
+                    {{-- ----- Rappel titre Conge ------ --}}
+                    <div class="user-profil title-permission">
+                        <div class="txt-titre-img">
+                            <p style="font-size: 1.5rem;">CONGÉS</p>
+                            <img src="{{ asset('assets/imagesPersonnel/congeUser.png') }}" alt="">
+                        </div>
+                        <span style="border-bottom: 1px solid #888; width: 100%;"></span>
+                    </div>
+
+                    <div class="post-input-container">
+                        {{-- ================ Formulaire Congés =================== --}}
+                        <div class="container-frm container-frmConge">
+                    
+                            <form class="form" action="#">
+                                <div class="form first">
+                                    <div class="details personal">
+                                        <span class="title">EXPÉDITEUR ET DESTINATEUR</span>
+                    
+                                        <div class="fields">
+                                            <div class="input-field">
+                                                <label>CIN de l'expéditeur</label>
+                                                <input type="text" placeholder="CIN de l'expéditeur">
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Nom de l'approbateur</label>
+                                                <input type="text" placeholder="Nom de l'approbateur">
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Début de congé</label>
+                                                <input type="date" placeholder="Début de congé">
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Fin de congé</label>
+                                                <input type="date" placeholder="Fin de congé">
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Type de congé</label>
+                                                <input type="text" placeholder="Type de congé">
+                                            </div>
+                                            <div class="input-field">
+                                                <label>Nombre du jour</label>
+                                                <input type="text" placeholder="Nombre du jour">
+                                            </div>
+                                            <div style="width: 100%; height: 100px;" class="input-field">
+                                                <label>Motif</label>
+                                                <textarea name="Engagement" placeholder="Motif si nécessaire" id=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button style="width: 100%;" class="nextBtn">
+                                        <span class="btnText">ENVOYER</span>
+                                        <i class='bx bx-send'></i>
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                {{-- --------- Affichages Conges ------------- --}}
                 <div style="margin-bottom: 0.4rem;" class="white-post-container">
                     <div class="user-profil title-permission">
                         <div class="txt-titre-img">
-                            <p style="font-size: 1.5rem;">VOS PERMISSION</p>
-                            <img src="{{ asset('assets/imagesPersonnel/chatPermission.png') }}" alt="">
+                            <p style="font-size: 1.5rem;">VOS CONGÉS</p>
+                            <img src="{{ asset('assets/imagesPersonnel/congeUser.png') }}" alt="">
                         </div>
                         <span style="border-bottom: 1px solid #888; width: 100%; margin-bottom: 1rem;"></span>
                     </div>
 
-                    {{-- ------- Place Permission ------- --}}
+                    {{-- ------- Place Congé ------- --}}
                     <div class="place-vos-permission">
 
                         <div id="content">
@@ -75,100 +139,10 @@
                     </div>
                 </div>
 
-                <!-- ----- Permission FRM ----- -->
-                <div class="white-post-container">
-                    {{-- ----- Rappel titre Permission ------ --}}
-                    <div class="user-profil title-permission">
-                        <div class="txt-titre-img">
-                            <p style="font-size: 1.5rem;">PERMISSION</p>
-                            <img src="{{ asset('assets/imagesPersonnel/chatPermission.png') }}" alt="">
-                        </div>
-                        <span style="border-bottom: 1px solid #888; width: 100%;"></span>
-                    </div>
-
-                    <div class="post-input-container">
-                        {{-- ================ Formulaire Permission =================== --}}
-                        <div class="container-frm">
-                    
-                            <form action="#">
-                                <div class="form first">
-                                    <div class="details personal">
-                                        <span class="title">EXPÉDITEUR</span>
-                    
-                                        <div class="fields">
-                                            <div class="input-field">
-                                                <label>CIN de l'expéditeur</label>
-                                                <input type="text" placeholder="CIN de l'expéditeur">
-                                            </div>
-                                            <div class="input-field">
-                                                <label>Fait le</label>
-                                                <input type="date" placeholder="Fait le">
-                                            </div>
-                                            <div class="input-field">
-                                                <label>Date de début</label>
-                                                <input type="date" placeholder="Fait le">
-                                            </div>
-                                            <div class="input-field">
-                                                <label>Date de fin</label>
-                                                <input type="date" placeholder="Fait le">
-                                            </div>
-                                        </div>
-                                    </div>
-                    
-                                    <div class="details ID">
-                                        <span class="title">DESTINATEUR</span>
-                    
-                                        <div class="fields">
-                                            <div class="input-field">
-                                                <label>Nom du Destinateur</label>
-                                                <input type="text" placeholder="Nom du Destinateur">
-                                            </div>
-                                            <div class="input-field">
-                                                <label>Poste du Destinateur</label>
-                                                <input type="text" placeholder="Poste du Destinateur">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="details ID">
-                                        <span class="title">DÉTAILS</span>
-                    
-                                        <div class="fields">
-                                            <div class="input-field">
-                                                <label>Raison</label>
-                                                <input type="text" placeholder="Ex : Un voyage personnel, etc...">
-                                            </div>
-                                            <div class="input-field">
-                                                <label>Nom de l'Organisation</label>
-                                                <input type="date" placeholder="Nom de l'Organisation">
-                                            </div>
-                                            <div class="input-field">
-                                                <label>Engagement</label>
-                                                <textarea name="Engagement" placeholder="Mentionner ce que vous ferez pour compenser votre absence, si applicable" id=""></textarea>
-                                            </div>
-                    
-                                            <div class="input-field">
-                                                <label>Dispositions</label>
-                                                <textarea name="Dispositions" placeholder="Dispositions, ajouter des détails ( Exemple: J'ai informé mes collègues et préparé le travail en avance. )" id=""></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button class="nextBtn">
-                                        <span class="btnText">ENVOYER</span>
-                                        <i class='bx bx-send'></i>
-                                    </button>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-
                 <!-- ------- Publication ------- -->
                 {{-- --- Image Fin Publication --- --}}
                 <div class="post-container">
-                    <img style="width: 100%;" src="{{ asset('assets/imagesPersonnel/chatPermission.png') }}" alt="">
+                    <img style="width: 100%;" src="{{ asset('assets/imagesPersonnel/congeUser.png') }}" alt="">
                 </div>
 
                 <button type="button" class="load-more-btn">Charger plus</button>

@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="specialist__details">
                                         <h4>{{ $ToutEmploye->Nom }} {{ $ToutEmploye->Prenom }}</h4>
-                                        <small>{{ $ToutEmploye->Poste }}</small>
+                                        <small>{{ $ToutEmploye->Grade }}</small>
                                     </div>
                                     <a href="https://api.whatsapp.com/send?phone=261344596117" class="specialist__whatsapp" target="_blank"><i class='bx bxl-whatsapp'></i></a>
                                 </article>

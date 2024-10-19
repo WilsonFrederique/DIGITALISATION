@@ -30,7 +30,14 @@
                 <div style="margin-bottom: 0.4rem;" class="white-post-container">
                     <div class="user-profil title-permission">
                         <div class="txt-titre-img">
-                            <p style="font-size: 1.5rem;">VOS PERMISSION</p>
+                            <p style="font-size: 1.5rem; display: flex; align-items: center; gap: 0.9rem">
+                                <span style="font-size: 1.5rem;">VOS PERMISSION</span> 
+                                <span><a href="#frmPermission"><i class="fa-solid fa-plus" 
+                                    style="color: #999999ad; 
+                                    font-size: 1rem; border: 1px solid #999999ad; border-radius: 50%; 
+                                    padding: 0.3rem; width: 25px; height: 25px; display: flex; align-items: center; "></i></a>
+                                </span>
+                            </p>
                             <img src="{{ asset('assets/imagesPersonnel/chatPermission.png') }}" alt="">
                         </div>
                         <span style="border-bottom: 1px solid #888; width: 100%; margin-bottom: 1rem;"></span>
@@ -38,6 +45,7 @@
 
                     <div class="place-vos-permission">
 
+                        {{-- -------------- Content Pour vos affichage Permission ------------ --}}
                         <div id="content">
                             <main>
                                 <div class="table-date">
@@ -54,7 +62,7 @@
                                                             <p>{{ $employe->Nom }} {{ $employe->Prenom }}</p>
                                                         </div>
                                                     </div>
-                                                    <p>{{ $employe->Poste }}</p> 
+                                                    <p>{{ $employe->Grade }}</p> 
                                                 </li>
                                                 <div class="footer-permission">
                                                     <div style="color: #555" class="date-tim">
@@ -62,8 +70,7 @@
                                                         <span>{{ \Carbon\Carbon::parse($permission->created_at)->format('H:i') }}</span>
                                                     </div>
                                                     <div class="QR-icon">
-                                                        <div class="icon-container icon">
-                                                            <a href="#frmPermission"><i class='bx bx-edit' style='color:#0a6202'></i></a>
+                                                        <div class="icon-container icon">                                                            
                                                             <form action="{{ route('users.permissions.destroy', $permission->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('delete')
@@ -98,6 +105,7 @@
                         {{-- ================ Formulaire Permission =================== --}}
                         <div class="container-frm">
                     
+                            {{-- <form method="POST" action="{{ route('users.ajoutPermission') }}"> --}}
                             <form method="POST" action="{{ route('users.ajoutPermission') }}">
 
                                 @csrf

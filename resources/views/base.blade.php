@@ -24,6 +24,8 @@
 
         {{-- ======================== Mon dossier Css Personnel=========================== --}}
         <link rel="stylesheet" href="{{ asset('assets/style_Personnel.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/styleFormEmployes.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/styleFormPermissions.css') }}">
 
         {{-- ======================== Mon dossier Css Calendrier=========================== --}}
         <link rel="stylesheet" href="{{ asset('assets/style_Calendrier.css') }}">

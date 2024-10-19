@@ -21,6 +21,9 @@ class EmployeController extends Controller
         $totalEmployes = DB::table('employes')->count();
 
         $employes = Employe::query();
+
+        // Filtrer uniquement les superviseurs
+        $employeSuperviseur = Employe::where('Personnel', 'Superviseur')->get();
         
         $events = Calendrier::all();
 
@@ -60,6 +63,7 @@ class EmployeController extends Controller
         // Passer les données à la vue
         return view('admin.employe.index', [
             'employes' => $employes->get(),
+            'employeSuperviseur' => $employeSuperviseur,
             'totalEmployes' => $totalEmployes,
             'entreprises' => $entreprises,
             'countPresent' => $countPresent,
@@ -130,45 +134,10 @@ class EmployeController extends Controller
         return view('admin.employe.form', compact('employe', 'entreprises', 'events'));
     }
 
-    // public function store(EmployeFormRequest $request)
-    // {
-    //     try {
-    //         $employeData = $request->validated();
-
-    //         // Gestion du fichier image
-    //         if ($request->hasFile('images')) {
-    //             $file = $request->file('images');
-    //             $filename = time() . '_' . $file->getClientOriginalName(); // Crée un nom unique pour le fichier
-    //             $file->move(public_path('images'), $filename); // Déplace le fichier dans le dossier public/images
-    //             $employeData['images'] = 'images/' . $filename; // Enregistre le chemin de l'image dans la base de données
-    //         }
-
-    //         // Insertion des données dans la table employes
-    //         DB::table('employes')->insert($employeData);
-
-    //         return to_route('admin.employes.index')->with('success', 'Employé ajouté avec succès!');
-
-    //     } catch (\Throwable $th) {
-    //         Log::error('Erreur lors de l\'ajout ou la modification de l\'employé: ' . $th->getMessage());
-    //         return redirect()->back()->with('error', 'Une erreur s\'est produite. Veuillez réessayer.');
-    //     }
-    // }
-
     public function store(EmployeFormRequest $request)
     {
         try {
             $employeData = $request->validated();
-
-            // Gestion du fichier image
-            if ($request->hasFile('images')) {
-                $file = $request->file('images');
-                $filename = time() . '_' . $file->getClientOriginalName(); // Crée un nom unique pour le fichier
-                $file->move(public_path('images'), $filename); // Déplace le fichier dans le dossier public/images
-                $employeData['images'] = 'images/' . $filename; // Enregistre le chemin de l'image dans la base de données
-            } else {
-                // Attribuer une image par défaut si aucune image n'est téléchargée
-                $employeData['images'] = 'assets/images/userDefaut.png';
-            }
 
             // Insertion des données dans la table employes
             DB::table('employes')->insert($employeData);
@@ -201,14 +170,6 @@ class EmployeController extends Controller
         try {
             $employeData = $request->validated();
 
-            // Vérification si une nouvelle image a été téléchargée
-            if ($request->hasFile('images')) {
-                $file = $request->file('images');
-                $filename = time() . '_' . $file->getClientOriginalName(); // Crée un nom unique pour le fichier
-                $file->move(public_path('images'), $filename); // Déplace le fichier dans le dossier public/images
-                $employeData['images'] = 'images/' . $filename; // Enregistre le chemin de l'image dans la base de données
-            }
-
             // Mise à jour des informations dans la table employes
             DB::table('employes')
                 ->where('numEmp', $numEmp)
@@ -227,14 +188,14 @@ class EmployeController extends Controller
         $employe = DB::table('employes')->where('numEmp', $numEmp)->first();
 
         // Vérifier si l'employé existe et s'il a une image associée
-        if ($employe && $employe->images) {
-            $imagePath = public_path($employe->images);
+        // if ($employe && $employe->images) {
+        //     $imagePath = public_path($employe->images);
 
-            // Vérifier si l'image existe dans le répertoire et la supprimer
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
-        }
+        //     // Vérifier si l'image existe dans le répertoire et la supprimer
+        //     if (file_exists($imagePath)) {
+        //         unlink($imagePath);
+        //     }
+        // }
 
         // Supprimer l'enregistrement de l'employé de la base de données
         DB::table('employes')

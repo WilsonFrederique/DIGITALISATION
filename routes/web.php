@@ -22,8 +22,8 @@ Route::get('/', [UsersController::class, 'index'])->name('app_public');
 
 Route::get('/home', [AuthentificationController::class, 'login'])->name('login');
 
-Route::get('/notifications/permissions', [PermissionController::class, 'getNewPermissionsCount']);
-Route::get('/permissions', [PermissionController::class, 'showPermissions'])->name('permissions');
+// Route::get('/notifications/permissions', [PermissionController::class, 'getNewPermissionsCount']);
+// Route::get('/permissions', [PermissionController::class, 'showPermissions'])->name('permissions');
 
 Route::prefix('users')->name('users.')->middleware('auth')->group(function() {
     Route::resource('public', UsersController::class);
@@ -52,9 +52,6 @@ Route::prefix('users')->name('users.')->middleware('auth')->group(function() {
     Route::post('ajout_permission', [UserPersonnelController::class, 'storePermission'])->name('ajoutPermission');
     // --------- Paramètres ---------
     Route::post('profilUser', [UserPersonnelController::class, 'storeImgProfils'])->name('users.storeAjoutProfil');
-
-    // =============================== User Suppr =====================================
-    
 
 });
 

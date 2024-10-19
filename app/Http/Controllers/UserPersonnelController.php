@@ -42,7 +42,7 @@ class UserPersonnelController extends Controller
         $ToutEmployes = DB::table('employes as e')
             ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
             ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
-            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
             ->orderBy('e.numEmp')
             ->get();
 
@@ -76,7 +76,7 @@ class UserPersonnelController extends Controller
         $ToutEmployes = DB::table('employes as e')
             ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
             ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
-            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
             ->orderBy('e.numEmp')
             ->get();
 
@@ -137,7 +137,7 @@ class UserPersonnelController extends Controller
         $ToutEmployes = DB::table('employes as e')
             ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
             ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
-            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
             ->orderBy('e.numEmp')
             ->get();
         
@@ -173,7 +173,7 @@ class UserPersonnelController extends Controller
         $ToutEmployes = DB::table('employes as e')
             ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
             ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
-            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
             ->orderBy('e.numEmp')
             ->get();
         
@@ -214,7 +214,7 @@ class UserPersonnelController extends Controller
         $ToutEmployes = DB::table('employes as e')
             ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
             ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
-            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
             ->orderBy('e.numEmp')
             ->get();
         
@@ -250,7 +250,7 @@ class UserPersonnelController extends Controller
         $ToutEmployes = DB::table('employes as e')
             ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
             ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
-            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
             ->orderBy('e.numEmp')
             ->get();
         
@@ -284,7 +284,7 @@ class UserPersonnelController extends Controller
         $ToutEmployes = DB::table('employes as e')
             ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
             ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
-            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Poste')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
             ->orderBy('e.numEmp')
             ->get();
 

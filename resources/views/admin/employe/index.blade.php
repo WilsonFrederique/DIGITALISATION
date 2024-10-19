@@ -1,12 +1,64 @@
 @extends('base')
 
-@section('title', "PAGE POINTAGES")
+@section('title', "PAGE EMPLOYES")
 
 @section('container')
 
     <!-- --------------------- Main --------------------- -->
     <section id="content">
         <main>
+
+            {{-- --------- Plus d'info ------------ --}}
+            <div class="place-plus-info">
+                <div class="plc">
+                    {{-- icon --}}
+                    <a href="">
+                        <div class="i-icon">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                    </a>
+                    {{-- btns --}}
+                    <div class="a-txt">
+                        {{-- Permission --}}
+                        <a href="#">
+                            <div>
+                                <p>Permission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Congé --}}
+                        <a href="#">
+                            <div>
+                                <p>Congé</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Mission --}}
+                        <a href="#">
+                            <div>
+                                <p>Mission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Messages --}}
+                        <a href="#">
+                            <div>
+                                <p>Messages</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div class="head-title">
                 <div class="left">
                     <h1>EMPLOYEES</h1>
@@ -27,7 +79,7 @@
                     <a href="{{ route('admin.tout_pdf_employe') }}" class="imprimer-tout">
                         <i class='bx bx-printer'></i>
                     </a>
-                    <a href="{{ route('admin.employes.create') }}" class="btn-download">
+                    <a onclick="nouveauEmployes()" href="{{ route('admin.employes.create') }}" class="btn-download">
                         <i class='bx bx-plus-medical'></i>
                         <span class="text">Nouveau Employe</span>
                     </a>
@@ -61,8 +113,8 @@
             </ul>
 
             <!-- ********************* Table **************************** -->
-
             <div class="table-date">
+                {{-- ------------- Les employes --------------- --}}
                 <div class="orber">
                     <div class="head">
                         <h3>Liste des employees</h3>
@@ -84,8 +136,7 @@
                         <thead class="thead">
                             <tr>
                                 <th>Profil</th>
-                                <th>Date d'entrée</th>
-                                <th>Poste</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody class="tbody">
@@ -103,35 +154,64 @@
                                     @endif
                                     <p>{{ $employe->Nom }} {{ $employe->Prenom }}</p>
                                 </td>
-                                <td>{{ $employe->DatEntre }}</td>
-                                <td><span class="status poste">{{ $employe->Poste }}</span></td>
+                                <td>
+                                    <div class="icon-container">
+                                        <a href=""><i class='bx bx-id-card' style="font-size: 1.1rem; color: #2271ff;"></i></a>
+                                        <a href="{{ route('page_pdf', ['id' => $employe->numEmp]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
+                                        <a href="{{ route('admin.employes.edit', $employe->numEmp) }}"><i class='bx bx-edit btn-modif' style='color:#0a6202'  ></i></a>
+                                        <form action="{{ route('admin.employes.destroy', $employe->numEmp) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                <i class='bx bx-trash btn-suppr' style='color:#d01616'></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                {{-- ------------- Les superviseur ------------- --}}
                 <div class="todo">
                     <div class="head">
-                        <h3>Action</h3>
+                        <h3>Superviseur</h3>
                         <a href="{{ route('admin.employes.create') }}"><i class='bx bx-plus icon-tbl' ></i></a>
                         <a href="{{ route('admin.employes.index') }}"><i class='bx bx-filter icon-tbl'></i></a>
                     </div>
                     <ul class="todo-list todo-color">
-                        @foreach ($employes as $employe)
-                        <li class="not-completed">
-                            <p>{{ $employe->Nom }} {{ $employe->Prenom }}</p>
-                            <div class="icon-container">
-                                <a href="{{ route('page_pdf', ['id' => $employe->numEmp]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
-                                <a href="{{ route('admin.employes.edit', $employe->numEmp) }}"><i class='bx bx-edit btn-modif' style='color:#0a6202'  ></i></a>
-                                <form action="{{ route('admin.employes.destroy', $employe->numEmp) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" style="border: none; background: none; cursor: pointer;">
-                                        <i class='bx bx-trash btn-suppr' style='color:#d01616'></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
+                        @foreach ($employeSuperviseur as $employeSuper)
+                            <li class="not-completed">
+                                {{-- <p>{{ $employeSuper->Nom }} {{ $employeSuper->Prenom }}</p> --}}
+                                @php
+                                    $titre = '';
+                                    if ($employeSuper->Sexe == 'Féminin' && $employeSuper->Situation == 'Célibataire') {
+                                        $titre = 'Mlle';
+                                    } elseif ($employeSuper->Sexe == 'Féminin') {
+                                        $titre = 'Mme';
+                                    } else {
+                                        $titre = 'Mr';
+                                    }
+                                @endphp
+                                <p>{{ $titre }} {{ $employeSuper->Prenom }}</p>
+                                <div class="" style="grid: flex; align-content: center; gap: 0.6rem;">
+                                    <div style="display: flex; align-content: center; gap: 0.6rem;" class="div-btn-top">
+                                        <a href=""><i class='bx bx-id-card' style="font-size: 1.1rem; color: #2271ff;"></i></a>
+                                        <a href="{{ route('page_pdf', ['id' => $employeSuper->numEmp]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
+                                    </div>
+                                    <div style="display: flex; align-content: center; gap: 0.2rem;" class="div-btn-bottom">
+                                        <a href="{{ route('admin.employes.edit', $employeSuper->numEmp) }}"><i class='bx bx-edit btn-modif' style='color:#0a6202'  ></i></a>
+                                        <form action="{{ route('admin.employes.destroy', $employeSuper->numEmp) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                <i class='bx bx-trash btn-suppr' style='color:#d01616'></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
                         @endforeach
                     </ul>
                 </div>

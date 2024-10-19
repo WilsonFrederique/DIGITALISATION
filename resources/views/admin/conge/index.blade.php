@@ -8,8 +8,58 @@
     <section id="content">
         <main>
 
-            <!-- ********************** Header Main ************************ -->
+            {{-- --------- Plus d'info ------------ --}}
+            <div class="place-plus-info">
+                <div class="plc">
+                    {{-- icon --}}
+                    <a href="">
+                        <div class="i-icon">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                    </a>
+                    {{-- btns --}}
+                    <div class="a-txt">
+                        {{-- Permission --}}
+                        <a href="#">
+                            <div>
+                                <p>Permission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Congé --}}
+                        <a href="#">
+                            <div>
+                                <p>Congé</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Mission --}}
+                        <a href="#">
+                            <div>
+                                <p>Mission</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Messages --}}
+                        <a href="#">
+                            <div>
+                                <p>Messages</p>
+                                <div>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
+            <!-- ********************** Header Main ************************ -->
             <div class="head-title">
                 <div class="left">
                     <h1>CONGES</h1>
@@ -35,7 +85,6 @@
             </div>
 
             <!-- ********************* TBL AFFICHAGE *********************** -->
-
             <div class="table-date">
                 <div class="orber">
                     <div class="head">
@@ -200,7 +249,6 @@
             </div>
 
             <!-- *********************** FORMULAIRE ************************ -->
-
             <div class="overlay hidden"></div>
             <div class="container-conge hidden">
                 <div class="form-conge">
@@ -233,7 +281,6 @@
                     </form>
                 </div>
             </div>
-
 
         </main>
     </section>

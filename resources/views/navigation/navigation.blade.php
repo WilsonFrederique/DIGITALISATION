@@ -99,7 +99,7 @@
             </a>
         </div>
 
-        <a href="#" class="notification">
+        <a onclick="voirPlusCont()" href="#" class="notificationChiffre">
             <i class='bx bxs-bell' ></i>
             <span class="num">0</span>
         </a>
