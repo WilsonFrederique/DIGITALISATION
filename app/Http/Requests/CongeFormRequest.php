@@ -15,22 +15,21 @@ class CongeFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numConge' => ['required'],
             'numEmp' => ['required'],
-            'nbrjr' => ['required'],
-            'dateDemande' => ['required'],
-            'motif' => ['required']
+            'numSup' => ['required'],
+            'Annee' => ['required'],
+            'Mois' => ['required'],
+            'FaiLe' => ['required'],
+            'NbrJours' => ['required', 'integer', 'min:1'],
+            'CumulAnnuel' => ['nullable'], // Facultatif
+            'Solde' => ['nullable'],       // Facultatif
+            'DateDebut' => ['required'],
+            'DateFin' => ['required'],
+            'Motif' => ['required'],
+            'NomOrganisation' => ['required'],
+            'Validation' => ['required'],
+            'Description' => ['required']
         ];
     }
 
-    public function message()
-    {
-        return [
-            'numConge.required' => 'Numéro Conge employe récquis.',
-            'numEmp.required' => 'CIN employe récquis.',
-            'nbrjr.required' => 'Nombre de jour récquis.',
-            'dateDemande.required' => 'Date Demande employe récquis.',
-            'motif.required' => 'motif employe récquis.'
-        ];
-    }
 }

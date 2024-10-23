@@ -16,13 +16,15 @@ class Permission extends Model
 
     protected $fillable = [
         'numEmp',
-        'NomPrenomDestinateur',
-        'PosteDestinateur',
+        'numSup',
+        'Annee',
+        'Mois',
         'FaiLe',
         'DateDebut',
         'DateFin',
         'Raison',
         'NomOrganisation',
+        'Validation',
         'Engagement',
         'Dispositions'
     ];

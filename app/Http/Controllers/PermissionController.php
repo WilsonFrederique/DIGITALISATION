@@ -13,39 +13,10 @@ use App\Http\Requests\PermissionFormRequest;
 class PermissionController extends Controller
 {
 
-     // Récupérer le nombre total de permissions ajoutées depuis la dernière consultation
-    //  public function getNewPermissionsCount(Request $request)
-    //  {
-    //      // Récupérer le dernier nombre de permissions vues depuis la session
-    //      $lastCount = session('last_permissions_count', 0);
- 
-    //      // Compter le nombre total de permissions
-    //      $totalPermissions = Permission::count();
- 
-    //      // Calculer les nouvelles permissions
-    //      $newPermissionsCount = $totalPermissions - $lastCount;
- 
-    //      return response()->json(['count' => $newPermissionsCount]);
-    //  }
- 
-     // Afficher la liste des permissions et réinitialiser le compteur
-    //  public function showPermissions(Request $request)
-    //  {
-    //      // Récupérer toutes les permissions
-    //      $permissions = Permission::orderBy('created_at', 'desc')->get();
- 
-    //      // Mettre à jour le dernier nombre de permissions dans la session
-    //      session(['last_permissions_count' => Permission::count()]);
- 
-    //      return view('navigation.navigation', compact('permissions'));
-    //  }
-
     public function index()
     {
         $entreprises = Entreprise::all();
-
         $employes = Employe::all();
-
         $events = Calendrier::all();
 
         // Récupérer l'image la plus récente pour chaque employé
@@ -55,12 +26,30 @@ class PermissionController extends Controller
             })
             ->get();
 
-        // Récupérer les employés avec leurs permissions
-        $employes = Employe::whereIn('numEmp', Permission::pluck('numEmp'))->with('permissions')->get();
+        // Récupérer les employés avec leurs permissions en attente
+        $employes = Employe::whereIn('numEmp', Permission::where('Validation', 'En attente...')->pluck('numEmp'))
+            ->with(['permissions' => function ($query) {
+                $query->where('Validation', 'En attente...');
+            }])->get();
+
+        $permissionAccepters = Employe::whereIn('numEmp', Permission::where('Validation', 'Acceptée')->pluck('numEmp'))
+            ->with(['permissions' => function ($query) {
+                $query->where('Validation', 'Acceptée');
+            }])->get();
+
+        $permissionRefusee = Employe::whereIn('numEmp', Permission::where('Validation', 'Refusée')->pluck('numEmp'))
+            ->with(['permissions' => function ($query) {
+                $query->where('Validation', 'Refusée');
+            }])->get();
+
+        $permissions = Permission::all();
 
         return view('admin.permission.index', [
             'entreprises' => $entreprises,
             'employes' => $employes,
+            'permissionAccepters' => $permissionAccepters,
+            'permissionRefusee' => $permissionRefusee,
+            'permissions' => $permissions,
             'latestImages' => $latestImages,
             'events' => $events
         ]);
@@ -68,7 +57,12 @@ class PermissionController extends Controller
 
     public function create()
     {
-        //
+        $employe = new Employe();
+        $permission = new Permission();
+        $events = Calendrier::all();
+        $entreprises = Entreprise::all();
+
+        return view('admin.permission.form', compact('employe', 'entreprises', 'events', 'permission'));
     }
 
     public function store(PermissionFormRequest $request)
@@ -90,21 +84,49 @@ class PermissionController extends Controller
         //
     }
 
-    public function edit(Permission $permission)
+    public function editValidation(Permission $permission)
+    {
+        $permissions = Employe::all();
+        $events = Calendrier::all();
+
+        // Récupérer l'image la plus récente pour chaque employé
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->get();
+
+        // Récupérer les employés avec leurs permissions en attente
+        $employe = Employe::where('numEmp', $permission->numEmp)->first();
+
+        return view('admin.validationP.form', compact('permission', 'permissions', 'events', 'latestImages', 'employe'));
+    }
+
+    public function editPermission(Permission $permission)
     {
         $permissions = Employe::all();
         $events = Calendrier::all();
         return view('admin.permission.form', compact('permission', 'permissions', 'events'));
     }
 
-    public function update(PermissionFormRequest $request, string $id)
+    public function updatePermission(PermissionFormRequest $request, string $id)
     {
         DB::table('permissions')
             ->where('id', $id)
             ->update($request->validated());
 
         return to_route('admin.permissions.index');
-    }
+    }    
+
+    public function updateValidation(PermissionFormRequest $request, string $id)
+    {
+        DB::table('permissions')
+            ->where('id', $id)
+            ->update($request->validated());
+
+        return to_route('admin.permissions.index');
+    }    
+
 
     public function destroy(string $id)
     {

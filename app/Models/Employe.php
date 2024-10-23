@@ -24,7 +24,7 @@ class Employe extends Model
     // =========== One to Many : (0,n) ou (1,n) ==========
     public function conges(): HasMany
     {
-        return $this->hasMany(Conge::class);
+        return $this->hasMany(Conge::class, 'numEmp', 'numEmp');
     }
 
     // =========== One to Many : (0,n) ou (1,n) ==========

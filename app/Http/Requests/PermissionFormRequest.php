@@ -16,13 +16,15 @@ class PermissionFormRequest extends FormRequest
     {
         return [
             'numEmp' => ['required'],
-            'NomPrenomDestinateur' => ['required'],
-            'PosteDestinateur' => ['required'],
+            'numSup' => ['required'],
+            'Annee' => ['required'],
+            'Mois' => ['required'],
             'FaiLe' => ['required'],
             'DateDebut' => ['required'],
             'DateFin' => ['required'],
             'Raison' => ['required'],
             'NomOrganisation' => ['required'],
+            'Validation' => ['required'],
             'Engagement' => ['required'],
             'Dispositions' => ['required']
         ];

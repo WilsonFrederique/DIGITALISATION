@@ -21,7 +21,7 @@
     margin: 8px 0;
 }
 
-.container-frm-empl{
+.container-frm-perm{
     position: relative;
     max-width: 100%;
     width: 100%;
@@ -32,14 +32,14 @@
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-.container-frm-empl header{
+.container-frm-perm header{
     position: relative;
     font-size: 20px;
     font-weight: 600;
     color: #333;
 }
 
-.container-frm-empl header::before{
+.container-frm-perm header::before{
     content: "";
     position: absolute;
     left: 0;
@@ -47,13 +47,12 @@
     height: 3px;
     width: 27px;
     border-radius: 8px;
-    background-color: #4070f4;
 }
 
-.container-frm-empl form{
+.container-frm-perm form{
     position: relative;
     margin-top: 16px;
-    min-height: 700px;
+    min-height: 100px;
     background: #fff;
     overflow: hidden;
 }
@@ -75,13 +74,13 @@ textarea {
     resize: none;
 }
 
-.container-frm-empl form .form{
+.container-frm-perm form .form{
     position: absolute;
     background: #fff;
     transition: 0.3s ease;
 }
 
-.container-frm-empl form .form.second{
+.container-frm-perm form .form.second{
     opacity: 0;
     pointer-events: none;
     transform: translateX(100%);
@@ -99,7 +98,7 @@ form.secActive .form.first{
     transform: translateX(-100%);
 }
 
-.container-frm-empl form .title{
+.container-frm-perm form .title{
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
@@ -108,7 +107,7 @@ form.secActive .form.first{
     color: #333;
 }
 
-.container-frm-empl form .fields{
+.container-frm-perm form .fields{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -152,7 +151,7 @@ form .fields .input-field-div{
     color: #333;
 }
 
-.container-frm-empl form button, .backBtn{
+.container-frm-perm form button, .backBtn{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -169,8 +168,8 @@ form .fields .input-field-div{
     transition: all 0.3s linear;
 }
 
-.container-frm-empl form button, 
-.container-frm-empl form .backBtn{
+.container-frm-perm form button, 
+.container-frm-perm form .backBtn{
     font-size: 14px;
     font-weight: 400;
 }
@@ -198,10 +197,10 @@ form .buttons button, .backBtn{
 }
 
 @media (max-width: 750px){
-    .container-frm-empl form{
+    .container-frm-perm form{
         overflow-y: scroll;
     }
-    .container-frm-empl form::-webkit-scrollbar{
+    .container-frm-perm form::-webkit-scrollbar{
         display: none;
     }
     form .fields .input-field-div{
@@ -209,8 +208,27 @@ form .buttons button, .backBtn{
     }
 }
 
+.txt-pour-ce-pers span{
+    font-weight: 600;
+}
+
 @media (max-width: 550px){
     form .fields .input-field-div{
         width: 100% ;
+    }
+    .table-date .todo .todo-color .container-frm-perm .info-person-permission .txt-pour-ce-pers{
+        display: grid;
+        display: none;
+    }
+    .table-date .todo .todo-color .container-frm-perm form .first{
+        display: grid;
+        width: 100%;
+        gap: 0rem;
+    }
+    .cont-info-icon .img-style{
+        display: none;
+    }
+    .container-frm-perm form{
+        min-height: 200px;
     }
 }

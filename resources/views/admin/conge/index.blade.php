@@ -77,18 +77,18 @@
                     <a href="#" class="imprimer-tout">
                         <i class='bx bx-printer'></i>
                     </a>
-                    <a href="" class="btn-download ajoutConge">
+                    <a href="{{ route('admin.conges.create') }}" class="btn-download">
                         <i class='bx bx-plus-medical'></i>
                         <span class="text">Nouveau Conge</span>
                     </a>
                 </div>
             </div>
 
-            <!-- ********************* TBL AFFICHAGE *********************** -->
+            <!-- ********************* TBL AFFICHAGE En Attente *********************** -->
             <div class="table-date">
                 <div class="orber">
                     <div class="head">
-                        <h3>Liste des conges en <span class="span-jours-conge">30</span> jours de limite</h3>
+                        <h3 style="color: #2271ff; font-size: 1rem;">Liste des conges en attente...</h3>
                         <form class="tbl-tete-droit" action="#">
                             <div class="inputDate">
                                 <input class="input-rech-date-point" type="date">
@@ -101,150 +101,160 @@
                         <thead class="thead">
                             <tr>
                                 <th>Profil</th>
-                                <th>Poste</th>
-                                <th>Date</th>
                                 <th>Jours de conge</th>
-                                <th>Total conge</th>
                                 <th>Reste de conge</th>
+                                <th>Validation</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        @foreach ($employesAttente as $attente)
                         <tbody class="tbody">
+                            @foreach ($attente->conges as $conge)
+
                             <tr>
                                 <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
+                                    @php
+                                    $image = $latestImages->firstWhere('numEmp', $attente->numEmp);
+                                    @endphp
+                                    @if($image)
+                                        <img class="imgTodo" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;"></i>
+                                    @endif
+                                    <p>{{ $attente->Nom }} {{ $attente->Prenom }}</p>
                                 </td>
-                                <td>SG</td>
-                                <td>03-10-2024</td>
-                                <td><span class="status jours">10</span></td>
-                                <td><span class="status total">10</span></td>
-                                <td><span class="status reste">10</span></td>
+                                <td><span class="status jours">{{ $conge->NbrJours }}</span></td>
+                                <td><span class="status reste">{{ $conge->Solde }}</span></td>
+                              
+                                <td><span style="color: #28509b;">En attente...</span></td>
                                 <td>
                                     <div class="icon-container">
-                                        <a href="#"><i class='bx bx-printer icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
+                                        <a href="#" style="padding-right: 1.5rem;"><i class='bx bx-send icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
                                         <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="#" class="icon-modf-conge"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
+                                        <a href="{{ route('admin.conges.edit', $conge->id) }}" class="icon-modif"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
+                                        <form action="{{ route('admin.conges.destroy', $conge->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                  <a href=""><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
+                                             </button>
+                                    </form>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td>03-10-2024</td>
-                                <td><span class="status jours">10</span></td>
-                                <td><span class="status total">10</span></td>
-                                <td><span class="status reste">10</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-printer icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
-                                        <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="#" class="icon-modf-conge"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td>03-10-2024</td>
-                                <td><span class="status jours">10</span></td>
-                                <td><span class="status total">10</span></td>
-                                <td><span class="status reste">10</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-printer icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
-                                        <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="#" class="icon-modf-conge"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td>03-10-2024</td>
-                                <td><span class="status jours">10</span></td>
-                                <td><span class="status total">10</span></td>
-                                <td><span class="status reste">10</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-printer icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
-                                        <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="#" class="icon-modf-conge"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td>03-10-2024</td>
-                                <td><span class="status jours">10</span></td>
-                                <td><span class="status total">10</span></td>
-                                <td><span class="status reste">10</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-printer icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
-                                        <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="#" class="icon-modf-conge"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td>03-10-2024</td>
-                                <td><span class="status jours">10</span></td>
-                                <td><span class="status total">10</span></td>
-                                <td><span class="status reste">10</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-printer icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
-                                        <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="#" class="icon-modf-conge"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('assets/images/home1.png') }}" alt="">
-                                    <p>Walle Fred</p>
-                                </td>
-                                <td>SG</td>
-                                <td>03-10-2024</td>
-                                <td><span class="status jours">10</span></td>
-                                <td><span class="status total">10</span></td>
-                                <td><span class="status reste">10</span></td>
-                                <td>
-                                    <div class="icon-container">
-                                        <a href="#"><i class='bx bx-printer icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
-                                        <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="#" class="icon-modf-conge"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
-                                        <a href="#"><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                    </div>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
+                        @endforeach
                     </table>
+                </div>
+            </div>
+
+            <!-- ********************* Table Valid ou Invalid ************************* -->
+            <div class="table-date">
+                {{-- Validation Oui --}}
+                <div class="todo">
+                    <div class="head">
+                        <h3 style="color: #450ae7; font-size: 1rem;">Liste des congés générée avec succès</h3>
+                        <i class='bx bx-plus icon-tbl icon-btn-plus' ></i>
+                        <i class='bx bx-filter icon-tbl'></i>
+                    </div>
+                    <ul class="todo-list todo-color">
+                        @foreach ($employesValide as $valide)
+                           @foreach ($valide->conges as $conge)
+
+                            {{-- ------- Date en tête -------- --}}
+                            <div class="bottom-oui" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <div class="date" style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <p>{{ $conge->DateDebut }}</p>
+                                    au
+                                    <p>{{ $conge->DateFin }}</p>
+                                </div>
+                                <div class="vald">
+                                    <p>Validation <span style="background: #2271ff; padding: 0 0.5rem; color: #fff; border-radius: 10px;">Oui</span></p>
+                                </div>
+                            </div>
+                            {{-- ------- Content Oui ------- --}}
+                            <li class="Coge-oui">
+                                <div class="todo-item">
+                                    @php
+                                        $image = $latestImages->firstWhere('numEmp', $valide->numEmp);
+                                    @endphp
+                                    @if($image && $image)
+                                        <img class="imgTodo" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    @endif
+                                    <div class="txt-left">
+                                        <p>{{ $valide->Nom }} {{ $valide->Prenom }}</p>
+                                    </div>
+                                </div>
+                                <div class="QR-icon">
+                                    <div class="icon-container icon-del-mod-qr">
+                                        <a href=""><i class='bx bx-detail' style='color:#1f2dad'  ></i></a>
+                                        <form action="{{ route('admin.conges.destroy', $conge->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                  <a href=""><i class='bx bx-trash delt-qr' style='color:#d01616'  ></i></a>
+                                             </button>
+                                       </form>
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                        @endforeach
+                    </ul>
+                </div>
+
+
+                {{-- Validation Non --}}
+                <div class="todo">
+                    <div class="head">
+                        <h3 style="color: #f04040; font-size: 1rem;">Liste des congés refusés</h3>
+                        <i class='bx bx-plus icon-tbl icon-btn-plus' ></i>
+                        <i class='bx bx-filter icon-tbl'></i>
+                    </div>
+                    <ul class="todo-list todo-color">
+                        @foreach ($employesRefuse as $refuse)
+                        @foreach ($refuse->conges as $conge)
+
+                            {{-- ------- Date en tête -------- --}}
+                            <div class="bottom-oui" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <div class="vald">
+                                    <p>Validation <span style="background: #fd6a57; padding: 0 0.5rem; color: #fff; border-radius: 10px;">Non</span></p>
+                                </div>
+                            </div>
+                            {{-- ------- Content Non ------- --}}
+                            <li class="conge-non">
+                                <div class="todo-item">
+                                    @php
+                                        $image = $latestImages->firstWhere('numEmp', $refuse->numEmp);
+                                    @endphp
+                                    @if($image && $image)
+                                        <img class="imgTodo" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
+                                    @else
+                                        <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    @endif
+                                    <div class="txt-left">
+                                        <p>{{ $refuse->Nom }} {{ $refuse->Prenom }}</p>
+                                    </div>
+                                </div>
+                                <div class="QR-icon">
+                                    <div class="icon-container icon-del-mod-qr">
+                                        <a href=""><i class='bx bx-detail' style='color:#1f2dad'  ></i></a>
+                                        <form action="{{ route('admin.conges.destroy', $conge->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                <a href="#"><i class='bx bx-trash delt-qr' style='color:#d01616'  ></i></a>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                        @endforeach
+                    </ul>
                 </div>
             </div>
 

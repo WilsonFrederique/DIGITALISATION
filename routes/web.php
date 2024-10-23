@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\AuthentificationController;
 use App\Http\Controllers\CalendrierController;
+use App\Http\Controllers\CongeController;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\GenererQrController;
 use App\Http\Controllers\EntrepriseController;
@@ -14,16 +15,21 @@ use App\Http\Controllers\PersonnelUserController;
 use App\Http\Controllers\PointageController;
 use App\Http\Controllers\UserPersonnelController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ValidationPermissionController;
 use App\Models\Employe;
 
-// Route::get('/', [AccueilController::class, 'index'])->name('app_accueil');
+Route::get('/', [AccueilController::class, 'index'])->name('app_accueil');
 
-Route::get('/', [UsersController::class, 'index'])->name('app_public');
+// Route::get('/', [UsersController::class, 'index'])->name('app_public');
 
 Route::get('/home', [AuthentificationController::class, 'login'])->name('login');
 
 // Route::get('/notifications/permissions', [PermissionController::class, 'getNewPermissionsCount']);
 // Route::get('/permissions', [PermissionController::class, 'showPermissions'])->name('permissions');
+
+
+
+
 
 Route::prefix('users')->name('users.')->middleware('auth')->group(function() {
     Route::resource('public', UsersController::class);
@@ -55,6 +61,10 @@ Route::prefix('users')->name('users.')->middleware('auth')->group(function() {
 
 });
 
+
+
+
+
 Route::prefix('auth')->name('auth.')->group(function() {
     Route::get('login', [AuthentificationController::class, 'login'])
         ->middleware('guest')
@@ -68,8 +78,6 @@ Route::prefix('auth')->name('auth.')->group(function() {
 
     Route::resource('nouveau', AuthentificationController::class);
 });
-
-
 
 
 
@@ -96,22 +104,36 @@ Route::post('/check-numEmp', [PointageController::class, 'checkNumEmp'])->name('
 
 
 
-
-
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('employes', EmployeController::class);
     Route::resource('genereqrs', GenererQrController::class);
     Route::resource('parametres', EntrepriseController::class);
     Route::resource('permissions', PermissionController::class);
+
+    Route::get('/permissions/{permission}/edit', [PermissionController::class, 'editPermission'])
+        ->name('perm.edit');
+    Route::get('/validations/{permission}/edit', [PermissionController::class, 'editValidation'])
+        ->name('valid.edit');
+
+    Route::get('/conges/{conge}/edit', [CongeController::class, 'editConge'])->name('congeEdit');
+
+    Route::put('/conge/{id}', [CongeController::class, 'updatePermission'])
+        ->name('perm.update');
+
+    Route::put('/vals/{id}', [PermissionController::class, 'updateValidation'])
+        ->name('valid.update');
+
     Route::resource('calendrier', CalendrierController::class);
     Route::resource('pointages', PointageController::class);
+    Route::resource('conges', CongeController::class);
 
     Route::get('scanner.code.QR', [GenererQrController::class, 'pageScannerQR'])->name('page_scanner_QR');
     Route::get('scanner.generer', [GenererQrController::class, 'indexScan'])->name('admin.indexScan');
 
-
     Route::get('tout.employe.pdf', [EmployeController::class, 'genereteAllPdf'])->name('tout_pdf_employe');
 
+    Route::get('validationPermission', [PermissionController::class, 'indexValidation'])->name('indexValidation');
+    Route::put('updateValidation/{id}', [PermissionController::class, 'updateValidation'])->name('updateValidation');
 
     Route::put('/parametres/{CodeEntreprise}', [EntrepriseController::class, 'update'])->name('admin.parametres.update');
 

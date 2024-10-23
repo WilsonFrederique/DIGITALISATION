@@ -54,7 +54,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ route('admin.conges.index') }}">
                 <i class='bx bx-copyright'></i>
                 <span class="text">Conges</span>
             </a>

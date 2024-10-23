@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('title', "PAGE PERMISSION")
+@section('title',  $permission->exists ? "MODIFICATION PERMISSION" : "AJOUT PERMISSION")
 
 @section('container')
 
@@ -71,7 +71,7 @@
                         </li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li>
-                            <a class="active" href="">Modification</a>
+                            <a class="active" href="">Ajout Permission</a>
                         </li>
                     </ul>
                 </div>
@@ -84,112 +84,94 @@
                         <div class="container-frm-empl">
                             <header>INSCRIPTION</header>
                     
-                            <form>
+                            <form method="POST" action="{{ $permission->exists ? route('admin.perm.update', $permission->id) : route('admin.permissions.store') }}" class="login__form" enctype="multipart/form-data">
                                 
                                 @csrf
+
+                                @if ($permission->exists)
+                                    @method('PUT')
+                                @endif
                                 
                                 <div class="form first">
                                     <div class="details personal">
                                         <span class="title">Détails de l'identité</span>
                     
                                         <div class="fields">
+                                            <div class="input-field-div" style="display: none">
+                                                <label for="Personnel">Sexe</label>
+                                                <select name="Validation" id="Personnel" class="form-control">
+                                                    <option value="En attente..." {{ $permission->Validation == 'En attente...' ? 'selected' : '' }}>En attente...</option>
+                                                    <option value="Acceptée" {{ $permission->Validation == 'Acceptée' ? 'selected' : '' }}>Acceptée</option>
+                                                    <option value="Refusée" {{ $permission->Validation == 'Refusée' ? 'selected' : '' }}>Refusée</option>
+                                                </select>
+                                            </div>
                                             <div class="input-field-div">
                                                 <label>CIN de l'expéditeur</label>
-                                                <input name="" value="" type="text" placeholder="CIN de l'expéditeur">
+                                                <input name="numEmp" value="{{ $permission->numEmp }}" type="text" placeholder="CIN de l'expéditeur">
                                             </div>
                                             <div class="input-field-div">
                                                 <label>CIN du Destinateur</label>
-                                                <input name="" value="" type="text" placeholder="CIN du Destinateur">
+                                                <input name="numSup" value="{{ $permission->numSup }}" type="text" placeholder="CIN du Destinateur">
                                             </div>
                                             <div class="input-field-div">
                                                 <label>Année</label>
-                                                <input name="" value="" type="text" placeholder="Année">
+                                                <input name="Annee" value="{{ $permission->Annee }}" type="text" placeholder="Année">
                                             </div>
-                    
                                             <div class="input-field-div">
                                                 <label>Mois</label>
-                                                <input name="" value="" type="date" placeholder="Mois">
+                                                <input name="Mois" value="{{ $permission->Mois }}" type="text" placeholder="Mois">
                                             </div>
                                             <div class="input-field-div">
-                                                <label>Cumul annuel</label>
-                                                <input name="" value="" type="text" placeholder="Cumul annuel">
+                                                <label>Fait le</label>
+                                                <input name="FaiLe" value="{{ $permission->FaiLe }}" type="date" placeholder="Fait le">
                                             </div>
                                             <div class="input-field-div">
-                                                <label>Date de début</label>
-                                                <input name="" value="" type="date" placeholder="Date de début">
+                                                <label>Date de départ</label>
+                                                <input name="DateDebut" value="{{ $permission->DateDebut }}" type="date" placeholder="Date de départ">
                                             </div>
                                             <div class="input-field-div">
-                                                <label>Date de fin</label>
-                                                <input name="" value="" type="date" placeholder="Date de fin">
+                                                <label>Date de retour</label>
+                                                <input name="DateFin" value="{{ $permission->DateFin }}" type="date" placeholder="Date de retour">
                                             </div>
                                             <div class="input-field-div">
-                                                <label>Regroupement requestes</label>
-                                                <input name="" value="" type="text" placeholder="Regroupement requestes (Perm/Conge)">
+                                                <label>Nom de l'Organisation</label>
+                                                <input name="NomOrganisation" value="{{ $permission->NomOrganisation }}" type="text" placeholder="Nom de l'Organisation">
                                             </div>
                                         </div>
                                     </div>
                     
                                     <div class="details ID">                    
                                         <div class="fields">
-                                            <div class="input-field-div">
-                                                <label>Date de départ</label>
-                                                <input name="" value="" type="date" placeholder="Date de départ">
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label>Date de retour</label>
-                                                <input name="" value="" type="date" placeholder="Date de retour">
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label>Fonctions</label>
-                                                <input name="" value="" type="text" placeholder="Fonctions">
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label>Service</label>
-                                                <input name="" value="" type="text" placeholder="Service">
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label>Direction</label>
-                                                <input name="" value="" type="text" placeholder="Direction">
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label>Date de délivrance</label>
-                                                <input name="" value="" type="date" placeholder="Date de délivrance">
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label>Lieu de délivrance</label>
-                                                <input name="" value="" type="text" placeholder="Lieu de délivrance">
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label for="Personnel">Personnel</label>
-                                                <select name="" id="Personnel" class="form-control">
-                                                    <option value="">Sélectionner le sexe</option>
-                                                </select>
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label for="Personnel">Commune</label>
-                                                <select name="" id="Personnel" class="form-control">
-                                                    <option value="">Sélectionner le sexe</option>
-                                                </select>
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label for="Personnel">Quartier</label>
-                                                <select name="" id="Personnel" class="form-control">
-                                                    <option value="">Sélectionner le sexe</option>
-                                                </select>
-                                            </div>
-                                            <div class="input-field-div">
-                                                <label>Lot</label>
-                                                <input name="" value="" type="text" placeholder="Lot">
+                                            <div style="width: 100%;">
+                                                <div class="input-field-div" style="width: 100%; margin-bottom: 1rem;">
+                                                    <label>Raison</label>
+                                                    <input name="Raison" value="{{ $permission->Raison }}" type="text" placeholder="Ex: Un voyage personnel, etc...">
+                                                </div>
+                                                <div class="input-field-div" style="width: 100%; margin-bottom: 1rem;">
+                                                    <label>Engagement</label>
+                                                    <textarea name="Engagement" placeholder="Mentionner ce que vous ferez pour compenser votre absence, si applicable" id="">{{ $permission->Engagement }}</textarea>
+                                                </div>
+                                                <div class="input-field-div" style="width: 100%; margin-bottom: 1rem;">
+                                                    <label>Dispositions</label>
+                                                    <textarea name="Dispositions" placeholder="Dispositions, ajouter des détails ( Exemple: J'ai informé mes collègues et préparé le travail en avance. )" id="">{{ $permission->Dispositions }}</textarea>
+                                                </div>
                                             </div>
                                         </div>
                     
                                         <button type="submit" class="nextBtn">
-                                            <span class="btnText">ENREGISTRER</span>
-                                            <i class='bx bx-save' ></i>
+                                            @if ($permission->exists)
+                                                <span class="btnText">MODIFIER</span>
+                                                <i class='bx bx-edit' ></i>
+                                            @else
+                                                <span class="btnText">ENVOYER</span>
+                                                <i class='bx bx-send' ></i>
+                                            @endif
                                         </button>
+
                                     </div>
                                 </div>
                             </form>
+                            
                         </div>
                     </ul>
                 </div>
@@ -199,162 +181,3 @@
     </section>
 
 @endsection
-
-{{-- -------------------------- Css pour la formulaire ------------------------------ --}}
-<style>
-    *{
-        padding: 0;
-        margin: 0;
-        font-family: 'Poppins', sans-serif;
-        box-sizing: border-box;
-    }
-
-    .container-QR{
-        width: 100%;
-        padding: 10px 35px;
-        position: relative;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, 0%);
-        background: var(--color-frm-permission-bg);
-        border-radius: 10px;
-    }
-
-    .tex-long{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .date-lettre{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .da2{
-        width: 280px;
-        gap: 10px;
-    }
-
-    .dd2{
-        width: 430px;
-        gap: 10px;
-    }
-
-    .frmBottom{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .div-gauche-input{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .container-QR p{
-        font-weight: 600;
-        font-size: 15px;
-    }
-
-    .div-img-frm{
-        display: none;
-    }
-
-    .container-QR input{
-        width: 100%;
-        height: 45px;
-        border: 1px solid var(--color-border-frm-permission);
-        background: var(--color-bg-input-frm-employe);
-        outline: 0;
-        padding: 10px;
-        margin: 5px 0 15px;
-        border-radius: 5px;
-    }
-
-    .container-QR .input{
-        width: 90%;
-        height: 45px;
-        border: 1px solid #494eea;
-        outline: 0;
-        padding: 10px;
-        margin: 10px 0 20px;
-        border-radius: 5px;
-    }
-
-    .container-QR textarea{
-        width: 100%;
-        height: 70px;
-        border: 1px solid #494eea;
-        outline: 0;
-        padding: 10px;
-        margin: 10px 0 20px;
-        border-radius: 5px;
-    }
-
-    .container-QR .inputImg{
-        height: 45px;
-        border: 0px solid #494eea;
-        outline: 0;
-        padding: 10px;
-        margin: 10px 0 20px;
-        border-radius: 5px;
-    }
-
-    .container-QR button{
-        width: 100%;
-        height: 50px;
-        background: #494eea;
-        color: #fff;
-        border: 0;
-        outline: 0;
-        border-radius: 5px;
-        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        margin: 20px 0;
-        font-weight: 500;
-    }
-
-    #imgBox{
-        width: 200px;
-        border-radius: 5px;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 1s;
-    }
-
-    #imgBox img{
-        width: 100%;
-        height: 200px;
-    }
-
-    #imgBox.show-img{
-        max-height: 300px;
-        margin: 10px auto;
-        border: 1px solid #d1d1d1;
-    }
-
-    .error{
-        animation: shake 0.1s linear 10;
-    }
-
-    @keyframes shake{
-        0%{
-            transform: translateX(0);
-        }
-        25%{
-            transform: translateX(-2px);
-        }
-        50%{
-            transform: translateX(0);
-        }
-        75%{
-            transform: translateX(2px);
-        }
-        100%{
-            transform: translateX(0);
-        }
-    }
-</style>

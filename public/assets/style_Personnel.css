@@ -136,6 +136,7 @@ li{
     --color-bg-box3: rgb(230, 175, 112);
     --color-thead-tbl: #1d1e1f;
     --color-border-left-permission: #50677c;
+    --color-border-left-permission-non: #c74b47;
     --color-border-left-absent: #db504a;
 
     --color-bg-conge-reste: #c74b47;
@@ -1100,6 +1101,10 @@ body{
 
 #content main .table-date .todo .todo-list li.permission{
     border-left: 10px solid var(--color-border-left-permission);
+}
+
+#content main .table-date .todo .todo-list li.permission-non{
+    border-left: 10px solid var(--color-border-left-permission-non);
 }
 
 #content main .table-date .todo .todo-list li.absent{

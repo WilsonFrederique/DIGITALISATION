@@ -9,16 +9,37 @@ return new class extends Migration
 
     public function up(): void
     {
+        // Schema::create('permissions', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('numEmp');
+        //     $table->string('NomPrenomDestinateur');
+        //     $table->string('PosteDestinateur');
+        //     $table->date('FaiLe');
+        //     $table->date('DateDebut');
+        //     $table->date('DateFin');
+        //     $table->string('Raison');
+        //     $table->string('NomOrganisation');
+        //     $table->string('Engagement');
+        //     $table->string('Dispositions');
+
+        //     // ------------------ Foreig key ------------------
+        //     $table->foreign('numEmp')->references('numEmp')->on('Employes')->cascadeOnUpdate()->cascadeOnDelete();
+
+        //     $table->timestamps();
+        // });
+
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->string('numEmp');
-            $table->string('NomPrenomDestinateur');
-            $table->string('PosteDestinateur');
+            $table->string('numSup');
+            $table->string('Annee');
+            $table->string('Mois');
             $table->date('FaiLe');
             $table->date('DateDebut');
             $table->date('DateFin');
             $table->string('Raison');
             $table->string('NomOrganisation');
+            $table->string('Validation');
             $table->string('Engagement');
             $table->string('Dispositions');
 

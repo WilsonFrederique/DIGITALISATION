@@ -21,7 +21,7 @@
     margin: 8px 0;
 }
 
-.container-frm-empl{
+.container-frm-empl-conge{
     position: relative;
     max-width: 100%;
     width: 100%;
@@ -32,14 +32,14 @@
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-.container-frm-empl header{
+.container-frm-empl-conge header{
     position: relative;
     font-size: 20px;
     font-weight: 600;
     color: #333;
 }
 
-.container-frm-empl header::before{
+.container-frm-empl-conge header::before{
     content: "";
     position: absolute;
     left: 0;
@@ -50,7 +50,7 @@
     background-color: #4070f4;
 }
 
-.container-frm-empl form{
+.container-frm-empl-conge form{
     position: relative;
     margin-top: 16px;
     min-height: 700px;
@@ -75,13 +75,13 @@ textarea {
     resize: none;
 }
 
-.container-frm-empl form .form{
+.container-frm-empl-conge form .form{
     position: absolute;
     background: #fff;
     transition: 0.3s ease;
 }
 
-.container-frm-empl form .form.second{
+.container-frm-empl-conge form .form.second{
     opacity: 0;
     pointer-events: none;
     transform: translateX(100%);
@@ -99,7 +99,7 @@ form.secActive .form.first{
     transform: translateX(-100%);
 }
 
-.container-frm-empl form .title{
+.container-frm-empl-conge form .title{
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
@@ -108,7 +108,7 @@ form.secActive .form.first{
     color: #333;
 }
 
-.container-frm-empl form .fields{
+.container-frm-empl-conge form .fields{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -152,7 +152,7 @@ form .fields .input-field-div{
     color: #333;
 }
 
-.container-frm-empl form button, .backBtn{
+.container-frm-empl-conge form button, .backBtn{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -169,8 +169,8 @@ form .fields .input-field-div{
     transition: all 0.3s linear;
 }
 
-.container-frm-empl form button, 
-.container-frm-empl form .backBtn{
+.container-frm-empl-conge form button, 
+.container-frm-empl-conge form .backBtn{
     font-size: 14px;
     font-weight: 400;
 }
@@ -198,10 +198,10 @@ form .buttons button, .backBtn{
 }
 
 @media (max-width: 750px){
-    .container-frm-empl form{
+    .container-frm-empl-conge form{
         overflow-y: scroll;
     }
-    .container-frm-empl form::-webkit-scrollbar{
+    .container-frm-empl-conge form::-webkit-scrollbar{
         display: none;
     }
     form .fields .input-field-div{

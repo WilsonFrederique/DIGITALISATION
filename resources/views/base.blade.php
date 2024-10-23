@@ -26,6 +26,8 @@
         <link rel="stylesheet" href="{{ asset('assets/style_Personnel.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/styleFormEmployes.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/styleFormPermissions.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/styleFormValidPerm.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/styleConge.css') }}">
 
         {{-- ======================== Mon dossier Css Calendrier=========================== --}}
         <link rel="stylesheet" href="{{ asset('assets/style_Calendrier.css') }}">
