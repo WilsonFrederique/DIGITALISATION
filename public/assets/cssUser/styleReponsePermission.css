@@ -14,7 +14,7 @@
     gap: 0.7rem;
 }
 
-.container-frm{
+.container-frm-rps{
     position: relative;
     max-width: 900px;
     width: 100%;
@@ -38,17 +38,17 @@
     box-shadow: var(--color-bx-s-permission);
 }
 
-.container-frm header{
+.container-frm-rps header{
     position: relative;
     font-size: 20px;
     font-weight: 600;
     color: #333;
 }
 
-.container-frm form{
+.container-frm-rps form{
     position: relative;
     margin-top: 16px;
-    min-height: 770px;
+    min-height: 150px;
     /* background: yellow; */
     background: var(--bg-color);
     overflow: hidden;
@@ -64,14 +64,14 @@
 }
 
 
-.container-frm form .form{
+.container-frm-rps form .form{
     position: absolute;
     background: var(--bg-color);
     /* background: red; */
     transition: 0.3s ease;
 }
 
-.container-frm form .form.second{
+.container-frm-rps form .form.second{
     opacity: 0;
     pointer-events: none;
     transform: translateX(100%);
@@ -89,7 +89,7 @@ form.secActive .form.first{
     transform: translateX(-100%);
 }
 
-.container-frm form .title{
+.container-frm-rps form .title{
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
@@ -98,7 +98,7 @@ form.secActive .form.first{
     color: #333;
 }
 
-.container-frm form .fields{
+.container-frm-rps form .fields{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -151,7 +151,7 @@ form .fields .input-field{
     color: #333;
 }
 
-.container-frm form button, .backBtn{
+.container-frm-rps form button, .backBtn{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -168,8 +168,8 @@ form .fields .input-field{
     transition: all 0.3s linear;
 }
 
-.container-frm form button, 
-.container-frm form .backBtn{
+.container-frm-rps form button, 
+.container-frm-rps form .backBtn{
     font-size: 14px;
     font-weight: 400;
 }
@@ -304,10 +304,10 @@ form .buttons button, .backBtn{
     form .fields .input-field{
         width: 100%;
     }
-    .container-frm form{
+    .container-frm-rps form{
         overflow-y: scroll;
     }
-    .container-frm form::-webkit-scrollbar{
+    .container-frm-rps form::-webkit-scrollbar{
         display: none;
     }
 }

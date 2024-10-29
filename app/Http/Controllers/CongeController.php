@@ -73,95 +73,6 @@ class CongeController extends Controller
         return view('admin.conge.form', compact('conge', 'entreprises', 'events'));
     }
 
-    // public function store(CongeFormRequest $request)
-    // {
-    //     try {
-    //         // Validation réussie
-    //         $congeData = $request->validated();
-    
-    //         // Ajouter les valeurs par défaut pour CumulAnnuel et Solde
-    //         $congeData['CumulAnnuel'] = 0;
-    //         $congeData['Solde'] = 30;
-    
-    //         // Insertion dans la base de données
-    //         Conge::create($congeData);
-    
-    //         // Redirection avec message de succès
-    //         return to_route('admin.conges.index')->with('success', 'Le congé a été ajouté avec succès.');
-    
-    //     } catch(\Throwable $th) {
-    //         // En cas d'erreur, rediriger avec un message d'erreur
-    //         return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de l\'ajout du congé. Veuillez réessayer.']);
-    //     }
-    // }
-
-    // public function store(CongeFormRequest $request)
-    // {
-
-    //     $numEmp = $request->input('numEmp');
-    //     $joursDemandes = $request->input('NbrJours');
-    //     $dateActuelle = now(); // Date actuelle
-    
-    //     // Récupérer le dernier congé de l'employé
-    //     $historiqueConge = Conge::where('numEmp', $numEmp)->orderBy('created_at', 'desc')->first();
-    
-    //     $currentYear = $dateActuelle->year;
-    //     $lastYear = $currentYear - 1;
-    
-    //     // Initialiser solde et jours reportés
-    //     if (!$historiqueConge || $historiqueConge->Annee < $currentYear) {
-    //         $solde = 30; // 30 jours par défaut pour la nouvelle année
-    //         $joursReportes = 0; // Pas de jours reportés
-    //     } else {
-    //         // Réutiliser les valeurs du dernier congé
-    //         $solde = $historiqueConge->Solde ?? 30;
-    //         $joursReportes = $historiqueConge->CumulAnnuel ?? 0;
-    //     }
-    
-    
-    //     // Vérifier si le solde est suffisant pour les jours demandés
-    //     if ($joursDemandes > ($solde + $joursReportes)) {
-    //         return response()->json(['error' => 'Solde insuffisant pour ce congé.'], 400);
-    //     }
-    
-    //     // Calculer le nouveau solde et ajuster les jours reportés
-    //     if ($joursDemandes <= $joursReportes) {
-    //         $joursReportes -= $joursDemandes; // Utiliser uniquement les jours reportés
-    //     } else {
-    //         $joursRestants = $joursDemandes - $joursReportes; // Jours à soustraire du solde
-    //         $joursReportes = 0; // Réinitialiser les jours reportés
-    //         $solde -= $joursRestants; // Ajuster le solde
-    //     }
-    
-    
-    //     try {
-    //         // Enregistrer le congé avec les nouveaux soldes
-    //         Conge::create([
-    //             'numEmp' => $numEmp,
-    //             'NbrJours' => $joursDemandes,
-    //             'Solde' => $solde,
-    //             'CumulAnnuel' => $joursReportes,
-    //             'numSup' => $request->input('numSup'),
-    //             'Annee' => $currentYear,
-    //             'Mois' => $request->input('Mois'),
-    //             'FaiLe' => $request->input('FaiLe'),
-    //             'DateDebut' => $request->input('DateDebut'),
-    //             'DateFin' => $request->input('DateFin'),
-    //             'Motif' => $request->input('Motif'),
-    //             'NomOrganisation' => $request->input('NomOrganisation'),
-    //             'Validation' => $request->input('Validation'),
-    //             'Description' => $request->input('Description'),
-    //             'created_at' => $dateActuelle,
-    //             'updated_at' => $dateActuelle
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => 'Une erreur s\'est produite lors de l\'ajout du congé.'], 500);
-    //     }
-    
-    //     // Rediriger vers la liste des congés
-    //     return to_route('admin.conges.index');
-    // }
-
     public function store($conge = null)
     {
         // Si $conge n'est pas fourni, on est en train de créer un nouveau congé
@@ -278,7 +189,7 @@ class CongeController extends Controller
         $this->store($congeMisAJour);
     
 
-      return to_route('admin.conges.index');
+        return to_route('admin.conges.index');
     }
 
     public function destroy(string $id)

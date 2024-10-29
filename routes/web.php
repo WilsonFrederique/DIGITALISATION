@@ -18,9 +18,9 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ValidationPermissionController;
 use App\Models\Employe;
 
-Route::get('/', [AccueilController::class, 'index'])->name('app_accueil');
+// Route::get('/', [AccueilController::class, 'index'])->name('app_accueil');
 
-// Route::get('/', [UsersController::class, 'index'])->name('app_public');
+Route::get('/', [UsersController::class, 'index'])->name('app_public');
 
 Route::get('/home', [AuthentificationController::class, 'login'])->name('login');
 
@@ -51,13 +51,34 @@ Route::prefix('users')->name('users.')->middleware('auth')->group(function() {
     // --------- Paramètres ---------
     Route::get('parametres', [UserPersonnelController::class, 'indexParametres'])->name('indexParm');
 
+    // --------- Affichage ReponsesPermission ---------
+    Route::get('reponse_permissions{permission}', [UserPersonnelController::class, 'indexReponsePermissions'])
+        ->name('indexReponsePermissions');
+    // --------- ReponsesPermission ---------
+    Route::put('/frm_reponse_permss/{id}', [UserPersonnelController::class, 'updateReponsePermission'])
+        ->name('reponsePermission.update');
+
+    // --------- Affichage ReponsesConges ---------
+    Route::get('reponse_conges{permission}', [UserPersonnelController::class, 'indexReponseConges'])
+        ->name('indexReponseConges');
+    // --------- ReponsesConge ---------
+    Route::put('/frm_reponse_conges/{id}', [UserPersonnelController::class, 'updateReponseConges'])
+        ->name('reponseConges.update');
+
     // =============================== User Frm =======================================
     // -------- Publication ---------
     Route::post('ajout_publication', [UserPersonnelController::class, 'storePublicationUseer'])->name('ajoutPublication');
     // -------- Permission ---------
     Route::post('ajout_permission', [UserPersonnelController::class, 'storePermission'])->name('ajoutPermission');
+    // -------- Conges ---------
+    Route::post('ajout_conge', [UserPersonnelController::class, 'storeConge'])->name('ajoutConge');
     // --------- Paramètres ---------
     Route::post('profilUser', [UserPersonnelController::class, 'storeImgProfils'])->name('users.storeAjoutProfil');
+
+
+    // ======================== Suppression ===========================
+    Route::delete('/conge/{id}', [UserPersonnelController::class, 'destroyConge'])->name('conge.destroy');
+    Route::delete('/congeMessage/{id}', [UserPersonnelController::class, 'destroyCongeMessage'])->name('congeMessage.destroy');
 
 });
 
@@ -115,9 +136,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/validations/{permission}/edit', [PermissionController::class, 'editValidation'])
         ->name('valid.edit');
 
-    Route::get('/conges/{conge}/edit', [CongeController::class, 'editConge'])->name('congeEdit');
 
-    Route::put('/conge/{id}', [CongeController::class, 'updatePermission'])
+    Route::put('/conge/{id}', [PermissionController::class, 'updatePermission'])
         ->name('perm.update');
 
     Route::put('/vals/{id}', [PermissionController::class, 'updateValidation'])

@@ -73,27 +73,6 @@ class AuthentificationController extends Controller
         return view('auth.login');
     }
 
-    // public function store(LoginFormRequest $request)
-    // {
-    //     try {
-    //         // Valider et récupérer les données du formulaire
-    //         $userData = $request->validated();
-
-    //         // Hacher le mot de passe
-    //         $userData['password'] = Hash::make($userData['password']);
-
-    //         // Créer un nouvel utilisateur en utilisant le modèle User
-    //         User::create($userData);
-
-    //         // Rediriger vers la page de connexion avec un message de succès
-    //         return redirect()->route('auth.login')->with('success', 'Inscription réussie ! Veuillez vous connecter.');
-
-    //     } catch (\Throwable $th) {
-    //         // En cas d'erreur, retourner avec un message d'erreur
-    //         return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'inscription.');
-    //     }
-    // }
-
     public function store(Request $request)
     {
         // Valider les champs

@@ -17,7 +17,16 @@
             </div>
             <div class="shortcut-links">
                 <p>Vos raccourcis</p>
-                <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub1.png') }}" alt=""><span style="display: none">Web Developers</span></a>
+                {{-- <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub1.png') }}" alt=""><span style="display: none">Web Developers</span></a> --}}
+                @foreach($pubRacours as $publication)
+                    <div class="post-container">
+                        @if($publication->imgPartage)
+                            <img src="{{ asset($publication->imgPartage) }}" class="post-img" alt="Image partagée">
+                        @else
+                            <p class="no-image-text">Vide</p>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -161,6 +170,7 @@
                         </div>
                     </div>
                 @endforeach
+
                 {{-- --- Image Fin Publication --- --}}
                 <div class="post-container">
                     <img style="width: 100%;" src="{{ asset('assets/imagesPersonnel/pubFin.png') }}" alt="">

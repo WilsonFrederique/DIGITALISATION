@@ -43,7 +43,8 @@
                                             <img src="{{ asset($ToutEmploye->imgProfil) }}" alt="Image de profil">
                                         @else
                                             {{-- <i class='bx bx-user' style="font-size: 2.4rem;"></i> --}}
-                                            <img style="height: 20rem; width: 100%;" src="{{ asset('assets/images/UserParDef.png') }}" alt="">
+                                            {{-- <img style="height: 20rem; width: 100%;" src="{{ asset('assets/images/UserParDef.png') }}" alt=""> --}}
+                                            <img style="height: 20rem; width: 100%;" src="{{ asset('assets/imagesPersonnel/imgParDefaut.jpg') }}" alt="">
                                         @endif
                                     </div>
                                     <div class="specialist__socials">

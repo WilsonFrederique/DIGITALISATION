@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="{{ asset('assets/cssUser/specialiste.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/cssUser/styleModifPassword.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/cssUser/styleFrmPermission.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/cssUser/styleReponsePermission.css') }}">
 
     </head>
     <body class="antialiased">

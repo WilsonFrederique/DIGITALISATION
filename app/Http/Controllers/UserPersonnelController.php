@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CongeFormRequest;
 use App\Models\Employe;
 use App\Models\Calendrier;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ use App\Http\Requests\UserPersonnelFormRequest;
 use App\Http\Requests\ImageProfilUserFormRequest;
 use App\Http\Requests\PermissionFormRequest;
 use App\Http\Requests\PublicationUserFormRequest;
+use App\Models\Conge;
 use App\Models\Permission;
 
 class UserPersonnelController extends Controller
@@ -110,6 +112,23 @@ class UserPersonnelController extends Controller
                 ->orderBy('p.created_at', 'desc')
                 ->get();
 
+            $pubRacours = DB::table('publicatins as p')
+                ->select(
+                    'p.numEmp',
+                    'p.imgPartage',
+                    'p.txtPartage',
+                    'e.Nom',
+                    'e.Prenom',
+                    DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                    'p.created_at'
+                )
+                ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+                ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+                ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+                ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+                ->orderBy('p.created_at', 'desc')
+                ->get();
+
             // Optimisation de la requête pour récupérer les publications avec les informations des employés
             $resultats = DB::table('publicatins as p')
                 ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
@@ -119,7 +138,7 @@ class UserPersonnelController extends Controller
                 ->get();
 
             // Retourner la vue avec les données
-            return view('users.publication.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'email', 'publications', 'resultats'));
+            return view('users.publication.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'email', 'publications', 'resultats', 'pubRacours'));
         }
 
         return redirect()->route('auth.login')->withErrors('Aucun employé trouvé pour cet utilisateur.');
@@ -195,12 +214,57 @@ class UserPersonnelController extends Controller
             // Récupérer les permissions pour cet employé
             $permissions = DB::table('permissions')
                 ->where('numEmp', $employe->numEmp)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            // Récupérer les permissions des superviseurs
+            $permissionsPourSuperviseurs = DB::table('permissions')
+                ->where('numSup', $numEmp)
+                ->where('Validation', 'En attente...')
+                ->orderBy('id', 'desc')
+                ->get();
+
+            // Cont Message Permission
+            $countPermission = DB::table('permissions')
+                ->where('numSup', $numEmp)
+                ->where('Validation', 'En attente...')
+                ->count();
+
+            $superviseurs = DB::table('employes')
+                ->select('numEmp', 'Nom', 'Prenom')
+                ->where('Personnel', 'Superviseur')
                 ->get();
 
             // Retourner la vue avec les données de l'employé
-            return view('users.permission.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'permissions'));
+            return view('users.permission.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'permissions', 'permissionsPourSuperviseurs', 'countPermission', 'superviseurs'));
         }
     }
+
+    // ------------ Frm Les Reponses Permissions -----------
+    public function indexReponsePermissions(Permission $permission){
+        $permissions = Employe::all();
+        $events = Calendrier::all();
+
+        // Récupérer tous les employés
+        $ToutEmployes = DB::table('employes as e')
+            ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
+            ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
+            ->orderBy('e.numEmp')
+            ->get();
+
+        return view('users.permission.form', compact('permission', 'permissions', 'events', 'ToutEmployes'));
+    }
+
+    // ------------ Les Reponses Permissions -----------
+    public function updateReponsePermission(PermissionFormRequest $request, string $id)
+    {
+        DB::table('permissions')
+            ->where('id', $id)
+            ->update($request->validated());
+
+        return to_route('users.indexPermissions');
+    } 
 
     // ---------------- Index Conges ----------------
     public function indexConges(){
@@ -209,6 +273,8 @@ class UserPersonnelController extends Controller
         $events = Calendrier::all();
 
         $postEmployes = Employe::all();
+
+        $conge = new Conge();
 
         // Récupérer tous les employés
         $ToutEmployes = DB::table('employes as e')
@@ -222,20 +288,72 @@ class UserPersonnelController extends Controller
         if($user && $user->employe) {
             $employe = $user->employe;
 
-        // Récupérer le dernier profil d'image pour cet employé (par numEmp)
-        $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
+            // Récupérer le dernier profil d'image pour cet employé (par numEmp)
+            $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
                 ->orderBy('id', 'desc')
                 ->first();
 
-        $numEmp = auth()->user()->numEmp;
-        // Exécuter la requête pour récupérer l'email de cet utilisateur
-        $email = DB::table('users')
-                    ->where('numEmp', $numEmp)
-                    ->value('email');
+            $numEmp = auth()->user()->numEmp;
+            // Exécuter la requête pour récupérer l'email de cet utilisateur
+            $email = DB::table('users')
+                ->where('numEmp', $numEmp)
+                ->value('email');
+
+            // conge les permissions pour cet employé
+            $conges = DB::table('conges')
+                ->where('numEmp', $employe->numEmp)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            // Récupérer les permissions des superviseurs
+            $congesPourSuperviseurs = DB::table('conges')
+                ->where('numSup', $numEmp)
+                ->where('Validation', 'En attente...')
+                ->orderBy('id', 'desc')
+                ->get();
+
+            // Cont Message Conge
+            $countConge = DB::table('conges')
+                ->where('numSup', $numEmp)
+                ->where('Validation', 'En attente...')
+                ->count();
+
+            $superviseurs = DB::table('employes')
+                ->select('numEmp', 'Nom', 'Prenom')
+                ->where('Personnel', 'Superviseur')
+                ->get();
 
             // Retourner la vue avec les données de l'employé
-            return view('users.conges.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email'));
+            return view('users.conges.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'congesPourSuperviseurs', 'conges', 'conge', 'countConge', 'superviseurs'));
         }
+    }
+
+    
+    // ------------ Frm Les Reponses Permissions -----------
+    public function indexReponseConges($id){
+        $conge = Conge::findOrFail($id);
+        $permissions = Employe::all();
+        $events = Calendrier::all();
+
+        // Récupérer tous les employés
+        $ToutEmployes = DB::table('employes as e')
+            ->leftJoin(DB::raw('(SELECT numEmp, MAX(id) AS latest_id FROM image_profil_users GROUP BY numEmp) as latest'), 'e.numEmp', '=', 'latest.numEmp')
+            ->leftJoin('image_profil_users as ipu', 'ipu.id', '=', 'latest.latest_id')
+            ->select('e.numEmp', 'e.Nom', 'e.Prenom', 'ipu.imgProfil', 'e.Grade')
+            ->orderBy('e.numEmp')
+            ->get();
+
+        return view('users.conges.form', compact('conge', 'permissions', 'events', 'ToutEmployes'));
+    }
+
+    // ------------ Les Reponses Permissions -----------
+    public function updateReponseConges(CongeFormRequest $request, string $id)
+    {
+        DB::table('conges')
+        ->where('id', $id)
+        ->update($request->validated());
+
+        return to_route('users.indexConges')->with('success', 'Congé mis à jour avec succès.');
     }
 
     // ---------------- Index Missions ----------------
@@ -415,6 +533,42 @@ class UserPersonnelController extends Controller
         }
     }
 
+    // ------------ Store Permissions ---------------
+    public function storeConge(CongeFormRequest $request)
+    {
+        try {
+            $congesDate = $request->validated();
+
+            // Ajouter created_at et updated_at
+            $congesDate['created_at'] = now();
+            $congesDate['updated_at'] = now();
+
+            DB::table('conges')->insert($congesDate);
+
+            return to_route('users.indexConges');
+
+        } catch(\Throwable $th) {
+            return redirect()->back();
+        }
+    }
+
+    // ------------ Edit Conge ---------------
+    public function editCongeMessage(Conge $conge)
+    {
+        $permissions = Employe::all();
+        $events = Calendrier::all();
+        return view('users.conges.form', compact('conge', 'permissions', 'events'));
+    }
+
+    public function updateCongeMessage(CongeFormRequest $request, string $id)
+    {
+        DB::table('conges')
+            ->where('id', $id)
+            ->update($request->validated());
+
+        return to_route('users.indexConges');
+    }
+
     public function show(string $id)
     {
         //
@@ -453,6 +607,32 @@ class UserPersonnelController extends Controller
     public function destroy(string $id)
     {
         $deleted = DB::table('permissions')
+                ->where('id', $id)
+                ->delete();
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Employé supprimé avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'Erreur lors de la suppression de l\'employé.');
+        }
+    }
+
+    public function destroyConge(string $id)
+    {
+        $deleted = DB::table('conges')
+                ->where('id', $id)
+                ->delete();
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Employé supprimé avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'Erreur lors de la suppression de l\'employé.');
+        }
+    }
+
+    public function destroyCongeMessage(string $id)
+    {
+        $deleted = DB::table('conges')
                 ->where('id', $id)
                 ->delete();
 

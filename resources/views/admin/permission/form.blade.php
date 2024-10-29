@@ -97,7 +97,7 @@
                                         <span class="title">Détails de l'identité</span>
                     
                                         <div class="fields">
-                                            <div class="input-field-div" style="display: none">
+                                            <div class="input-field-div" style="display: none;">
                                                 <label for="Personnel">Sexe</label>
                                                 <select name="Validation" id="Personnel" class="form-control">
                                                     <option value="En attente..." {{ $permission->Validation == 'En attente...' ? 'selected' : '' }}>En attente...</option>

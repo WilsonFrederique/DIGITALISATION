@@ -42,7 +42,8 @@ class PermissionController extends Controller
                 $query->where('Validation', 'Refusée');
             }])->get();
 
-        $permissions = Permission::all();
+        // $permissions = Permission::all();
+        $permissions = Permission::orderBy('id', 'desc')->get();
 
         return view('admin.permission.index', [
             'entreprises' => $entreprises,
@@ -68,14 +69,22 @@ class PermissionController extends Controller
     public function store(PermissionFormRequest $request)
     {
         try {
-            $permisssionData = $request->validated();
+            // Valider les données du formulaire
+            $permissionData = $request->validated();
 
-            DB::table('permissions')->insert($permisssionData);
+            // Ajouter les timestamps 'created_at' et 'updated_at'
+            $permissionData['created_at'] = now();
+            $permissionData['updated_at'] = now();
 
+            // Insérer les données dans la table 'permissions'
+            DB::table('permissions')->insert($permissionData);
+
+            // Rediriger vers la liste des permissions
             return to_route('admin.permissions.index');
 
-        } catch(\Throwable $th) {
-            return redirect()->back();
+        } catch (\Throwable $th) {
+            // Gérer les exceptions
+            return redirect()->back()->withErrors(['error' => 'Une erreur est survenue.']);
         }
     }
 

@@ -91,7 +91,7 @@
                                             $image = $latestImages->firstWhere('numEmp', $employe->numEmp);
                                         @endphp
                                         @if($image)
-                                            <img style="width: 50px;" class="imgTodo" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
+                                            <img style="width: 170px; height: 170px; border-radius: 10%;" class="imgTodo" src="{{ asset($image->imgProfil) }}" alt="Image actuelle">
                                         @else
                                             <i class='bx bx-user' style="font-size: 10rem;"></i>
                                         @endif
