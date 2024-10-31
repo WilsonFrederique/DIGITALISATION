@@ -47,7 +47,9 @@ Page pour S'inscrire
 Quelques commandes à executer dans le terminal du vs code avant de demarrer votre projet
 
 1 : composer install
+
 2 : php artisan key:generate
+
 3 : créez un fichier .env sous dossier DIGITALISATION puis copiez les contenu de fichier .env.example et collez dans le nouveau fichier .env, en suite: 
 
     DB_CONNECTION=mysql
