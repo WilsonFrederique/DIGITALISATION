@@ -3,6 +3,9 @@
 Bienvenue :
 ![Chargement](./README_IMAGES/P.png)
 
+======================================
+PAGE POUR ADMINISTRATEUR 
+======================================
 ![Chargement](./README_IMAGES/L.png)
 
 Admin
@@ -28,3 +31,13 @@ Page pour Scanner un codes QR
 
 Page pour générer des codes QR (mode clair)
 ![Chargement](./README_IMAGES/6.png)
+
+======================================
+PAGE POUR UTILISATEUR 
+======================================
+Page pour CONNEXION
+![Chargement](./README_IMAGES/c1.png)
+Page pour S'inscrire
+![Chargement](./README_IMAGES/c2.png)
+-------------------------------------
+![Chargement](./README_IMAGES/c3.png)
