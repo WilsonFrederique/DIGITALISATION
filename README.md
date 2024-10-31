@@ -72,3 +72,5 @@ modifiez-les par rapport à votre SGBD
          Press Ctrl+C to stop the server
 
 Maintenant copiez ce lien : http://127.0.0.1:8000 et collez dans votre navigateur
+
+---------------------------------------
