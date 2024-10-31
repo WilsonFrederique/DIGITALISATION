@@ -1,4 +1,8 @@
-# APPLICATION WEB ( Image )
+# APPLICATION WEB 
+
+## Description & Installation
+
+## Etap 1 : Description
 
 Bienvenue :
 ![Chargement](./README_IMAGES/P.png)
@@ -41,6 +45,9 @@ Page pour S'inscrire
 ![Chargement](./README_IMAGES/c2.png)
 -------------------------------------
 ![Chargement](./README_IMAGES/c3.png)
+
+
+## Etap 2 : Installation
 
 ========== INSTALLATION =============
 
