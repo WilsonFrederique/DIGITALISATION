@@ -53,11 +53,19 @@ Page pour S'inscrire
 
 Quelques commandes à executer dans le terminal du vs code avant de demarrer votre projet
 
-1 : composer install
+1 : Veuillez ouvrir Git Bash et taper la commande suivante : 
+    git clone https://github.com/WilsonFrederique/DIGITALISATION.git
+    ![Chargement](./README_IMAGES/g.png)
 
-2 : php artisan key:generate
+    ou bien téléchargez le fichier en format .zip, puis extrayez-le.
+    ![Chargement](./README_IMAGES/z.png)
 
-3 : créez un fichier .env sous dossier DIGITALISATION puis copiez les contenu de fichier .env.example et collez dans le nouveau fichier .env, en suite: 
+
+2 : composer install
+
+3 : php artisan key:generate
+
+4 : créez un fichier .env sous dossier DIGITALISATION puis copiez les contenu de fichier .env.example et collez dans le nouveau fichier .env, en suite: 
 
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
@@ -68,9 +76,9 @@ Quelques commandes à executer dans le terminal du vs code avant de demarrer vot
 
 modifiez-les par rapport à votre SGBD
 
-4 : php artisan migrate  
+5 : php artisan migrate  
 
-5 : php artisan serve
+6 : php artisan serve
 
     Ex : PS C:\xampp\htdocs\PROJET\LARAVEL\DIGITALISATION> php artisan serve
 
