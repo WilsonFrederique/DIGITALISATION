@@ -41,3 +41,32 @@ Page pour S'inscrire
 ![Chargement](./README_IMAGES/c2.png)
 -------------------------------------
 ![Chargement](./README_IMAGES/c3.png)
+
+========== INSTALLATION =============
+
+Quelques commandes à executer dans le terminal du vs code avant de demarrer votre projet
+
+1 : composer install
+2 : php artisan key:generate
+3 : créez un fichier .env sous dossier DIGITALISATION puis copiez les contenu de fichier .env.example et collez dans le nouveau fichier .env, en suite: 
+
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=digitalisation ( Nom de la base de donnée )
+    DB_USERNAME=root
+    DB_PASSWORD=
+
+modifiez-les par rapport à votre SGBD
+
+4 : php artisan migrate  
+
+5 : php artisan serve
+
+    Ex : PS C:\xampp\htdocs\PROJET\LARAVEL\DIGITALISATION> php artisan serve
+
+         INFO  Server running on [http://127.0.0.1:8000].  
+
+         Press Ctrl+C to stop the server
+
+Maintenant copiez ce lien : http://127.0.0.1:8000 et collez dans votre navigateur
