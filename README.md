@@ -21,10 +21,10 @@ Page des employés (mode sombre)
 Page des employés (mode clair)
 ![Chargement](./README_IMAGES/2.png)
 
-Page pour le formulaire des employés (mode sombre)
+Page pour le formulaire 1er etap
 ![Chargement](./README_IMAGES/3.png)
 
-Page pour le formulaire des employés (mode clair)
+Page pour le formulaire 2em etap
 ![Chargement](./README_IMAGES/4.png)
 
 Page pour générer des codes QR (mode sombre)
