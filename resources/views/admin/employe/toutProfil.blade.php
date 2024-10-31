@@ -20,20 +20,20 @@
                     {{-- btns --}}
                     <div class="a-txt">
                         {{-- Permission --}}
-                        <a href="#">
+                        <a href="" class="notification1" id="notificationBtn1">
                             <div>
                                 <p>Permission</p>
                                 <div>
-                                    <span>0</span>
+                                    <span  class="num1">0</span> 
                                 </div>
                             </div>
                         </a>
                         {{-- Congé --}}
-                        <a href="#">
+                        <a href=""  class="notification2" id="notificationBtn2">
                             <div>
                                 <p>Congé</p>
                                 <div>
-                                    <span>0</span>
+                                    <span class="num2">0</span>
                                 </div>
                             </div>
                         </a>
@@ -292,7 +292,15 @@
 
                                                 <div class="cord-content">
                                                     <h2 class="name">{{ $employe->Nom }} {{ $employe->Prenom }}</h2>
-                                                    <p class="description">The Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur nam omnis ullam iure recusandae sit vitae ipsa, animi nihil.</p>
+                                                    <p class="description">
+                                                        Grade : {{ $employe->Grade }}
+                                                        <br> 
+                                                        Personnel : {{ $employe->Personnel }}
+                                                        <br> 
+                                                        Service : {{ $employe->Service }}
+                                                        <br> 
+                                                        Direction : {{ $employe->Direction }}
+                                                    </p>
 
                                                     <button class="button">PROFIL</button>
                                                 </div>

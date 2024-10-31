@@ -19,13 +19,11 @@
                 <p>Vos raccourcis</p>
                 {{-- <a href="#"><img src="{{ asset('assets/imagesPersonnel/pub1.png') }}" alt=""><span style="display: none">Web Developers</span></a> --}}
                 @foreach($pubRacours as $publication)
-                    <div class="post-container">
-                        @if($publication->imgPartage)
-                            <img src="{{ asset($publication->imgPartage) }}" class="post-img" alt="Image partagée">
-                        @else
-                            <p class="no-image-text">Vide</p>
-                        @endif
-                    </div>
+                    @if($publication->imgPartage)
+                        <img src="{{ asset($publication->imgPartage) }}" class="post-img" alt="Image partagée">
+                    @else
+                        <p class="no-image-text">Vide</p>
+                    @endif
                 @endforeach
             </div>
         </div>

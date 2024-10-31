@@ -20,20 +20,20 @@
                     {{-- btns --}}
                     <div class="a-txt">
                         {{-- Permission --}}
-                        <a href="#">
+                        <a href="" class="notification1" id="notificationBtn1">
                             <div>
                                 <p>Permission</p>
                                 <div>
-                                    <span>0</span>
+                                    <span  class="num1">0</span> 
                                 </div>
                             </div>
                         </a>
                         {{-- Congé --}}
-                        <a href="#">
+                        <a href=""  class="notification2" id="notificationBtn2">
                             <div>
                                 <p>Congé</p>
                                 <div>
-                                    <span>0</span>
+                                    <span class="num2">0</span>
                                 </div>
                             </div>
                         </a>

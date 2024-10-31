@@ -20,20 +20,20 @@
                     {{-- btns --}}
                     <div class="a-txt">
                         {{-- Permission --}}
-                        <a href="#">
+                        <a href="{{ route('admin.permissions.index') }}" class="notification1" id="notificationBtn1">
                             <div>
-                                <p>Permission</p>
+                                <p>Permission en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span  class="num1">{{ $countInfo1 }}</span> 
                                 </div>
                             </div>
                         </a>
                         {{-- Congé --}}
-                        <a href="#">
+                        <a href="{{ route('admin.conges.index') }}"  class="notification2" id="notificationBtn2">
                             <div>
-                                <p>Congé</p>
+                                <p>Congé en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span class="num2">{{ $countInfo2 }}</span>
                                 </div>
                             </div>
                         </a>

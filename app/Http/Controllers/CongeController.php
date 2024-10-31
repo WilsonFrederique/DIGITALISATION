@@ -14,6 +14,34 @@ use App\Http\Requests\CongeFormRequest;
 
 class CongeController extends Controller
 {
+
+    public function getCongeCount()
+    {
+        // Compter toutes les permissions dans la base de données
+        // $totalConges = Conge::count();
+        $totalConges = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        // Récupérer le dernier nombre de permissions consultées depuis la session
+        $lastCongeCount = session('last_conge_count', 0);
+
+        // Calculer le nombre de nouvelles permissions ajoutées depuis la dernière consultation
+        $newConge = $totalConges - $lastCongeCount;
+       
+
+        // Si de nouvelles permissions sont ajoutées, renvoyer cette différence, sinon afficher 0
+        $displayCounte = $newConge > 0 ? $newConge : 0;
+
+        return response()->json(['count' => $displayCounte]);
+    }
+    
+    public function resetCongeCount()
+    {
+        // Mettre à jour le dernier nombre de permissions consultées dans la session
+        session(['last_conge_count' => Conge::count()]);
+
+        return response()->json(['success' => true]);
+    }
+
     public function index()
     {
         $entreprises = Entreprise::all();
@@ -49,6 +77,14 @@ class CongeController extends Controller
         // Récupérer les employés avec leurs permissions
         $employes = Employe::whereIn('numEmp', Conge::pluck('numEmp'))->with('conges')->get();
 
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        $superviseurs = DB::table('employes')
+            ->select('numEmp', 'Nom', 'Prenom')
+            ->where('Personnel', 'Superviseur')
+            ->get();
+
         return view('admin.conge.index', [
             'entreprises' => $entreprises,
             'employes' => $employes,
@@ -57,7 +93,10 @@ class CongeController extends Controller
             'employesAttente' => $employesAttente,
             'conges' => $conges,
             'employesValide' => $employesValide,
-            'employesRefuse' => $employesRefuse
+            'employesRefuse' => $employesRefuse,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2,
+            'superviseurs' => $superviseurs
         ]);
     }
 
@@ -70,7 +109,15 @@ class CongeController extends Controller
         // Récupérer les entreprises
         $entreprises = Entreprise::all();
 
-        return view('admin.conge.form', compact('conge', 'entreprises', 'events'));
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        $superviseurs = DB::table('employes')
+            ->select('numEmp', 'Nom', 'Prenom')
+            ->where('Personnel', 'Superviseur')
+            ->get();
+
+        return view('admin.conge.form', compact('conge', 'entreprises', 'events', 'countInfo1', 'countInfo2', 'superviseurs'));
     }
 
     public function store($conge = null)
@@ -175,8 +222,47 @@ class CongeController extends Controller
     {
         $conges = Employe::all();
         $events = Calendrier::all();
-        return view('admin.conge.form', compact('conge', 'conges', 'events'));
+
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        $superviseurs = DB::table('employes')
+            ->select('numEmp', 'Nom', 'Prenom')
+            ->where('Personnel', 'Superviseur')
+            ->get();
+
+        return view('admin.conge.form', compact('conge', 'conges', 'events', 'countInfo1', 'countInfo2', 'superviseurs'));
     }
+
+    public function editValidation(Conge $conge)
+    {
+        $conges = Employe::all();
+        $events = Calendrier::all();
+
+        // Récupérer l'image la plus récente pour chaque employé
+        $latestImages = DB::table('image_profil_users as ipu')
+            ->join(DB::raw('(SELECT numEmp, MAX(id) as latest_id FROM image_profil_users GROUP BY numEmp) as latest'), function($join) {
+                $join->on('ipu.id', '=', 'latest.latest_id');
+            })
+            ->get();
+
+        // Récupérer les employés avec leurs permissions en attente
+        $employe = Employe::where('numEmp', $conge->numEmp)->first();
+
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        return view('admin.validationC.form', compact('conge', 'conges', 'events', 'latestImages', 'employe', 'countInfo1', 'countInfo2'));
+    }
+
+    public function updateValidation(CongeFormRequest $request, string $id)
+    {
+        DB::table('conges')
+            ->where('id', $id)
+            ->update($request->validated());
+
+        return to_route('admin.conges.index');
+    } 
 
     public function update(CongeFormRequest $request, string $id)
     {

@@ -16,26 +16,6 @@ class AuthentificationController extends Controller
         return view('auth.login');
     }
 
-    // public function verification(LoginFormRequest $request) {
-    //     $credentials = $request->validated();
-    
-    //     if(Auth::attempt($credentials)) {
-    //         $request->session()->regenerate();
-    
-    //         // Récupérer les informations de l'employé connecté
-    //         $user = Auth::user();
-    //         $employe = $user->employe;
-    
-    //         // Redirection vers la vue personnelle avec les données de l'employé
-    //         return redirect()->intended(route('users.personnel.index'))
-    //                          ->with('employe', $employe);
-    //     }
-    
-    //     return back()->withErrors([
-    //         'email' => 'Les informations de connexion sont incorrectes.',
-    //     ]);
-    // }
-
     public function verification(Request $request) {
         // Valider les champs
         $request->validate([

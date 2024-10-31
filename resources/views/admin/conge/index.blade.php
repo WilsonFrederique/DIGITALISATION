@@ -20,20 +20,20 @@
                     {{-- btns --}}
                     <div class="a-txt">
                         {{-- Permission --}}
-                        <a href="#">
+                        <a href="{{ route('admin.permissions.index') }}" class="notification1" id="notificationBtn1">
                             <div>
-                                <p>Permission</p>
+                                <p>Permission en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span  class="num1">{{ $countInfo1 }}</span> 
                                 </div>
                             </div>
                         </a>
                         {{-- Congé --}}
-                        <a href="#">
+                        <a href="{{ route('admin.conges.index') }}"  class="notification2" id="notificationBtn2">
                             <div>
-                                <p>Congé</p>
+                                <p>Congé en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span class="num2">{{ $countInfo2 }}</span>
                                 </div>
                             </div>
                         </a>
@@ -129,16 +129,22 @@
                                 <td><span style="color: #28509b;">En attente...</span></td>
                                 <td>
                                     <div class="icon-container">
-                                        <a href="#" style="padding-right: 1.5rem;"><i class='bx bx-send icon-mod-del-pointag' style='color:#228e8a'  ></i></a>
-                                        <a href="#"><i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i></a>
-                                        <a href="{{ route('admin.conges.edit', $conge->id) }}" class="icon-modif"><i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i></a>
+                                        <a href="{{ route('admin.valid.edit', $conge->id) }}" style="padding-right: 1.5rem;">
+                                            <i class='bx bx-send icon-mod-del-pointag' style='color:#228e8a'  ></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class='bx bx-detail icon-mod-del-pointag' style='color:#1f2dad'  ></i>
+                                        </a>
+                                        <a href="{{ route('admin.conges.edit', $conge->id) }}" class="icon-modif">
+                                            <i class='bx bx-edit icon-mod-del-pointag' style='color:#0a6202'  ></i>
+                                        </a>
                                         <form action="{{ route('admin.conges.destroy', $conge->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" style="border: none; background: none; cursor: pointer;">
                                                   <a href=""><i class='bx bx-trash icon-mod-del-pointag' style='color:#d01616'  ></i></a>
-                                             </button>
-                                    </form>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -543,6 +549,4 @@
     });
 
 </script>
-
-
 

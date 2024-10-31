@@ -20,20 +20,20 @@
                     {{-- btns --}}
                     <div class="a-txt">
                         {{-- Permission --}}
-                        <a href="#">
+                        <a href="{{ route('admin.permissions.index') }}" class="notification1" id="notificationBtn1">
                             <div>
-                                <p>Permission</p>
+                                <p>Permission en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span  class="num1">{{ $countInfo1 }}</span> 
                                 </div>
                             </div>
                         </a>
                         {{-- Congé --}}
-                        <a href="#">
+                        <a href="{{ route('admin.conges.index') }}"  class="notification2" id="notificationBtn2">
                             <div>
-                                <p>Congé</p>
+                                <p>Congé en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span class="num2">{{ $countInfo2 }}</span>
                                 </div>
                             </div>
                         </a>
@@ -170,6 +170,68 @@
                 </div>
             </div>
 
+            <!-- ********************* Table Permissions ou Congés ************************* -->
+            <div class="table-date">
+                {{-- Liste des employés ayant des permissions  --}}
+                <div class="todo">
+                    <div class="head">
+                        <h3 style="color: #450ae7; font-size: 1rem;">Liste des employés ayant des permissions</h3>
+                    </div>
+                    <ul class="todo-list todo-color">
+                        @foreach ($employesQuiApermissions as $valide)
+                           @foreach ($valide->conges as $conge)
+
+                            {{-- ------- Date en tête -------- --}}
+                            <div class="bottom-oui" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <div>
+                                    Employes <span style="background: #e0018b; color: #fff; border-radius: 7px; padding: 0.4rem; padding-bottom: 0.2rem;">En permissions</span>
+                                </div>
+                            </div>
+                            {{-- ------- Content Oui ------- --}}
+                            <li class="Coge-oui">
+                                <div class="todo-item">
+                                    <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    <div class="txt-left">
+                                        <p>{{ $valide->Nom }} {{ $valide->Prenom }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                        @endforeach
+                    </ul>
+                </div>
+
+                {{-- Liste des employés ayant des congés --}}
+                <div class="todo">
+                    <div class="head">
+                        <h3 style="color: #386bf7; font-size: 1rem;">Liste des employés ayant des congés</h3>
+                    </div>
+                    <ul class="todo-list todo-color">
+                        @foreach ($employesQuiConges as $refuse)
+                        @foreach ($refuse->conges as $conge)
+
+                            {{-- ------- Date en tête -------- --}}
+                            <div class="bottom-oui" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <div>
+                                    Employes <span style="background: #386bf7; color: #fff; border-radius: 7px; padding: 0.4rem; padding-bottom: 0.2rem;">En congés</span>
+                                </div>
+                            </div>
+                            {{-- ------- Content Non ------- --}}
+                            <li class="conge-non">
+                                <div class="todo-item">
+                                    <i class='bx bx-user' style="font-size: 2.4rem;" ></i>
+                                    <div class="txt-left">
+                                        <p>{{ $refuse->Nom }} {{ $refuse->Prenom }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                        @endforeach
+                    </ul>
+                </div>
+
+            </div>
+
             {{-- ---------- Liste des absent(e)s ----------- --}}
             <div class="table-date">
                 <div class="todo">
@@ -212,6 +274,7 @@
 
                 </div>
             </div>
+
         </main>
     </section>
 

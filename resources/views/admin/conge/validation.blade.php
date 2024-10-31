@@ -63,11 +63,11 @@
                 <div class="left">
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Permission</a>
+                            <a href="#">Congé</a>
                         </li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li>
-                            <a class="active" href="{{ route('admin.permissions.index') }}">Page Permission</a>
+                            <a class="active" href="{{ route('admin.conges.index') }}">Page Congé</a>
                         </li>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li>

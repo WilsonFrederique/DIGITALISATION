@@ -60,6 +60,9 @@ class EmployeController extends Controller
             })
             ->get();
 
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
         // Passer les données à la vue
         return view('admin.employe.index', [
             'employes' => $employes->get(),
@@ -69,7 +72,9 @@ class EmployeController extends Controller
             'countPresent' => $countPresent,
             'countAbsent' => $countAbsent,
             'events' => $events,
-            'latestImages' => $latestImages
+            'latestImages' => $latestImages,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2
         ]);
     }
 
@@ -89,12 +94,17 @@ class EmployeController extends Controller
             })
             ->get();
 
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
         // Amn'io get io no maka anle requête
         return view('admin.employe.toutProfil', [
             'employes' => $employes,
             'entreprises' => $entreprises,
             'latestImages' => $latestImages,
-            'events' => $events
+            'events' => $events,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2
         ]);
 
     }
@@ -131,7 +141,10 @@ class EmployeController extends Controller
         // Récupérer les entreprises
         $entreprises = Entreprise::all();
 
-        return view('admin.employe.form', compact('employe', 'entreprises', 'events'));
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        return view('admin.employe.form', compact('employe', 'entreprises', 'events', 'countInfo1', 'countInfo2'));
     }
 
     public function store(EmployeFormRequest $request)
@@ -162,7 +175,10 @@ class EmployeController extends Controller
 
         $events = Calendrier::all();
 
-        return view('admin.employe.form', compact('employe', 'entreprises', 'events'));
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        return view('admin.employe.form', compact('employe', 'entreprises', 'events', 'countInfo1', 'countInfo2'));
     }
 
     public function update(EmployeFormRequest $request, string $numEmp)

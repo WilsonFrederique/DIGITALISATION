@@ -20,20 +20,20 @@
                     {{-- btns --}}
                     <div class="a-txt">
                         {{-- Permission --}}
-                        <a href="#">
+                        <a href="{{ route('admin.permissions.index') }}" class="notification1" id="notificationBtn1">
                             <div>
-                                <p>Permission</p>
+                                <p>Permission en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span  class="num1">{{ $countInfo1 }}</span> 
                                 </div>
                             </div>
                         </a>
                         {{-- Congé --}}
-                        <a href="#">
+                        <a href="{{ route('admin.conges.index') }}"  class="notification2" id="notificationBtn2">
                             <div>
-                                <p>Congé</p>
+                                <p>Congé en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span class="num2">{{ $countInfo2 }}</span>
                                 </div>
                             </div>
                         </a>
@@ -109,29 +109,72 @@
                                                 <label>CIN de l'expéditeur</label>
                                                 <input name="numEmp" value="{{ $permission->numEmp }}" type="text" placeholder="CIN de l'expéditeur">
                                             </div>
-                                            <div class="input-field-div">
+                                            {{-- <div class="input-field-div">
                                                 <label>CIN du Destinateur</label>
                                                 <input name="numSup" value="{{ $permission->numSup }}" type="text" placeholder="CIN du Destinateur">
+                                            </div> --}}
+                                            <div class="input-field-div">
+                                                <label for="numSup">Nom du Superviseur</label>
+                                                <select name="numSup" id="numSup" class="form-control" required>
+                                                    <option value="" disabled selected>Sélectionnez un Superviseur</option>
+                                                    @foreach($superviseurs as $superviseur)
+                                                        <option value="{{ $superviseur->numEmp }}" {{ $permission->numSup == $superviseur->numEmp ? 'selected' : '' }}>
+                                                            {{ $superviseur->Nom }} {{ $superviseur->Prenom }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="input-field-div">
-                                                <label>Année</label>
-                                                <input name="Annee" value="{{ $permission->Annee }}" type="text" placeholder="Année">
+                                                <label for="annee">Année</label>
+                                                <select name="Annee" id="annee" class="form-control">
+                                                    @php
+                                                        $currentYear = date('Y'); // Année actuelle
+                                                        $selectedYear = $permission->Annee ?? $currentYear; // Année existante ou année actuelle par défaut
+                                                    @endphp
+                                                    @for ($year = 2017; $year <= 2050; $year++)
+                                                        <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>
+                                                            {{ $year }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
                                             </div>
                                             <div class="input-field-div">
-                                                <label>Mois</label>
-                                                <input name="Mois" value="{{ $permission->Mois }}" type="text" placeholder="Mois">
+                                                <label for="Personnel">Mois</label>
+                                                <select name="Mois" id="Personnel" class="form-control">
+                                                    <option value="Janvier" {{ $permission->Mois == 'Janvier' ? 'selected' : '' }}>Janvier</option>
+                                                    <option value="Février" {{ $permission->Mois == 'Février' ? 'selected' : '' }}>Février</option>
+                                                    <option value="Mars" {{ $permission->Mois == 'Mars' ? 'selected' : '' }}>Mars</option>
+                                                    <option value="Avril" {{ $permission->Mois == 'Avril' ? 'selected' : '' }}>Avril</option>
+                                                    <option value="Mai" {{ $permission->Mois == 'Mai' ? 'selected' : '' }}>Mai</option>
+                                                    <option value="Juin" {{ $permission->Mois == 'Juin' ? 'selected' : '' }}>Juin</option>
+                                                    <option value="Juillet" {{ $permission->Mois == 'Juillet' ? 'selected' : '' }}>Juillet</option>
+                                                    <option value="Août" {{ $permission->Mois == 'Août' ? 'selected' : '' }}>Août</option>
+                                                    <option value="Septembre" {{ $permission->Mois == 'Septembre' ? 'selected' : '' }}>Septembre</option>
+                                                    <option value="Octobre" {{ $permission->Mois == 'Octobre' ? 'selected' : '' }}>Octobre</option>
+                                                    <option value="Novembre" {{ $permission->Mois == 'Novembre' ? 'selected' : '' }}>Novembre</option>
+                                                    <option value="Décembre" {{ $permission->Mois == 'Décembre' ? 'selected' : '' }}>Décembre</option>
+                                                </select>
                                             </div>
                                             <div class="input-field-div">
                                                 <label>Fait le</label>
                                                 <input name="FaiLe" value="{{ $permission->FaiLe }}" type="date" placeholder="Fait le">
+                                                @if ($errors->has('FaiLe'))
+                                                    <span style="font-size: 0.6rem; color: rgb(255, 104, 104); font-weight: 400;" class="text-danger">{{ $errors->first('FaiLe') }}</span> 
+                                                @endif
                                             </div>
                                             <div class="input-field-div">
                                                 <label>Date de départ</label>
                                                 <input name="DateDebut" value="{{ $permission->DateDebut }}" type="date" placeholder="Date de départ">
+                                                @if ($errors->has('DateDebut'))
+                                                    <span style="font-size: 0.6rem; color: rgb(255, 104, 104); font-weight: 400;" class="text-danger">{{ $errors->first('DateDebut') }}</span> 
+                                                @endif
                                             </div>
                                             <div class="input-field-div">
                                                 <label>Date de retour</label>
                                                 <input name="DateFin" value="{{ $permission->DateFin }}" type="date" placeholder="Date de retour">
+                                                @if ($errors->has('DateFin'))
+                                                    <span style="font-size: 0.6rem; color: rgb(255, 104, 104); font-weight: 400;" class="text-danger">{{ $errors->first('DateFin') }}</span> 
+                                                @endif
                                             </div>
                                             <div class="input-field-div">
                                                 <label>Nom de l'Organisation</label>
@@ -176,6 +219,16 @@
                     </ul>
                 </div>
             </div>
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div> 
+            @endif
 
         </main>
     </section>

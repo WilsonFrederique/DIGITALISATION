@@ -61,9 +61,26 @@ class UserPersonnelController extends Controller
             ->orderBy('p.id', 'desc')
             ->get();
 
+        $pubRacours = DB::table('publicatins as p')
+            ->select(
+                'p.numEmp',
+                'p.imgPartage',
+                'p.txtPartage',
+                'e.Nom',
+                'e.Prenom',
+                DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                'p.created_at'
+            )
+            ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+            ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+            ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+            ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+            ->orderBy('p.created_at', 'desc')
+            ->get();
+
             
             // Retourner la vue avec les données de l'employé
-            return view('users.personnel.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'publications'));
+            return view('users.personnel.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'publications', 'pubRacours'));
         }
         
         return redirect()->route('auth.login')->withErrors('Aucun employé trouvé pour cet utilisateur.');
@@ -164,19 +181,37 @@ class UserPersonnelController extends Controller
         if($user && $user->employe) {
             $employe = $user->employe;
 
-        // Récupérer le dernier profil d'image pour cet employé (par numEmp)
-        $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
+            // Récupérer le dernier profil d'image pour cet employé (par numEmp)
+            $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
                 ->orderBy('id', 'desc')
                 ->first();
 
-        $numEmp = auth()->user()->numEmp;
-        // Exécuter la requête pour récupérer l'email de cet utilisateur
-        $email = DB::table('users')
-                    ->where('numEmp', $numEmp)
-                    ->value('email');
+            $numEmp = auth()->user()->numEmp;
+
+            // Exécuter la requête pour récupérer l'email de cet utilisateur
+            $email = DB::table('users')
+                ->where('numEmp', $numEmp)
+                ->value('email');
+
+            $pubRacours = DB::table('publicatins as p')
+                ->select(
+                    'p.numEmp',
+                    'p.imgPartage',
+                    'p.txtPartage',
+                    'e.Nom',
+                    'e.Prenom',
+                    DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                    'p.created_at'
+                )
+                ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+                ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+                ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+                ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+                ->orderBy('p.created_at', 'desc')
+                ->get();
 
             // Retourner la vue avec les données de l'employé
-            return view('users.lesEmployes.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email'));
+            return view('users.lesEmployes.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'pubRacours'));
         }
     }
 
@@ -235,8 +270,25 @@ class UserPersonnelController extends Controller
                 ->where('Personnel', 'Superviseur')
                 ->get();
 
+            $pubRacours = DB::table('publicatins as p')
+                ->select(
+                    'p.numEmp',
+                    'p.imgPartage',
+                    'p.txtPartage',
+                    'e.Nom',
+                    'e.Prenom',
+                    DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                    'p.created_at'
+                )
+                ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+                ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+                ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+                ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+                ->orderBy('p.created_at', 'desc')
+                ->get();
+
             // Retourner la vue avec les données de l'employé
-            return view('users.permission.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'permissions', 'permissionsPourSuperviseurs', 'countPermission', 'superviseurs'));
+            return view('users.permission.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'permissions', 'permissionsPourSuperviseurs', 'countPermission', 'superviseurs', 'pubRacours'));
         }
     }
 
@@ -253,7 +305,31 @@ class UserPersonnelController extends Controller
             ->orderBy('e.numEmp')
             ->get();
 
-        return view('users.permission.form', compact('permission', 'permissions', 'events', 'ToutEmployes'));
+
+        $user = Auth::user();
+
+        if($user && $user->employe) {
+            $employe = $user->employe;
+            $pubRacours = DB::table('publicatins as p')
+                ->select(
+                    'p.numEmp',
+                    'p.imgPartage',
+                    'p.txtPartage',
+                    'e.Nom',
+                    'e.Prenom',
+                    DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                    'p.created_at'
+                )
+                ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+                ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+                ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+                ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+                ->orderBy('p.created_at', 'desc')
+                ->get();
+
+            return view('users.permission.form', compact('permission', 'permissions', 'events', 'ToutEmployes', 'pubRacours'));
+        }
+        
     }
 
     // ------------ Les Reponses Permissions -----------
@@ -323,8 +399,25 @@ class UserPersonnelController extends Controller
                 ->where('Personnel', 'Superviseur')
                 ->get();
 
+            $pubRacours = DB::table('publicatins as p')
+                ->select(
+                    'p.numEmp',
+                    'p.imgPartage',
+                    'p.txtPartage',
+                    'e.Nom',
+                    'e.Prenom',
+                    DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                    'p.created_at'
+                )
+                ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+                ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+                ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+                ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+                ->orderBy('p.created_at', 'desc')
+                ->get();
+
             // Retourner la vue avec les données de l'employé
-            return view('users.conges.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'congesPourSuperviseurs', 'conges', 'conge', 'countConge', 'superviseurs'));
+            return view('users.conges.index', compact('employe', 'events', 'imgProfil', 'ToutEmployes', 'postEmployes', 'email', 'congesPourSuperviseurs', 'conges', 'conge', 'countConge', 'superviseurs', 'pubRacours'));
         }
     }
 
@@ -343,7 +436,29 @@ class UserPersonnelController extends Controller
             ->orderBy('e.numEmp')
             ->get();
 
-        return view('users.conges.form', compact('conge', 'permissions', 'events', 'ToutEmployes'));
+        $user = Auth::user();
+
+        if($user && $user->employe) {
+            $employe = $user->employe;
+            $pubRacours = DB::table('publicatins as p')
+                ->select(
+                    'p.numEmp',
+                    'p.imgPartage',
+                    'p.txtPartage',
+                    'e.Nom',
+                    'e.Prenom',
+                    DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                    'p.created_at'
+                )
+                ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+                ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+                ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+                ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+                ->orderBy('p.created_at', 'desc')
+                ->get();
+
+            return view('users.conges.form', compact('conge', 'permissions', 'events', 'ToutEmployes', 'pubRacours'));
+        }
     }
 
     // ------------ Les Reponses Permissions -----------
@@ -413,23 +528,39 @@ class UserPersonnelController extends Controller
         if($user && $user->employe) {
             $employe = $user->employe;
 
-        // Récupérer le dernier profil d'image pour cet employé (par numEmp)
-        $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
-                ->orderBy('id', 'desc')
+            // Récupérer le dernier profil d'image pour cet employé (par numEmp)
+            $imgProfil = ImageProfilUser::where('numEmp', $employe->numEmp)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+            $numEmp = auth()->user()->numEmp;
+            // Exécuter la requête pour récupérer l'email de cet utilisateur
+            $email = DB::table('users')
+                        ->where('numEmp', $numEmp)
+                        ->value('email');
+
+            // Récupérer l'email et le mot de passe crypté de l'utilisateur connecté
+            $userData = DB::table('users')
+                ->where('numEmp', $numEmp)
+                ->select('email', 'password')
                 ->first();
 
-        $numEmp = auth()->user()->numEmp;
-        // Exécuter la requête pour récupérer l'email de cet utilisateur
-        $email = DB::table('users')
-                    ->where('numEmp', $numEmp)
-                    ->value('email');
-
-        // Récupérer l'email et le mot de passe crypté de l'utilisateur connecté
-        $userData = DB::table('users')
-            ->where('numEmp', $numEmp)
-            ->select('email', 'password')
-            ->first();
-        
+            $pubRacours = DB::table('publicatins as p')
+                ->select(
+                    'p.numEmp',
+                    'p.imgPartage',
+                    'p.txtPartage',
+                    'e.Nom',
+                    'e.Prenom',
+                    DB::raw('MAX(ipu.imgProfil) AS imgProfil'),
+                    'p.created_at'
+                )
+                ->join('employes as e', 'p.numEmp', '=', 'e.numEmp')
+                ->leftJoin('image_profil_users as ipu', 'e.numEmp', '=', 'ipu.numEmp')
+                ->where('p.numEmp', '=', $employe->numEmp) // Filtrer par employé connecté
+                ->groupBy('p.numEmp', 'p.imgPartage', 'p.txtPartage', 'e.Nom', 'e.Prenom', 'p.created_at')
+                ->orderBy('p.created_at', 'desc')
+                ->get();
 
             // Retourner la vue avec les données de l'employé
             return view('users.parametre.index', [
@@ -438,7 +569,8 @@ class UserPersonnelController extends Controller
                 'imgProfil' => $imgProfil,
                 'ToutEmployes' => $ToutEmployes,
                 'passwordCrypted' => $userData->password,
-                'email' => $email
+                'email' => $email,
+                'pubRacours' => $pubRacours
             ]);
         }
     }
@@ -534,22 +666,112 @@ class UserPersonnelController extends Controller
     }
 
     // ------------ Store Permissions ---------------
-    public function storeConge(CongeFormRequest $request)
+    public function storeConge($conge = null)
     {
-        try {
-            $congesDate = $request->validated();
+        // try {
+        //     $congesDate = $request->validated();
 
-            // Ajouter created_at et updated_at
-            $congesDate['created_at'] = now();
-            $congesDate['updated_at'] = now();
+        //     // Ajouter created_at et updated_at
+        //     $congesDate['created_at'] = now();
+        //     $congesDate['updated_at'] = now();
 
-            DB::table('conges')->insert($congesDate);
+        //     DB::table('conges')->insert($congesDate);
 
-            return to_route('users.indexConges');
+        //     return to_route('users.indexConges');
 
-        } catch(\Throwable $th) {
-            return redirect()->back();
+        // } catch(\Throwable $th) {
+        //     return redirect()->back();
+        // }
+
+
+        // Si $conge n'est pas fourni, on est en train de créer un nouveau congé
+        if (!$conge) {
+            // Récupération des informations de la requête
+            $numEmp = request()->input('numEmp');
+            $joursDemandes = request()->input('NbrJours');
+            $dateActuelle = now();
+            
+            // Logique pour calculer solde, historique, etc.
+            $historiqueConge = Conge::where('numEmp', $numEmp)->orderBy('created_at', 'desc')->first();
+            $currentYear = $dateActuelle->year;
+          
+            if (!$historiqueConge || $historiqueConge->Annee < $currentYear) {
+                        $solde = 30; // 30 jours par défaut pour la nouvelle année
+                        $joursReportes = 0; // Pas de jours reportés
+                    } else {
+                        // Réutiliser les valeurs du dernier congé
+                        $solde = $historiqueConge->Solde ?? 30;
+                        $joursReportes = $historiqueConge->CumulAnnuel ?? 0;
+                    }
+
+            //     // Vérifier si le solde est suffisant pour les jours demandés
+                if ($joursDemandes > ($solde + $joursReportes)) {
+                    return response()->json(['error' => 'Solde insuffisant pour ce congé.'], 400);
+                }
+            
+                // Calculer le nouveau solde et ajuster les jours reportés
+                if ($joursDemandes <= $joursReportes) {
+                    $joursReportes -= $joursDemandes; // Utiliser uniquement les jours reportés
+                } else {
+                    $joursRestants = $joursDemandes - $joursReportes; // Jours à soustraire du solde
+                    $joursReportes = 0; // Réinitialiser les jours reportés
+                    $solde -= $joursRestants; // Ajuster le solde
+                }
+    
+            // Créer un nouveau congé avec les informations et soldes calculés
+            try {
+                Conge::create([
+                    'numEmp' => $numEmp,
+                    'NbrJours' => $joursDemandes,
+                    'Solde' => $solde,
+                    'CumulAnnuel' => $joursReportes,
+                    'numSup' => request()->input('numSup'),
+                    'Annee' => $currentYear,
+                    'Mois' => request()->input('Mois'),
+                    'FaiLe' => request()->input('FaiLe'),
+                    'DateDebut' => request()->input('DateDebut'),
+                    'DateFin' => request()->input('DateFin'),
+                    'Motif' => request()->input('Motif'),
+                    'NomOrganisation' => request()->input('NomOrganisation'),
+                    'Validation' => request()->input('Validation'),
+                    'Description' => request()->input('Description'),
+                    'created_at' => $dateActuelle,
+                    'updated_at' => $dateActuelle
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Une erreur s\'est produite lors de l\'ajout du congé.'], 500);
+            }
+    
+        } else {
+            // Si $conge est fourni, c'est une mise à jour, donc ajuster les soldes
+            $numEmp = $conge->numEmp;
+            $joursDemandes = $conge->NbrJours;
+            $dateActuelle = now();
+    
+            // Logique pour recalculer solde et jours reportés
+            $historiqueConge = Conge::where('numEmp', $numEmp)->orderBy('created_at', 'desc')->first();
+            $solde = 30;
+            $joursReportes = 0;
+            $joursRestants = $joursDemandes - $joursReportes; // Jours à soustraire du solde
+            $joursReportes = 0; // Réinitialiser les jours reportés
+            $solde -= $joursRestants; // Ajuster le solde
+            $joursReportes = $historiqueConge ? $historiqueConge->CumulAnnuel : 0;
+    
+            // Mettre à jour les informations du congé existant
+            try {
+                $conge->update([
+                    'Solde' => $solde,
+                    'CumulAnnuel' => $joursReportes,
+                    'updated_at' => $dateActuelle
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Une erreur s\'est produite lors de la mise à jour du solde de congé.'], 500);
+            }
         }
+    
+        // Rediriger vers la liste des congés
+        return to_route('users.indexConges');
+
     }
 
     // ------------ Edit Conge ---------------

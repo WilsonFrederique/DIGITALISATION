@@ -18,11 +18,16 @@ class EntrepriseController extends Controller
         $entreprises = Entreprise::all();
 
         $events = Calendrier::all();
+
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
         
         return view('admin.parametre.index', [
             'entreprises' => $entreprises,
             'entreprises' => $entreprises,
-            'events' => $events
+            'events' => $events,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2
         ]);
     }
 

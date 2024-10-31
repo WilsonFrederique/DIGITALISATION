@@ -27,8 +27,10 @@ Route::get('/home', [AuthentificationController::class, 'login'])->name('login')
 // Route::get('/notifications/permissions', [PermissionController::class, 'getNewPermissionsCount']);
 // Route::get('/permissions', [PermissionController::class, 'showPermissions'])->name('permissions');
 
-
-
+Route::get('/notifications/congeCount', [CongeController::class, 'getCongeCount']);
+Route::post('/notifications/congeReset', [CongeController::class, 'resetCongeCount']);
+Route::get('/notifications/count', [PermissionController::class, 'getPermissionCount']);
+Route::post('/notifications/reset', [PermissionController::class, 'resetPermissionCount']);
 
 
 Route::prefix('users')->name('users.')->middleware('auth')->group(function() {
@@ -134,6 +136,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/permissions/{permission}/edit', [PermissionController::class, 'editPermission'])
         ->name('perm.edit');
     Route::get('/validations/{permission}/edit', [PermissionController::class, 'editValidation'])
+        ->name('validPer.edit');
+
+    Route::get('/congesValids/{conge}/edit', [CongeController::class, 'editValidation'])
         ->name('valid.edit');
 
 
@@ -141,7 +146,10 @@ Route::prefix('admin')->name('admin.')->group(function() {
         ->name('perm.update');
 
     Route::put('/vals/{id}', [PermissionController::class, 'updateValidation'])
-        ->name('valid.update');
+        ->name('validPermss.update');
+
+    Route::put('/valConges/{id}', [CongeController::class, 'updateValidation'])
+        ->name('validConge.update');
 
     Route::resource('calendrier', CalendrierController::class);
     Route::resource('pointages', PointageController::class);
@@ -150,10 +158,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('scanner.code.QR', [GenererQrController::class, 'pageScannerQR'])->name('page_scanner_QR');
     Route::get('scanner.generer', [GenererQrController::class, 'indexScan'])->name('admin.indexScan');
 
+    // -------- Publication ---------
+    Route::get('lettreDePermission', [PermissionController::class, 'indexLettrePermission'])->name('textPermission');
+
     Route::get('tout.employe.pdf', [EmployeController::class, 'genereteAllPdf'])->name('tout_pdf_employe');
 
     Route::get('validationPermission', [PermissionController::class, 'indexValidation'])->name('indexValidation');
-    Route::put('updateValidation/{id}', [PermissionController::class, 'updateValidation'])->name('updateValidation');
+    // Route::put('updateValidation/{id}', [PermissionController::class, 'updateValidation'])->name('updateValidation');
 
     Route::put('/parametres/{CodeEntreprise}', [EntrepriseController::class, 'update'])->name('admin.parametres.update');
 

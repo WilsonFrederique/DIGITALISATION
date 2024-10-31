@@ -225,10 +225,14 @@
                     @endphp
 
                     @if($image)
-                        <img class="" class="" src="{{ $image->imgProfil }}" alt="Image de profil" 
+                        {{-- <img class="" class="" src="{{ $image->imgProfil }}" alt="Image de profil" 
                         style="width: 90px; height: 90px; border-radius: 50%; position: absolute; 
                         right: 1.5rem; top: 1rem; object-fit: cover; box-shadow: 0 0 5px #fff; 
-                        border: 1px solid #fff;">
+                        border: 1px solid #fff;"> --}}
+                        <img src="{{ $image->imgProfil }}" alt="Image de profil" 
+                            style="width: 90px; height: 90px; border-radius: 50%; position: absolute; 
+                                    right: 1.5rem; top: 1rem; object-fit: cover; overflow: hidden; 
+                                    box-shadow: 0 0 5px #fff; border: 1px solid #fff; background-position: center; background-size: cover;">
                     @else
                         <div class="place-img-vide" style="width: 90px; height: 90px; border-radius: 50%; position: absolute; 
                         right: 1.5rem; top: 1rem; object-fit: cover; box-shadow: 0 0 5px #fff; 
@@ -246,8 +250,8 @@
                     </div>
 
                     <div class="validation">
-                        <strong>Validation date</strong><br>
-                        <strong>{{ $badge->employes->DatEntre }}</strong>
+                        <strong>Personnel</strong><br>
+                        <strong>{{ $badge->employes->Personnel }}</strong>
                     </div>
             </div>
         </div>

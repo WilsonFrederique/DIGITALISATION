@@ -13,9 +13,15 @@
         <div class="nav-left">
             <a href="{{ route('users.personnel.index') }}"><img src="{{ asset('assets/imagesPersonnel/logo1.png') }}" alt="" class="logo"></a>
             <ul class="ul">
-                <li><img src="{{ asset('assets/imagesPersonnel/notification.png') }}" alt=""></li>
-                <li><img src="{{ asset('assets/imagesPersonnel/inbox.png') }}" alt=""></li>
-                <li><img src="{{ asset('assets/imagesPersonnel/video.png') }}" alt=""></li>
+                <a href="{{ route('users.indexLesEmployes') }}">
+                    <li><img src="{{ asset('assets/imagesPersonnel/notification.png') }}" alt=""></li>
+                </a>
+                <a href="{{ route('users.indexPub') }}">
+                    <li><img src="{{ asset('assets/imagesPersonnel/inbox.png') }}" alt=""></li>
+                </a>
+                <a href="{{ route('users.indexPub') }}">
+                    <li><img src="{{ asset('assets/imagesPersonnel/video.png') }}" alt=""></li>
+                </a>
             </ul>
         </div>
 

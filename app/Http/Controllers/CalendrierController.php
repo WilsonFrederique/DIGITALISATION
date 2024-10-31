@@ -14,7 +14,11 @@ class CalendrierController extends Controller
     public function index()
     {
         $events = Calendrier::all() ?? [];
-        return view('admin.calendrier.pivotCal', compact('events'));
+
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        return view('admin.calendrier.pivotCal', compact('events', 'countInfo1', 'countInfo2'));
     }
 
     // Ajouter un nouvel événement

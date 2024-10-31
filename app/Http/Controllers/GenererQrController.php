@@ -54,6 +54,9 @@ class GenererQrController extends Controller
             ->select('ipu.*')
             ->get();
 
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
         // Récupérer les résultats
         return view('admin.genererqr.index', [
             'genererqrs' => $genererqrs->get(),
@@ -62,16 +65,23 @@ class GenererQrController extends Controller
             'entreprises' => $entreprises,
             'latestImages' => $latestImages,
             'events' => $events,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2
         ]);
     }
 
     public function indexScanGen() {
         $numEmpAvecQR = Genererqr::pluck('numEmp');
         $emps = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
+
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
     
         // Récupérer les résultats
         return view('admin.genererqr.scanner', [
             'emps' => $emps,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2,
             'events' => Calendrier::all(),
         ]);
     }
@@ -80,7 +90,10 @@ class GenererQrController extends Controller
     {
         $employes = Employe::all();
 
-        return view('admin.genererqr.scanner', compact('employes'));
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        return view('admin.genererqr.scanner', compact('employes', 'countInfo1', 'countInfo2'));
     }
 
     public function listeEmployeNonCodeQR(Request $request)
@@ -95,11 +108,16 @@ class GenererQrController extends Controller
         // Récupérer les employés dont le numEmp n'est pas dans la liste
         $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
 
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
         // Retourner la vue avec la liste des employés
         return view('admin.genererqr.index', [
             'employes' => $employes,
             'entreprises' => $entreprises,
-            'events' => $events
+            'events' => $events,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2
         ]);
     }
 
@@ -129,8 +147,13 @@ class GenererQrController extends Controller
     {        
         $events = Calendrier::all();
 
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
         return view('admin.genererqr.scanner', [
-            'events' => $events
+            'events' => $events,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2
         ]);
     }
 
@@ -140,7 +163,11 @@ class GenererQrController extends Controller
         // Obtenir les numEmp présents dans la table genererqrs
         $numEmpAvecQR = Genererqr::pluck('numEmp');
         $employes = Employe::whereNotIn('numEmp', $numEmpAvecQR)->get();
-        return view('admin.genererqr.form', compact('events', 'employes'));
+
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        return view('admin.genererqr.form', compact('events', 'employes', 'countInfo1', 'countInfo2'));
     }
 
     public function store(GenererQrFormRequest $request)
@@ -189,11 +216,16 @@ class GenererQrController extends Controller
             ->select('ipu.*')
             ->get();
 
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
         // Passer à la vue à la fois $genererqr et $events
         return view('admin.badje.index', [
             'genererqr' => $genererqr,
             'latestImages' => $latestImages,
-            'events' => $events 
+            'events' => $events ,
+            'countInfo1' => $countInfo1 ,
+            'countInfo2' => $countInfo2 
         ]);
     }
 

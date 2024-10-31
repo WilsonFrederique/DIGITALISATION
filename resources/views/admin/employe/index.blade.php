@@ -20,20 +20,20 @@
                     {{-- btns --}}
                     <div class="a-txt">
                         {{-- Permission --}}
-                        <a href="#">
+                        <a href="{{ route('admin.permissions.index') }}" class="notification1" id="notificationBtn1">
                             <div>
-                                <p>Permission</p>
+                                <p>Permission en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span  class="num1">{{ $countInfo1 }}</span> 
                                 </div>
                             </div>
                         </a>
                         {{-- Congé --}}
-                        <a href="#">
+                        <a href="{{ route('admin.conges.index') }}"  class="notification2" id="notificationBtn2">
                             <div>
-                                <p>Congé</p>
+                                <p>Congé en attente</p>
                                 <div>
-                                    <span>0</span>
+                                    <span class="num2">{{ $countInfo2 }}</span>
                                 </div>
                             </div>
                         </a>
@@ -159,7 +159,7 @@
                                         <a href=""><i class='bx bx-id-card' style="font-size: 1.1rem; color: #2271ff;"></i></a>
                                         <a href="{{ route('page_pdf', ['id' => $employe->numEmp]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
                                         <a href="{{ route('admin.employes.edit', $employe->numEmp) }}"><i class='bx bx-edit btn-modif' style='color:#0a6202'  ></i></a>
-                                        <form action="{{ route('admin.employes.destroy', $employe->numEmp) }}" method="POST">
+                                        <form id="deleteForm-{{ $employe->numEmp }}" action="{{ route('admin.employes.destroy', $employe->numEmp) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" style="border: none; background: none; cursor: pointer;">
@@ -168,7 +168,7 @@
                                         </form>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr>                        
                             @endforeach
                         </tbody>
                     </table>
@@ -199,17 +199,15 @@
                                     <div style="display: flex; align-content: center; gap: 0.6rem;" class="div-btn-top">
                                         <a href=""><i class='bx bx-id-card' style="font-size: 1.1rem; color: #2271ff;"></i></a>
                                         <a href="{{ route('page_pdf', ['id' => $employeSuper->numEmp]) }}"><i class='bx bx-printer' style='color:#228e8a'  ></i></a>
-                                    </div>
-                                    <div style="display: flex; align-content: center; gap: 0.2rem;" class="div-btn-bottom">
                                         <a href="{{ route('admin.employes.edit', $employeSuper->numEmp) }}"><i class='bx bx-edit btn-modif' style='color:#0a6202'  ></i></a>
-                                        <form action="{{ route('admin.employes.destroy', $employeSuper->numEmp) }}" method="POST">
+                                        <form id="deleteForm-{{ $employeSuper->numEmp }}" action="{{ route('admin.employes.destroy', $employeSuper->numEmp) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" style="border: none; background: none; cursor: pointer;">
                                                 <i class='bx bx-trash btn-suppr' style='color:#d01616'></i>
                                             </button>
                                         </form>
-                                    </div>
+                                    </div>                       
                                 </div>
                             </li>
                         @endforeach
@@ -221,3 +219,4 @@
     </section>
 
 @endsection
+

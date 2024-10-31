@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Employe;
 use App\Models\Pointage;
 use App\Models\Calendrier;
+use App\Models\Conge;
 use App\Models\Entreprise;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -52,6 +54,49 @@ class PointageController extends Controller
             ->select('ipu.*')
             ->get();
 
+        // Récupérer les employés sans pointage mais ayant une permission active pour aujourd'hui
+        $employesQuiApermissions = Employe::whereNotIn('numEmp', DB::table('pointages')->select('numEmp'))
+            ->whereIn('numEmp', Permission::whereDate('updated_at', now())
+                ->whereDate('DateDebut', '<=', now())
+                ->whereDate('DateFin', '>=', now())
+                ->pluck('numEmp'))
+            ->with(['permissions' => function ($query) {
+                $query->whereDate('updated_at', now())
+                    ->whereDate('DateDebut', '<=', now())
+                    ->whereDate('DateFin', '>=', now());
+            }])
+            ->get();
+
+        // Récupérer les employés sans pointage mais ayant une congé active pour aujourd'hui
+        $employesQuiConges = Employe::whereNotIn('numEmp', DB::table('pointages')->select('numEmp'))
+            ->whereIn('numEmp', Conge::whereDate('updated_at', now())
+                ->whereDate('DateDebut', '<=', now())
+                ->whereDate('DateFin', '>=', now())
+                ->pluck('numEmp'))
+            ->with(['conges' => function ($query) {
+                $query->whereDate('updated_at', now())
+                    ->whereDate('DateDebut', '<=', now())
+                    ->whereDate('DateFin', '>=', now());
+            }])
+            ->get();
+
+        // $employesAbsenteTotal = DB::table('employes')
+        //     ->whereNotIn('numEmp', function ($query) {
+        //         $query->select('numEmp')->from('pointages');
+        //     })
+        //     ->whereNotIn('numEmp', function ($query) {
+        //         $query->select('numEmp')
+        //             ->from('permissions')
+        //             ->whereDate('updated_at', '=', DB::raw('CURDATE()'))
+        //             ->where(DB::raw('CURDATE()'), '>=', 'DateDebut')
+        //             ->where(DB::raw('CURDATE()'), '<=', 'DateFin');
+        //     })
+        //     ->select('numEmp', 'Nom', 'Prenom')
+        //     ->get();
+
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
         // Passer les données à la vue
         return view('admin.pointage.index', [
             'totalPointageAujourdhui' => $totalPointageAujourdhui,
@@ -61,7 +106,12 @@ class PointageController extends Controller
             'employesSansPointages' => $employesSansPointages,
             'employesSansPointagesAvecImages' => $employesSansPointagesAvecImages,
             'employesAvecImages' => $employesAvecImages,
-            'events' => $events
+            'events' => $events,
+            'employesQuiApermissions' => $employesQuiApermissions,
+            'employesQuiConges' => $employesQuiConges,
+            // 'employesAbsenteTotal' => $employesAbsenteTotal,
+            'countInfo1' => $countInfo1,
+            'countInfo2' => $countInfo2
         ]);
     }
 
@@ -82,7 +132,10 @@ class PointageController extends Controller
         // Récupérer les entreprises
         $entreprises = Entreprise::all();
 
-        return view('admin.genererqr.form', compact('employe', 'entreprises', 'events'));
+        $countInfo1 = DB::table('permissions')->where('Validation', 'En attente...')->count();
+        $countInfo2 = DB::table('conges')->where('Validation', 'En attente...')->count();
+
+        return view('admin.genererqr.form', compact('employe', 'entreprises', 'events', 'countInfo1', 'countInfo2'));
     }
 
     public function store(Request $request)

@@ -124,25 +124,35 @@
 </section>
 
 <script>
-    // Fonction pour mettre à jour le nombre de notifications (permissions)
-    function updateNotificationCount() {
-        fetch('/notifications/permissions')
+    document.addEventListener('DOMContentLoaded', function() {
+        
+    // Fonction pour récupérer le total des notifications
+    function fetchTotalNotificationCount() {
+        let total = 0;
+
+        // Récupérer les notifications de permissions
+        fetch('/notifications/count')
             .then(response => response.json())
             .then(data => {
-                const notificationNumber = document.querySelector('.notification .num');
-                notificationNumber.textContent = data.count;
+                total += data.count; // Ajouter le nombre de permissions
+
+                // Récupérer les notifications de congés
+                fetch('/notifications/congeCount')
+                    .then(response => response.json())
+                    .then(data => {
+                        total += data.count; // Ajouter le nombre de congés
+                        
+                        // Mettre à jour le compteur de notifications global
+                        document.querySelector('.notificationChiffre .num').textContent = total;
+                    })
+                    .catch(error => console.error('Erreur lors de la récupération des congés:', error));
             })
-            .catch(error => console.error('Erreur lors de la récupération des notifications:', error));
+            .catch(error => console.error('Erreur lors de la récupération des permissions:', error));
     }
 
-    // Appeler la fonction toutes les 5 secondes pour mettre à jour le compteur
-    setInterval(updateNotificationCount, 5000); // 5000 ms = 5 secondes
+    // Appel de la fonction au chargement de la page
+    fetchTotalNotificationCount();
 
-    // Gestion du clic sur la notification pour rediriger vers la page des permissions
-    document.querySelector('.notification').addEventListener('click', function(e) {
-        e.preventDefault();
-
-        // Rediriger vers la page des permissions
-        window.location.href = 'admin.permissions.index';
     });
+
 </script>
