@@ -58,7 +58,7 @@ Quelques commandes à executer dans le terminal du vs code avant de demarrer vot
     ![Chargement](./README_IMAGES/g.png)
 
     ou bien téléchargez le fichier en format .zip, puis extrayez-le.
-    ![Chargement](./README_IMAGES/z.png)
+    ![Chargement](./README_IMAGES/10.png)
 
 
 2 : composer install
